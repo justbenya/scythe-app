@@ -13,7 +13,10 @@ export interface IPlayer {
 }
 
 const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
-    const { name, fraction, mat, handleChangeFraction, handleChangeMat, handleDeletePlayer, index } = props;
+    const {
+        name, fraction, mat, index,
+        handleChangeName, handleChangeFraction, handleChangeMat, handleDeletePlayer,
+    } = props;
 
     return (
         <Grid item style={ { marginTop: 20 } }>
@@ -24,6 +27,7 @@ const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
                     <TextField
                         label="Имя"
                         defaultValue={ name }
+                        onChange={ (event) => handleChangeName(event, index) }
                         variant="outlined"
                         size="small"
                     />

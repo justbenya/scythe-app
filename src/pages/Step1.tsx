@@ -1,7 +1,8 @@
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import React, { FunctionComponent, useState } from 'react';
+import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import PlayerRow, { IPlayer } from '../components/PlayerRow';
@@ -21,6 +22,15 @@ function shuffle(array: any): Array<any> {
 const pullFractions = shuffle(fractions);
 const pullMats = shuffle(mats);
 
+function changeItem(players: IPlayer[], index: number, key: string, value: string): IPlayer[] {
+    return players.map((item, i) => {
+        if (i === index) {
+            return { ...item, [key]: value };
+        }
+        return item;
+    });
+}
+
 const Step1: FunctionComponent = () => {
     const { register, handleSubmit, errors } = useForm();
     const history = useHistory();
@@ -31,8 +41,12 @@ const Step1: FunctionComponent = () => {
     };
 
 
-    const [players, setPlayers] = useState<Array<IPlayer>>([]);
+    const [storagePlayers] = useLocalStorage<Array<IPlayer>>('players');
+    const [players, setPlayers] = useState<Array<IPlayer>>(storagePlayers || []);
 
+    useEffect(() => {
+        writeStorage('players', players);
+    }, [players]);
 
     const handleAddPlayer = () => {
         if (players.length >= TOTAL_PLAYERS) return;
@@ -47,7 +61,11 @@ const Step1: FunctionComponent = () => {
             fraction,
             mat,
         }]);
+    };
 
+    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const changesPlayers = changeItem(players, index, 'name', event.target.value);
+        setPlayers(changesPlayers);
     };
 
     const handleChangeFraction = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -94,7 +112,8 @@ const Step1: FunctionComponent = () => {
                             <Grid container direction="column" spacing={ 1 } style={ { height: '100%' } }>
                                 { players.map((player, index) =>
                                     <PlayerRow
-                                        key={ player.name + index } { ...player } index={ index }
+                                        key={ index } { ...player } index={ index }
+                                        handleChangeName={ handleChangeName }
                                         handleChangeFraction={ handleChangeFraction }
                                         handleChangeMat={ handleChangeMat }
                                         handleDeletePlayer={ handleDeletePlayer }
