@@ -1,9 +1,10 @@
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { useLocalStorage } from '@rehooks/local-storage';
-import React, { FunctionComponent, useState } from 'react';
+import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IPlayer } from '../components/PlayerRow';
+import AppContext from '../context/AppContext';
+import { IPlayer, Types } from '../context/Types';
 import { calculatePoints } from '../ScytheLogic';
 
 interface OwnProps {
@@ -21,13 +22,15 @@ export interface IPoints {
 }
 
 const Score: FunctionComponent<Props> = (props: any) => {
+    const { state, fetchPlayer } = React.useContext(AppContext);
+
     const [storagePlayers] = useLocalStorage<Array<IPlayer>>('players');
-    const player = storagePlayers ? storagePlayers[props.match.params.id] : {
-        name: '',
-    };
+    useEffect(() => {
+        fetchPlayer(props.match.params.id)
+    }, []);
+
     const prevPlayer = storagePlayers && storagePlayers[Number(props.match.params.id) - 1] ? Number(props.match.params.id) - 1 : null;
     const nextPlayer = storagePlayers && storagePlayers[Number(props.match.params.id) + 1] ? Number(props.match.params.id) + 1 : null;
-
 
     const [points, setPoints] = useState<IPoints>({
         gold: 0,
@@ -46,7 +49,9 @@ const Score: FunctionComponent<Props> = (props: any) => {
 
     const handleSubmit = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
-        setResult(calculatePoints(points));
+        const result = calculatePoints(points);
+        setResult(result);
+        // dispatch({type: Types.SET_POINTS, payload: { index: props.match.params.id, points: points }})
     };
 
     return (
@@ -54,7 +59,9 @@ const Score: FunctionComponent<Props> = (props: any) => {
             <main style={ { height: '90vh', paddingTop: 30 } }>
 
                 <Typography variant={ 'h5' }>Подсчет очков</Typography>
-                <Typography variant={ 'h6' }>Имя игрока: { player.name }</Typography>
+                <Typography variant={ 'h6' }>
+                    Имя игрока: { storagePlayers ? storagePlayers[props.match.params.id].name : null }
+                </Typography>
 
                 <form onSubmit={ handleSubmit } autoComplete="off">
                     <Grid container direction={ 'column' } spacing={ 2 }>
