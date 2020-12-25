@@ -1,6 +1,9 @@
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import { useLocalStorage } from '@rehooks/local-storage';
 import React, { FunctionComponent, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { IPlayer } from '../components/PlayerRow';
 import { calculatePoints } from '../ScytheLogic';
 
 interface OwnProps {
@@ -17,7 +20,14 @@ export interface IPoints {
     buildingBonuses: number;
 }
 
-const Score: FunctionComponent<Props> = (props) => {
+const Score: FunctionComponent<Props> = (props: any) => {
+    const [storagePlayers] = useLocalStorage<Array<IPlayer>>('players');
+    const player = storagePlayers ? storagePlayers[props.match.params.id] : {
+        name: '',
+    };
+    const prevPlayer = storagePlayers && storagePlayers[Number(props.match.params.id) - 1] ? Number(props.match.params.id) - 1 : null;
+    const nextPlayer = storagePlayers && storagePlayers[Number(props.match.params.id) + 1] ? Number(props.match.params.id) + 1 : null;
+
 
     const [points, setPoints] = useState<IPoints>({
         gold: 0,
@@ -43,8 +53,8 @@ const Score: FunctionComponent<Props> = (props) => {
         <Container fixed>
             <main style={ { height: '90vh', paddingTop: 30 } }>
 
-                <Typography variant={ 'h1' }>Подсчет очков</Typography>
-                <Typography variant={ 'h2' }>Имя игрока: </Typography>
+                <Typography variant={ 'h5' }>Подсчет очков</Typography>
+                <Typography variant={ 'h6' }>Имя игрока: { player.name }</Typography>
 
                 <form onSubmit={ handleSubmit } autoComplete="off">
                     <Grid container direction={ 'column' } spacing={ 2 }>
@@ -135,9 +145,20 @@ const Score: FunctionComponent<Props> = (props) => {
                     </Grid>
                 </form>
 
-                <Button>Предыдущий игрок</Button>
-                <Button>Следующий игрок</Button>
-
+                <Button
+                    disabled={ prevPlayer === 0 ? false : !Boolean(prevPlayer) }
+                    variant="contained" color="primary"
+                    component={ Link } to={ `/score/${ prevPlayer }` }
+                >
+                    Предыдущий игрок
+                </Button>
+                <Button
+                    disabled={ !Boolean(nextPlayer) }
+                    variant="contained" color="primary"
+                    component={ Link } to={ `/score/${ nextPlayer }` }
+                >
+                    Следующий игрок
+                </Button>
             </main>
         </Container>
     );

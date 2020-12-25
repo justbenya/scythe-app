@@ -44,7 +44,7 @@ function App() {
             <Router>
                 <Switch>
                     <Route exact path="/" component={ Step1 } />
-                    <Route exact path="/score" component={ Score } />
+                    <Route exact path="/score/:id" component={ Score } />
                     <Route exact path="/result" component={ Step1 } />
                 </Switch>
             </Router>

@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 import { fractions, mats } from '../ScytheLogic';
 
 export interface IPlayer {
@@ -68,7 +69,9 @@ const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
                 </Grid>
 
                 <Grid item>
-                    <LocalAtmIcon fontSize="large" />
+                    <Link to={ `/score/${ index }` }>
+                        <LocalAtmIcon fontSize="large" />
+                    </Link>
                 </Grid>
 
                 <Grid item>
