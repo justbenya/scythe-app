@@ -3,7 +3,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import PlayerRow, { IPlayer } from '../components/PlayerRow';
 import { fractions, mats, TOTAL_PLAYERS } from '../ScytheLogic';
@@ -19,9 +18,6 @@ function shuffle(array: any): Array<any> {
     return result;
 }
 
-const pullFractions = shuffle(fractions);
-const pullMats = shuffle(mats);
-
 function changeItem(players: IPlayer[], index: number, key: string, value: string): IPlayer[] {
     return players.map((item, i) => {
         if (i === index) {
@@ -32,7 +28,6 @@ function changeItem(players: IPlayer[], index: number, key: string, value: strin
 }
 
 const Step1: FunctionComponent = () => {
-    const { register, handleSubmit, errors } = useForm();
     const history = useHistory();
 
     // todo 1
@@ -40,6 +35,8 @@ const Step1: FunctionComponent = () => {
         history.push('/step2');
     };
 
+    const [pullFractions, setFractionsPull] = useState(fractions);
+    const [pullMats, setMatsPull] = useState(mats);
 
     const [storagePlayers] = useLocalStorage<Array<IPlayer>>('players');
     const [players, setPlayers] = useState<Array<IPlayer>>(storagePlayers || []);
@@ -51,10 +48,16 @@ const Step1: FunctionComponent = () => {
     const handleAddPlayer = () => {
         if (players.length >= TOTAL_PLAYERS) return;
 
-        const randomIndex = Math.floor(Math.random() * pullFractions.length);
+        const randomIndex = () => Math.floor(Math.random() * pullFractions.length);
 
-        let fraction = pullFractions.splice(randomIndex, 1)[0].label;
-        let mat = pullMats.splice(randomIndex, 1)[0].label;
+        const fractionRndIndex = randomIndex();
+        const matsRndIndex = randomIndex();
+
+        let fraction = pullFractions[fractionRndIndex];
+        let mat = pullMats[matsRndIndex];
+
+        setFractionsPull((prevFractionsPull) => prevFractionsPull.filter((_, index) => index !== fractionRndIndex));
+        setMatsPull((prevMatsPull) => prevMatsPull.filter((_, index) => index !== matsRndIndex));
 
         setPlayers([...players, {
             name: 'Player ' + (players.length + 1),
@@ -69,10 +72,20 @@ const Step1: FunctionComponent = () => {
     };
 
     const handleChangeFraction = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const newFraction = event.target.value;
+        const prevFraction = players[index].fraction;
+        const otherPlayerIndex = players.findIndex(player => player.fraction === newFraction);
+
         const changesPlayers = players.map((item, i) => {
             if (i === index) {
-                return { ...item, fraction: event.target.value };
+                return { ...item, fraction: newFraction };
             }
+
+            // Если мы выбрали уже задействованную фракцию, поменяем значения местами
+            if (i === otherPlayerIndex ) {
+                return { ...item, fraction: prevFraction };
+            }
+
             return item;
         });
 
@@ -80,10 +93,19 @@ const Step1: FunctionComponent = () => {
     };
 
     const handleChangeMat = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const newMat = event.target.value;
+        const prevMat = players[index].mat;
+        const otherPlayerIndex = players.findIndex(player => player.mat === newMat);
+
         const changesPlayers = players.map((item, i) => {
             if (i === index) {
-                return { ...item, mat: event.target.value };
+                return { ...item, mat: newMat };
             }
+
+            if (i === otherPlayerIndex ) {
+                return { ...item, mat: prevMat };
+            }
+
             return item;
         });
 
@@ -91,15 +113,15 @@ const Step1: FunctionComponent = () => {
     };
 
     const handleDeletePlayer = (index: number) => {
-        pullMats.push({ label: players[index].mat });
-        pullFractions.push({ label: players[index].fraction });
+        setFractionsPull((prevFractionsPull) => ([...prevFractionsPull, players[index].fraction]));
+        setMatsPull((prevMatsPull) => ([...prevMatsPull, players[index].mat]));
         setPlayers((prevPlayers) => prevPlayers.filter((_, i) => i !== index));
     };
 
     return (
         <Container fixed>
             <main style={ { height: '90vh', paddingTop: 30 } }>
-                <Grid container direction="column" spacing={ 1 } style={ { height: '100%' } }>
+                <Grid container direction="column" spacing={ 1 }>
 
                     <Grid item>
                         <Button variant="contained" color="primary" fullWidth onClick={ handleAddPlayer }>
@@ -112,7 +134,9 @@ const Step1: FunctionComponent = () => {
                             <Grid container direction="column" spacing={ 1 } style={ { height: '100%' } }>
                                 { players.map((player, index) =>
                                     <PlayerRow
-                                        key={ index } { ...player } index={ index }
+                                        key={ index + player.mat + player.fraction }
+                                        { ...player }
+                                        index={ index }
                                         handleChangeName={ handleChangeName }
                                         handleChangeFraction={ handleChangeFraction }
                                         handleChangeMat={ handleChangeMat }

@@ -42,9 +42,9 @@ const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
                         variant="outlined"
                         size="small"
                     >
-                        { fractions.map((option) => (
-                            <MenuItem key={ option.value } value={ option.value }>
-                                { option.label }
+                        { fractions.map((value) => (
+                            <MenuItem key={ value } value={ value }>
+                                { value }
                             </MenuItem>
                         )) }
                     </TextField>
@@ -59,9 +59,9 @@ const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
                         variant="outlined"
                         size="small"
                     >
-                        { mats.map((option) => (
-                            <MenuItem key={ option.value } value={ option.value }>
-                                { option.label }
+                        { mats.map((value) => (
+                            <MenuItem key={ value } value={ value }>
+                                { value }
                             </MenuItem>
                         )) }
                     </TextField>
