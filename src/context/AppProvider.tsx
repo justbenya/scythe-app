@@ -2,15 +2,16 @@ import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import { nanoid } from 'nanoid';
 import React, { useEffect, useReducer } from 'react';
 import { TOTAL_PLAYERS } from '../ScytheLogic';
-import AppContext from './AppContext';
+import AppContext, { SpecType } from './AppContext';
 import appReducer from './appReducer';
 import { Action, Types } from './Types';
 
 const AppProvider: React.FC = props => {
     const { children } = props;
 
+
     // @ts-ignore
-    const [players, dispatch]: [players: object, dispatch: React.Dispatch<Action>] = useReducer(appReducer, {});
+    const [players, dispatch]: [players: SpecType, dispatch: React.Dispatch<Action>] = useReducer(appReducer, {});
 
     // LOAD FROM LocalStorage
     const [storagePlayers] = useLocalStorage<any>('players');

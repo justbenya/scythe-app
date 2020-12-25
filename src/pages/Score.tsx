@@ -1,10 +1,8 @@
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import { IPlayer, Types } from '../context/Types';
 import { calculatePoints } from '../ScytheLogic';
 
 interface OwnProps {
@@ -22,37 +20,45 @@ export interface IPoints {
 }
 
 const Score: FunctionComponent<Props> = (props: any) => {
-    const { state, fetchPlayer } = React.useContext(AppContext);
+    const { state, fetchPlayer, editPlayer } = React.useContext(AppContext);
 
-    const [storagePlayers] = useLocalStorage<Array<IPlayer>>('players');
     useEffect(() => {
-        fetchPlayer(props.match.params.id)
+        fetchPlayer(props.match.params.id);
     }, []);
 
-    const prevPlayer = storagePlayers && storagePlayers[Number(props.match.params.id) - 1] ? Number(props.match.params.id) - 1 : null;
-    const nextPlayer = storagePlayers && storagePlayers[Number(props.match.params.id) + 1] ? Number(props.match.params.id) + 1 : null;
+    const player = state[props.match.params.id];
 
-    const [points, setPoints] = useState<IPoints>({
-        gold: 0,
-        popularity: 0,
-        stars: 0,
-        territories: 0,
-        resources: 0,
-        buildingBonuses: 0,
-    });
+    let prevPlayer = null;
+    let nextPlayer = null;
+    if (Object.values(state).length > 0) {
+        const currentIndex = Object.values(state).findIndex(item => item.id === player.id);
 
-    const [result, setResult] = useState(0);
+        prevPlayer = currentIndex >= 0 && Object.values(state)[currentIndex - 1] ? Object.values(state)[currentIndex - 1].id : null;
+        nextPlayer = currentIndex >= 0 && Object.values(state)[currentIndex + 1] ? Object.values(state)[currentIndex + 1].id : null;
+    }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPoints((points) => ({ ...points, [event.target.id]: parseInt(event.target.value) }));
+        editPlayer({ ...player, [event.target.id]: parseInt(event.target.value) });
     };
 
     const handleSubmit = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
+        const points = {
+            gold: player.gold,
+            popularity: player.popularity,
+            stars: player.stars,
+            territories: player.territories,
+            resources: player.resources,
+            buildingBonuses: player.buildingBonuses,
+        };
         const result = calculatePoints(points);
-        setResult(result);
-        // dispatch({type: Types.SET_POINTS, payload: { index: props.match.params.id, points: points }})
+        editPlayer({
+            ...player,
+            points: result,
+        });
     };
+
+    if (!player) return <div>Loading</div>;
 
     return (
         <Container fixed>
@@ -60,7 +66,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
 
                 <Typography variant={ 'h5' }>Подсчет очков</Typography>
                 <Typography variant={ 'h6' }>
-                    Имя игрока: { storagePlayers ? storagePlayers[props.match.params.id].name : null }
+                    Имя игрока: { player.name }
                 </Typography>
 
                 <form onSubmit={ handleSubmit } autoComplete="off">
@@ -73,6 +79,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
                                 size="small"
                                 label="Монеты на руках"
                                 type="number"
+                                value={ player.gold }
                                 InputLabelProps={ { shrink: true } }
                                 onChange={ handleInputChange }
                             />
@@ -86,6 +93,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
                                 size="small"
                                 label="Популярность"
                                 type="number"
+                                value={ player.popularity }
                                 InputLabelProps={ { shrink: true } }
                                 onChange={ handleInputChange }
                             />
@@ -99,6 +107,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
                                 size="small"
                                 label="Кол-во звезд"
                                 type="number"
+                                value={ player.stars }
                                 InputLabelProps={ { shrink: true } }
                                 onChange={ handleInputChange }
                             />
@@ -112,6 +121,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
                                 size="small"
                                 label="Территорий"
                                 type="number"
+                                value={ player.territories }
                                 InputLabelProps={ { shrink: true } }
                                 onChange={ handleInputChange }
                             />
@@ -125,6 +135,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
                                 size="small"
                                 label="Ресурсы"
                                 type="number"
+                                value={ player.resources }
                                 InputLabelProps={ { shrink: true } }
                                 onChange={ handleInputChange }
                             />
@@ -138,6 +149,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
                                 size="small"
                                 label="Бонусы зданий"
                                 type="number"
+                                value={ player.buildingBonuses }
                                 InputLabelProps={ { shrink: true } }
                                 onChange={ handleInputChange }
                             />
@@ -146,14 +158,14 @@ const Score: FunctionComponent<Props> = (props: any) => {
                         <Grid item>
                             <Button type="submit" color="primary" variant="contained">Результат</Button>
                             <Typography>
-                                Очков: { result }
+                                Очков: { player.points }
                             </Typography>
                         </Grid>
                     </Grid>
                 </form>
 
                 <Button
-                    disabled={ prevPlayer === 0 ? false : !Boolean(prevPlayer) }
+                    disabled={ !Boolean(prevPlayer) }
                     variant="contained" color="primary"
                     component={ Link } to={ `/score/${ prevPlayer }` }
                 >

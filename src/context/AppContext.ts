@@ -1,12 +1,12 @@
 import React, { createContext } from 'react';
 import { Action, IPlayer } from './Types';
 
-const initialState = {
-    players: [],
-};
+export type SpecType = {
+    [id: string]: IPlayer
+}
 
 type AppContextType = {
-    state: object;
+    state: SpecType;
     dispatch: React.Dispatch<Action>;
     fetchPlayer(id: string): void;
     fetchPlayers(): void;
@@ -16,7 +16,7 @@ type AppContextType = {
 }
 
 const AppContext = createContext<AppContextType>({
-    state: initialState,
+    state: {},
     dispatch: () => null,
     fetchPlayer: () => {},
     fetchPlayers: () => {},
