@@ -8,32 +8,24 @@ import AppContext from '../context/AppContext';
 import { IPlayer } from '../context/Types';
 import { fractions, mats } from '../ScytheLogic';
 
-function changeItem(players: IPlayer[], index: number, key: string, value: string): IPlayer[] {
-    return players.map((item, i) => {
-        if (i === index) {
-            return { ...item, [key]: value };
-        }
-        return item;
-    });
-}
-
 const Step1: FunctionComponent = () => {
     const {
         state: players,
         createPlayer,
         fetchPlayers,
+        pullFractions,
+        setFractionsPull,
+        pullMats,
+        setMatsPull
     } = React.useContext(AppContext);
 
     const history = useHistory();
-
-    const [pullFractions, setFractionsPull] = useState(fractions);
-    const [pullMats, setMatsPull] = useState(mats);
 
     useEffect(() => {
         fetchPlayers();
     }, []);
 
-    const handleAddPlayer = () => {
+    const handleAddPlayer = (): void => {
         const randomIndex = () => Math.floor(Math.random() * pullFractions.length);
 
         const fractionRndIndex = randomIndex();
@@ -42,13 +34,23 @@ const Step1: FunctionComponent = () => {
         let fraction = pullFractions[fractionRndIndex];
         let mat = pullMats[matsRndIndex];
 
-        setFractionsPull((prevFractionsPull) => prevFractionsPull.filter((_, index) => index !== fractionRndIndex));
-        setMatsPull((prevMatsPull) => prevMatsPull.filter((_, index) => index !== matsRndIndex));
+        setFractionsPull((prevFractionsPull: string[]) => prevFractionsPull.filter((_, index) => index !== fractionRndIndex));
+        setMatsPull((prevMatsPull: string[]) => prevMatsPull.filter((_, index) => index !== matsRndIndex));
 
         createPlayer({
             fraction,
             mat,
         });
+    };
+
+    const handleCalculateScore = (): void => {
+        for (const mat of mats) {
+            const playerFirstTurn = Object.values(players).find(player => player.mat === mat);
+            if (playerFirstTurn) {
+                history.push(`/score/${ playerFirstTurn.id }`);
+                break;
+            }
+        }
     };
 
     return (
@@ -70,7 +72,7 @@ const Step1: FunctionComponent = () => {
 
                                 <Grid item style={ { marginTop: 'auto' } }>
                                     <Button
-                                        onClick={ () => { history.push('/score'); } }
+                                        onClick={ handleCalculateScore }
                                         variant="contained" color="secondary" fullWidth
                                     >Подсчет очков</Button>
                                 </Grid>
@@ -79,10 +81,8 @@ const Step1: FunctionComponent = () => {
 
                     </Grid>
                 </Grid>
-
             </main>
         </Container>
-
     );
 };
 

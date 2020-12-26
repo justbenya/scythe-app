@@ -1,7 +1,7 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import { nanoid } from 'nanoid';
-import React, { useEffect, useReducer } from 'react';
-import { TOTAL_PLAYERS } from '../ScytheLogic';
+import React, { useEffect, useReducer, useState } from 'react';
+import { fractions, mats, TOTAL_PLAYERS } from '../ScytheLogic';
 import AppContext, { SpecType } from './AppContext';
 import appReducer from './appReducer';
 import { Action, Types } from './Types';
@@ -9,9 +9,11 @@ import { Action, Types } from './Types';
 const AppProvider: React.FC = props => {
     const { children } = props;
 
-
     // @ts-ignore
     const [players, dispatch]: [players: SpecType, dispatch: React.Dispatch<Action>] = useReducer(appReducer, {});
+
+    const [pullFractions, setFractionsPull] = useState(fractions);
+    const [pullMats, setMatsPull] = useState(mats);
 
     // LOAD FROM LocalStorage
     const [storagePlayers] = useLocalStorage<any>('players');
@@ -57,12 +59,20 @@ const AppProvider: React.FC = props => {
 
     function deletePlayer(id: string): void {
         dispatch({ type: Types.DELETE_PLAYER, payload: id });
+
+        // TODO rework this
+        setFractionsPull((fractions) => [...fractions, players[id].fraction]);
+        setMatsPull((mats) => [...mats, players[id].mat]);
     }
 
     return (
         <AppContext.Provider
             value={ {
                 state: players,
+                pullFractions: pullFractions,
+                pullMats: pullMats,
+                setFractionsPull,
+                setMatsPull,
                 dispatch,
                 fetchPlayer,
                 fetchPlayers,

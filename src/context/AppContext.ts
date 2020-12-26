@@ -1,4 +1,5 @@
 import React, { createContext } from 'react';
+import { fractions, mats } from '../ScytheLogic';
 import { Action, IPlayer } from './Types';
 
 export type SpecType = {
@@ -7,6 +8,10 @@ export type SpecType = {
 
 type AppContextType = {
     state: SpecType;
+    pullFractions: string[];
+    pullMats: string[];
+    setFractionsPull: React.Dispatch<any>;
+    setMatsPull: React.Dispatch<any>;
     dispatch: React.Dispatch<Action>;
     fetchPlayer(id: string): void;
     fetchPlayers(): void;
@@ -17,6 +22,10 @@ type AppContextType = {
 
 const AppContext = createContext<AppContextType>({
     state: {},
+    pullFractions: fractions,
+    pullMats: mats,
+    setFractionsPull: () => null,
+    setMatsPull: () => null,
     dispatch: () => null,
     fetchPlayer: () => {},
     fetchPlayers: () => {},
