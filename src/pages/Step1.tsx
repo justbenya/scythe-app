@@ -1,22 +1,17 @@
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PlayerRow from '../components/PlayerRow';
 import AppContext from '../context/AppContext';
-import { IPlayer } from '../context/Types';
-import { fractions, mats } from '../ScytheLogic';
+import { mats } from '../ScytheLogic';
 
 const Step1: FunctionComponent = () => {
     const {
         state: players,
         createPlayer,
         fetchPlayers,
-        pullFractions,
-        setFractionsPull,
-        pullMats,
-        setMatsPull
     } = React.useContext(AppContext);
 
     const history = useHistory();
@@ -24,24 +19,6 @@ const Step1: FunctionComponent = () => {
     useEffect(() => {
         fetchPlayers();
     }, []);
-
-    const handleAddPlayer = (): void => {
-        const randomIndex = () => Math.floor(Math.random() * pullFractions.length);
-
-        const fractionRndIndex = randomIndex();
-        const matsRndIndex = randomIndex();
-
-        let fraction = pullFractions[fractionRndIndex];
-        let mat = pullMats[matsRndIndex];
-
-        setFractionsPull((prevFractionsPull: string[]) => prevFractionsPull.filter((_, index) => index !== fractionRndIndex));
-        setMatsPull((prevMatsPull: string[]) => prevMatsPull.filter((_, index) => index !== matsRndIndex));
-
-        createPlayer({
-            fraction,
-            mat,
-        });
-    };
 
     const handleCalculateScore = (): void => {
         for (const mat of mats) {
@@ -59,7 +36,7 @@ const Step1: FunctionComponent = () => {
                 <Grid container direction="column" spacing={ 1 }>
 
                     <Grid item>
-                        <Button variant="contained" color="primary" fullWidth onClick={ handleAddPlayer }>
+                        <Button variant="contained" color="primary" fullWidth onClick={ createPlayer }>
                             Добавить игрока
                         </Button>
                     </Grid>

@@ -1,19 +1,28 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import { nanoid } from 'nanoid';
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { fractions, mats, TOTAL_PLAYERS } from '../ScytheLogic';
 import AppContext, { SpecType } from './AppContext';
 import appReducer from './appReducer';
 import { Action, Types } from './Types';
+
+
+function shuffle(array: any): Array<any> {
+    const result = [...array];
+    for (let i = result.length - 1; i > 0; i--) {
+        let randIndex = Math.floor(Math.random() * (i + 1));
+        let temp = result[i];
+        result[i] = result[randIndex];
+        result[randIndex] = temp;
+    }
+    return result;
+}
 
 const AppProvider: React.FC = props => {
     const { children } = props;
 
     // @ts-ignore
     const [players, dispatch]: [players: SpecType, dispatch: React.Dispatch<Action>] = useReducer(appReducer, {});
-
-    const [pullFractions, setFractionsPull] = useState(fractions);
-    const [pullMats, setMatsPull] = useState(mats);
 
     // LOAD FROM LocalStorage
     const [storagePlayers] = useLocalStorage<any>('players');
@@ -33,14 +42,26 @@ const AppProvider: React.FC = props => {
         }
     }
 
-    function createPlayer(formValues: { fraction: string; mat: string; }): void {
+    function createPlayer(): void {
         if (Object.values(players).length >= TOTAL_PLAYERS) return;
+
+        // 1. Получить уже используемые фракции и планшеты
+        const usedFraction = Object.values(players).map(i => i.fraction);
+        const usedMats = Object.values(players).map(i => i.mat);
+
+        // 2. Рандомно выберем фракции и планшеты, уберем уже используемые
+        const randomFractions = shuffle(fractions).filter(i => !usedFraction.includes(i));
+        const randomMats = shuffle(mats).filter(i => !usedMats.includes(i));
+
+        // 3. Готово!
+        const fraction = randomFractions[0];
+        const mat = randomMats[0];
 
         const player = {
             id: nanoid(),
             name: 'Player ' + (Object.values(players).length + 1),
-            fraction: formValues.fraction,
-            mat: formValues.mat,
+            fraction,
+            mat,
             gold: 0,
             popularity: 0,
             stars: 0,
@@ -59,31 +80,23 @@ const AppProvider: React.FC = props => {
 
     function deletePlayer(id: string): void {
         dispatch({ type: Types.DELETE_PLAYER, payload: id });
-
-        // TODO rework this
-        setFractionsPull((fractions) => [...fractions, players[id].fraction]);
-        setMatsPull((mats) => [...mats, players[id].mat]);
     }
 
     function clearData(): void {
-        Object.values(players).forEach(player => deletePlayer(player.id))
+        Object.values(players).forEach(player => deletePlayer(player.id));
     }
 
     return (
         <AppContext.Provider
             value={ {
                 state: players,
-                pullFractions: pullFractions,
-                pullMats: pullMats,
-                setFractionsPull,
-                setMatsPull,
                 dispatch,
                 fetchPlayer,
                 fetchPlayers,
                 createPlayer,
                 editPlayer,
                 deletePlayer,
-                clearData
+                clearData,
             } }
         >
             { children }
