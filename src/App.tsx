@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Result from './pages/Result';
 import Score from './pages/Score';
 import Step1 from './pages/Step1';
 
@@ -45,7 +46,7 @@ function App() {
                 <Switch>
                     <Route exact path="/" component={ Step1 } />
                     <Route exact path="/score/:id" component={ Score } />
-                    <Route exact path="/result" component={ Step1 } />
+                    <Route exact path="/result" component={ Result } />
                 </Switch>
             </Router>
         </>

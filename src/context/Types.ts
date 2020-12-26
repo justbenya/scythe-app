@@ -6,6 +6,8 @@ export enum Types {
     'EDIT_PLAYER',
     'FETCH_PLAYERS',
     'DELETE_PLAYER',
+    'CLEAR_PLAYERS_DATA',
+    'INIT'
 }
 
 type ActionFetchPlayerType = {
@@ -33,12 +35,21 @@ type ActionDeletePlayerType = {
     payload: string;
 }
 
-export type Action = ActionFetchPlayerType | ActionFetchPlayersType | ActionCreatePlayerType | ActionEditPlayerType | ActionDeletePlayerType;
-    // | { type: Types.FETCH_PLAYER, payload: undefined }
-    // | { type: Types.FETCH_PLAYERS, payload: IPlayer[] }
-    // | { type: Types.UPDATE_PLAYERS, payload: IPlayer[] }
-    // | { type: Types.SET_POINTS, payload: { index: number, points: IPoints } }
+type ActionClearPlayerType = {
+    type: Types.CLEAR_PLAYERS_DATA;
+}
 
+type ActionInitType = {
+    type: Types.INIT;
+    payload: object;
+}
+
+export type Action = ActionFetchPlayerType
+    | ActionFetchPlayersType
+    | ActionCreatePlayerType
+    | ActionEditPlayerType
+    | ActionDeletePlayerType
+    | ActionClearPlayerType;
 
 export interface IPlayer extends IPoints {
     id: string;

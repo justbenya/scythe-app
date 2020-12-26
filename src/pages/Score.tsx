@@ -171,12 +171,20 @@ const Score: FunctionComponent<Props> = (props: any) => {
                 >
                     Предыдущий игрок
                 </Button>
+
                 <Button
                     disabled={ !Boolean(nextPlayer) }
                     variant="contained" color="primary"
                     component={ Link } to={ `/score/${ nextPlayer }` }
                 >
                     Следующий игрок
+                </Button>
+
+                <Button
+                    variant="contained" color="secondary"
+                    component={ Link } to={ `/result` }
+                >
+                    Узнать кто победил
                 </Button>
             </main>
         </Container>

@@ -65,6 +65,10 @@ const AppProvider: React.FC = props => {
         setMatsPull((mats) => [...mats, players[id].mat]);
     }
 
+    function clearData(): void {
+        Object.values(players).forEach(player => deletePlayer(player.id))
+    }
+
     return (
         <AppContext.Provider
             value={ {
@@ -78,7 +82,8 @@ const AppProvider: React.FC = props => {
                 fetchPlayers,
                 createPlayer,
                 editPlayer,
-                deletePlayer
+                deletePlayer,
+                clearData
             } }
         >
             { children }

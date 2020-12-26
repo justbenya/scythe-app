@@ -18,6 +18,7 @@ type AppContextType = {
     createPlayer(formValues: { fraction: string; mat: string; }): void;
     editPlayer(formValues: any): void;
     deletePlayer(id: string): void;
+    clearData(): void;
 }
 
 const AppContext = createContext<AppContextType>({
@@ -32,6 +33,7 @@ const AppContext = createContext<AppContextType>({
     createPlayer: () => {},
     editPlayer: () => {},
     deletePlayer: () => {},
+    clearData: () => {},
 });
 
 export default AppContext;
