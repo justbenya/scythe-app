@@ -135,7 +135,7 @@ const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
                                 >
                                     { fractions.map((value) => (
                                         <MenuItem key={ value.name } value={ value.name }>
-                                            <FractionIcon { ...value } /> { value.name }
+                                            <FractionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
                                         </MenuItem>
                                     )) }
                                 </TextField>
