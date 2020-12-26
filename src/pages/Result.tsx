@@ -11,8 +11,9 @@ import {
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import mapKeys from 'lodash-es/mapKeys';
 import React, { FunctionComponent, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 const useStyles = makeStyles({
@@ -21,30 +22,25 @@ const useStyles = makeStyles({
     },
 });
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 const Result: FunctionComponent = () => {
     const history = useHistory();
     const classes = useStyles();
 
-    const {
+    let {
         state: players,
         fetchPlayers,
-        clearData
+        clearData,
+        editPlayer,
     } = React.useContext(AppContext);
 
     useEffect(() => {
         fetchPlayers();
-    }, [])
+    }, []);
+
+    const sortedPlayers = [...Object.values(players)].sort((a, b) => b.points - a.points);
+    const result = sortedPlayers.map((player, index) => ({ ...player, gameEndPosition: index + 1 }));
+
+    players = { ...mapKeys(result, 'id') };
 
     return (
         <Container fixed>
@@ -69,12 +65,12 @@ const Result: FunctionComponent = () => {
                         <TableBody>
                             { Object.values(players).map((player) => (
                                 <TableRow key={ player.name }>
-                                    <TableCell align="center">❤</TableCell>
+                                    <TableCell align="center">{ player.gameEndPosition }</TableCell>
                                     <TableCell component="th" scope="player">
                                         { player.name }
-                                        <br/>
+                                        <br />
                                         { player.fraction }
-                                        <br/>
+                                        <br />
                                         { player.mat }
                                     </TableCell>
                                     <TableCell align="right">{ player.popularity }</TableCell>
@@ -92,10 +88,14 @@ const Result: FunctionComponent = () => {
 
                 <Button
                     variant="contained" color="secondary"
-                    onClick={() => {
+                    onClick={ () => {
+                        // TODO добавить сохранение места
+                        const sortedPlayers = [...Object.values(players)].sort((a, b) => b.points - a.points);
+                        sortedPlayers.forEach((player, index) => editPlayer({ ...player, gameEndPosition: index + 1 }));
+
                         clearData();
-                        setTimeout(() => {history.push('/');}, 100)
-                    }}
+                        setTimeout(() => {history.push('/');}, 100);
+                    } }
                 >
                     Новая игра
                 </Button>
