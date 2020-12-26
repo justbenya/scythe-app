@@ -42,10 +42,10 @@ const Step1: FunctionComponent = () => {
                     </Grid>
 
                     <Grid item>
-                        <form autoComplete="off">
-                            <Grid container direction="column" spacing={ 1 } style={ { height: '100%' } }>
+                        <form>
+                            <Grid container direction="column" spacing={ 4 } style={ { height: '100%' } }>
                                 { Object.values(players).map((player) =>
-                                    <PlayerRow key={ player.id } { ...player } />) }
+                                    <Grid item><PlayerRow key={ player.id } { ...player } /></Grid>) }
 
                                 <Grid item style={ { marginTop: 'auto' } }>
                                     <Button

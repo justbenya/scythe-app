@@ -1,13 +1,41 @@
-import { MenuItem } from '@material-ui/core';
+import { Card, CardActions, CardContent, MenuItem } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import { fractions, IPlayer, mats } from '../ScytheLogic';
+import { IPlayer, mats } from '../ScytheLogic';
+import FractionCharacterImage from './FractionCharacterImage';
+import FractionIcon from './FractionIcon';
 
+const fractions = [
+    {
+        name: 'Республика Поляния',
+        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/polania.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/polania.png`,
+    },
+    {
+        name: 'Саксонская империя',
+        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/saxony.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/saxony.png`,
+    },
+    {
+        name: 'Крымское ханство',
+        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/crimean.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/crimean.png`,
+    },
+    {
+        name: 'Северное королевство',
+        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/nordic.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/nordic.png`,
+    },
+    {
+        name: 'Руссветский союз',
+        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/rusvet.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/rusvet.png`,
+    },
+];
 
 const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
     const {
@@ -66,68 +94,95 @@ const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
     };
 
     return (
-        <Grid item style={ { marginTop: 20 } }>
-
-            {/*todo поменять размеры для дропдауна*/ }
-            <Grid container spacing={ 4 }>
-                <Grid item>
-                    <TextField
-                        label="Имя"
-                        defaultValue={ name }
-                        onChange={ (event) => handleChangeName(event, id) }
-                        variant="outlined"
-                        size="small"
-                    />
+        <Card>
+            <FractionCharacterImage { ...fractions.find(i => i.name === fraction) } />
+            <CardContent>
+                <Grid container spacing={ 2 } direction={ 'column' }>
+                    <Grid item xs={ 12 }>
+                        <TextField
+                            label="Имя"
+                            defaultValue={ name }
+                            onChange={ (event) => handleChangeName(event, id) }
+                            variant="outlined"
+                            size="medium"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={ 12 }>
+                        <Grid container justify={ 'space-between' }>
+                            <Grid item>
+                                <TextField
+                                    select
+                                    SelectProps={ {
+                                        renderValue: (value: any) => {
+                                            const fraction = fractions.find(i => i.name === value);
+                                            return (
+                                                <div
+                                                    style={ {
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                    } }
+                                                >
+                                                    { fraction && <FractionIcon { ...fraction } /> }
+                                                </div>);
+                                        },
+                                    } }
+                                    label="Фракция"
+                                    value={ fraction }
+                                    onChange={ (event) => handleChangeFraction(event, id) }
+                                    variant="outlined"
+                                    size="small"
+                                >
+                                    { fractions.map((value) => (
+                                        <MenuItem key={ value.name } value={ value.name }>
+                                            <FractionIcon { ...value } /> { value.name }
+                                        </MenuItem>
+                                    )) }
+                                </TextField>
+                            </Grid>
+                            <Grid item className="mats-input">
+                                <TextField
+                                    select
+                                    label="Планшет"
+                                    value={ mat }
+                                    onChange={ (event) => handleChangeMat(event, id) }
+                                    variant="outlined"
+                                    size="medium"
+                                    fullWidth
+                                >
+                                    { mats.map((value) => (
+                                        <MenuItem key={ value } value={ value }>
+                                            { value }
+                                        </MenuItem>
+                                    )) }
+                                </TextField>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
+            </CardContent>
 
-                <Grid item>
-                    <TextField
-                        select
-                        label="Фракция"
-                        value={ fraction }
-                        onChange={ (event) => handleChangeFraction(event, id) }
-                        variant="outlined"
-                        size="small"
-                    >
-                        { fractions.map((value) => (
-                            <MenuItem key={ value } value={ value }>
-                                { value }
-                            </MenuItem>
-                        )) }
-                    </TextField>
-                </Grid>
+            <CardActions disableSpacing style={ { paddingTop: 0, display: 'flex', justifyContent: 'flex-end' } }>
+                <Button
+                    style={ { marginRight: 'auto' } }
+                    component={ Link } to={ `/score/${ id }` }
+                    color="primary"
+                    size="medium"
+                >
+                    Подсчитать очки
+                </Button>
 
-                <Grid item>
-                    <TextField
-                        select
-                        label="Планшет"
-                        value={ mat }
-                        onChange={ (event) => handleChangeMat(event, id) }
-                        variant="outlined"
-                        size="small"
-                    >
-                        { mats.map((value) => (
-                            <MenuItem key={ value } value={ value }>
-                                { value }
-                            </MenuItem>
-                        )) }
-                    </TextField>
-                </Grid>
-
-                <Grid item>
-                    <Link to={ `/score/${ id }` }>
-                        <LocalAtmIcon fontSize="large" />
-                    </Link>
-                </Grid>
-
-                <Grid item>
-                    <HighlightOffIcon onClick={ () => handleDeletePlayer(id) } fontSize="large" />
-                </Grid>
-            </Grid>
-
-
-        </Grid>
+                <Button
+                    color="secondary"
+                    size="medium"
+                    onClick={ () => handleDeletePlayer(id) }
+                >
+                    Удалить
+                </Button>
+            </CardActions>
+        </Card>
     );
 };
+
 
 export default PlayerRow;
