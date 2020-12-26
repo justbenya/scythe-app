@@ -1,4 +1,4 @@
-import { IPoints } from '../pages/Score';
+import { IPlayer } from '../ScytheLogic';
 
 export enum Types {
     'FETCH_PLAYER',
@@ -7,7 +7,6 @@ export enum Types {
     'FETCH_PLAYERS',
     'DELETE_PLAYER',
     'CLEAR_PLAYERS_DATA',
-    'INIT'
 }
 
 type ActionFetchPlayerType = {
@@ -39,11 +38,6 @@ type ActionClearPlayerType = {
     type: Types.CLEAR_PLAYERS_DATA;
 }
 
-type ActionInitType = {
-    type: Types.INIT;
-    payload: object;
-}
-
 export type Action = ActionFetchPlayerType
     | ActionFetchPlayersType
     | ActionCreatePlayerType
@@ -51,14 +45,3 @@ export type Action = ActionFetchPlayerType
     | ActionDeletePlayerType
     | ActionClearPlayerType;
 
-export interface IPlayer extends IPoints {
-    id: string;
-    name: string;
-    fraction: string;
-    mat: string;
-    points: number;
-}
-
-export type InitialStateType = {
-    players: IPlayer[];
-}

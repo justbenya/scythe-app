@@ -1,5 +1,3 @@
-import { IPoints } from './pages/Score';
-
 export const TOTAL_PLAYERS = 5;
 
 export const fractions = [
@@ -24,8 +22,8 @@ export const structureBonus = [
     'Количество территорий с символами приключений',
     'Количество территорий с туннелями и вашими зданиями',
     'Количество ваших зданий построенных в один ряд',
-    'Количество тундр и ферм с вашими зданиями'
-]
+    'Количество тундр и ферм с вашими зданиями',
+];
 
 export const calculatePoints = (points: IPoints): number => {
     let result = 0;
@@ -40,3 +38,21 @@ export const calculatePoints = (points: IPoints): number => {
 
     return result;
 };
+
+export interface IPlayer extends IPoints {
+    id: string;
+    name: string;
+    fraction: string;
+    mat: string;
+    points: number;
+    gameEndPosition?: number;
+}
+
+export interface IPoints {
+    gold: number;
+    popularity: number;
+    stars: number;
+    territories: number;
+    resources: number;
+    buildingBonuses: number;
+}

@@ -10,15 +10,6 @@ interface OwnProps {
 
 type Props = OwnProps;
 
-export interface IPoints {
-    gold: number;
-    popularity: number;
-    stars: number;
-    territories: number;
-    resources: number;
-    buildingBonuses: number;
-}
-
 const Score: FunctionComponent<Props> = (props: any) => {
     const { state, fetchPlayer, editPlayer } = React.useContext(AppContext);
 

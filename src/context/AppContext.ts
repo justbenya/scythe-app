@@ -1,5 +1,6 @@
 import React, { createContext } from 'react';
-import { Action, IPlayer } from './Types';
+import { IPlayer } from '../ScytheLogic';
+import { Action} from './Types';
 
 export type SpecType = {
     [id: string]: IPlayer

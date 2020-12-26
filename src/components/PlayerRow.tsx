@@ -6,8 +6,7 @@ import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import { IPlayer } from '../context/Types';
-import { fractions, mats } from '../ScytheLogic';
+import { fractions, IPlayer, mats } from '../ScytheLogic';
 
 
 const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
