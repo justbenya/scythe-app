@@ -11,10 +11,10 @@ interface OwnProps {
 type Props = OwnProps;
 
 const Score: FunctionComponent<Props> = (props: any) => {
-    const { state, fetchPlayer, editPlayer } = React.useContext(AppContext);
+    const { state, fetchPlayers, editPlayer } = React.useContext(AppContext);
 
     useEffect(() => {
-        fetchPlayer(props.match.params.id);
+        fetchPlayers();
     }, []);
 
     const player = state[props.match.params.id];
@@ -22,10 +22,13 @@ const Score: FunctionComponent<Props> = (props: any) => {
     let prevPlayer = null;
     let nextPlayer = null;
     if (Object.values(state).length > 0) {
-        const currentIndex = Object.values(state).findIndex(item => item.id === player.id);
+        const sorted = Object.values(state).sort((a, b) =>
+            parseInt(a.mat.slice(-2, -1)) - parseInt(b.mat.slice(-2, -1)))
 
-        prevPlayer = currentIndex >= 0 && Object.values(state)[currentIndex - 1] ? Object.values(state)[currentIndex - 1].id : null;
-        nextPlayer = currentIndex >= 0 && Object.values(state)[currentIndex + 1] ? Object.values(state)[currentIndex + 1].id : null;
+        const currentIndex = sorted.findIndex(item => item.id === player.id);
+
+        prevPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex - 1] ? Object.values(sorted)[currentIndex - 1].id : null;
+        nextPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex + 1] ? Object.values(sorted)[currentIndex + 1].id : null;
     }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
