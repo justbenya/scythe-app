@@ -1,4 +1,6 @@
-import { Button, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
+import { Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@material-ui/core';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HomeIcon from '@material-ui/icons/Home';
@@ -9,6 +11,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import Main from '../layouts/Main';
+import { routes } from '../routes';
 import { calculatePoints } from '../ScytheLogic';
 
 const Score: FunctionComponent = (props: any) => {
@@ -33,11 +36,12 @@ const Score: FunctionComponent = (props: any) => {
     }
 
     const handleOnFocus = (event: React.FocusEvent<any>): void => {
-        event.target.select()
+        event.target.select();
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        editPlayer({ ...player, [event.target.id]: parseInt(event.target.value) });
+        let value = !event.target.value ? 0 : parseInt(event.target.value);
+        editPlayer({ ...player, [event.target.id]: value });
     };
 
     const handleSubmit = (event: React.FormEvent<EventTarget>): void => {
@@ -63,7 +67,34 @@ const Score: FunctionComponent = (props: any) => {
         <Main title={ 'Подсчет очков' }>
             <Grid container direction={ 'column' } spacing={ 2 }>
                 <Grid item>
-                    <Typography variant={ 'h6' }>Игрок: { player.name }</Typography>
+                    <Grid container alignItems={ 'center' }>
+                        <Grid item xs={ 8 } sm={ 10 }>
+                            <Typography variant={ 'h5' }>Игрок: { player.name }</Typography>
+                        </Grid>
+
+                        <Grid item xs={ 2 } sm={ 1 } style={ { textAlign: 'end' } }>
+                            <IconButton
+                                disabled={ !Boolean(prevPlayer) }
+                                component={ Link }
+                                to={ `/score/${ prevPlayer }` }
+                                color="inherit"
+                            >
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </Grid>
+
+                        <Grid item xs={ 2 } sm={ 1 } style={ { textAlign: 'end' } }>
+                            <IconButton
+                                edge="end"
+                                disabled={ !Boolean(nextPlayer) }
+                                component={ Link }
+                                to={ `/score/${ nextPlayer }` }
+                                color="inherit"
+                            >
+                                <ChevronRightIcon />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 </Grid>
 
                 <Grid item>
@@ -202,39 +233,22 @@ const Score: FunctionComponent = (props: any) => {
                             </Grid>
 
                             <Grid item>
-                                <Button type="submit" color="primary" variant="contained">Результат</Button>
-                                <Typography>
-                                    Очков: { player.points }
-                                </Typography>
+                                <Grid container alignItems={ 'center' } justify={ 'space-between' } spacing={ 2 }>
+                                    <Grid item>
+                                        <Button type="submit" color="primary" variant="contained">Подсчитать</Button>
+                                    </Grid>
+
+                                    <Grid item><Typography variant={ 'h6' }>Очков: { player.points }</Typography></Grid>
+
+                                    <Grid item>
+                                        <Button component={ Link } to={ routes.result.path } type="submit" color="secondary" variant="contained">Результаты</Button>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </form>
                 </Grid>
             </Grid>
-
-
-            <Button
-                disabled={ !Boolean(prevPlayer) }
-                variant="contained" color="primary"
-                component={ Link } to={ `/score/${ prevPlayer }` }
-            >
-                Предыдущий игрок
-            </Button>
-
-            <Button
-                disabled={ !Boolean(nextPlayer) }
-                variant="contained" color="primary"
-                component={ Link } to={ `/score/${ nextPlayer }` }
-            >
-                Следующий игрок
-            </Button>
-
-            <Button
-                variant="contained" color="secondary"
-                component={ Link } to={ `/result` }
-            >
-                Узнать кто победил
-            </Button>
         </Main>
     );
 };
