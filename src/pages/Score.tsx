@@ -1,8 +1,8 @@
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
+import Main from '../layouts/Main';
 import { calculatePoints } from '../ScytheLogic';
 
 interface OwnProps {
@@ -23,7 +23,7 @@ const Score: FunctionComponent<Props> = (props: any) => {
     let nextPlayer = null;
     if (Object.values(state).length > 0) {
         const sorted = Object.values(state).sort((a, b) =>
-            parseInt(a.mat.slice(-2, -1)) - parseInt(b.mat.slice(-2, -1)))
+            parseInt(a.mat.slice(-2, -1)) - parseInt(b.mat.slice(-2, -1)));
 
         const currentIndex = sorted.findIndex(item => item.id === player.id);
 
@@ -55,133 +55,130 @@ const Score: FunctionComponent<Props> = (props: any) => {
     if (!player) return <div>Loading</div>;
 
     return (
-        <Container fixed>
-            <main style={ { height: '90vh', paddingTop: 30 } }>
+        <Main title={'Подсчет очков'}>
+            <Typography variant={ 'h5' }>Подсчет очков</Typography>
+            <Typography variant={ 'h6' }>
+                Имя игрока: { player.name }
+            </Typography>
 
-                <Typography variant={ 'h5' }>Подсчет очков</Typography>
-                <Typography variant={ 'h6' }>
-                    Имя игрока: { player.name }
-                </Typography>
-
-                <form onSubmit={ handleSubmit } autoComplete="off">
-                    <Grid container direction={ 'column' } spacing={ 2 }>
-                        <Grid item>
-                            <TextField
-                                id="gold"
-                                fullWidth
-                                variant="outlined"
-                                size="small"
-                                label="Монеты на руках"
-                                type="number"
-                                value={ player.gold }
-                                InputLabelProps={ { shrink: true } }
-                                onChange={ handleInputChange }
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <TextField
-                                id="popularity"
-                                fullWidth
-                                variant="outlined"
-                                size="small"
-                                label="Популярность"
-                                type="number"
-                                value={ player.popularity }
-                                InputLabelProps={ { shrink: true } }
-                                onChange={ handleInputChange }
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <TextField
-                                id="stars"
-                                fullWidth
-                                variant="outlined"
-                                size="small"
-                                label="Кол-во звезд"
-                                type="number"
-                                value={ player.stars }
-                                InputLabelProps={ { shrink: true } }
-                                onChange={ handleInputChange }
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <TextField
-                                id="territories"
-                                fullWidth
-                                variant="outlined"
-                                size="small"
-                                label="Территорий"
-                                type="number"
-                                value={ player.territories }
-                                InputLabelProps={ { shrink: true } }
-                                onChange={ handleInputChange }
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <TextField
-                                id="resources"
-                                fullWidth
-                                variant="outlined"
-                                size="small"
-                                label="Ресурсы"
-                                type="number"
-                                value={ player.resources }
-                                InputLabelProps={ { shrink: true } }
-                                onChange={ handleInputChange }
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <TextField
-                                id="buildingBonuses"
-                                fullWidth
-                                variant="outlined"
-                                size="small"
-                                label="Бонусы зданий"
-                                type="number"
-                                value={ player.buildingBonuses }
-                                InputLabelProps={ { shrink: true } }
-                                onChange={ handleInputChange }
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <Button type="submit" color="primary" variant="contained">Результат</Button>
-                            <Typography>
-                                Очков: { player.points }
-                            </Typography>
-                        </Grid>
+            <form onSubmit={ handleSubmit } autoComplete="off">
+                <Grid container direction={ 'column' } spacing={ 2 }>
+                    <Grid item>
+                        <TextField
+                            id="gold"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            label="Монеты на руках"
+                            type="number"
+                            value={ player.gold }
+                            InputLabelProps={ { shrink: true } }
+                            onChange={ handleInputChange }
+                        />
                     </Grid>
-                </form>
 
-                <Button
-                    disabled={ !Boolean(prevPlayer) }
-                    variant="contained" color="primary"
-                    component={ Link } to={ `/score/${ prevPlayer }` }
-                >
-                    Предыдущий игрок
-                </Button>
+                    <Grid item>
+                        <TextField
+                            id="popularity"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            label="Популярность"
+                            type="number"
+                            value={ player.popularity }
+                            InputLabelProps={ { shrink: true } }
+                            onChange={ handleInputChange }
+                        />
+                    </Grid>
 
-                <Button
-                    disabled={ !Boolean(nextPlayer) }
-                    variant="contained" color="primary"
-                    component={ Link } to={ `/score/${ nextPlayer }` }
-                >
-                    Следующий игрок
-                </Button>
+                    <Grid item>
+                        <TextField
+                            id="stars"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            label="Кол-во звезд"
+                            type="number"
+                            value={ player.stars }
+                            InputLabelProps={ { shrink: true } }
+                            onChange={ handleInputChange }
+                        />
+                    </Grid>
 
-                <Button
-                    variant="contained" color="secondary"
-                    component={ Link } to={ `/result` }
-                >
-                    Узнать кто победил
-                </Button>
-            </main>
-        </Container>
+                    <Grid item>
+                        <TextField
+                            id="territories"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            label="Территорий"
+                            type="number"
+                            value={ player.territories }
+                            InputLabelProps={ { shrink: true } }
+                            onChange={ handleInputChange }
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <TextField
+                            id="resources"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            label="Ресурсы"
+                            type="number"
+                            value={ player.resources }
+                            InputLabelProps={ { shrink: true } }
+                            onChange={ handleInputChange }
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <TextField
+                            id="buildingBonuses"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            label="Бонусы зданий"
+                            type="number"
+                            value={ player.buildingBonuses }
+                            InputLabelProps={ { shrink: true } }
+                            onChange={ handleInputChange }
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <Button type="submit" color="primary" variant="contained">Результат</Button>
+                        <Typography>
+                            Очков: { player.points }
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </form>
+
+            <Button
+                disabled={ !Boolean(prevPlayer) }
+                variant="contained" color="primary"
+                component={ Link } to={ `/score/${ prevPlayer }` }
+            >
+                Предыдущий игрок
+            </Button>
+
+            <Button
+                disabled={ !Boolean(nextPlayer) }
+                variant="contained" color="primary"
+                component={ Link } to={ `/score/${ nextPlayer }` }
+            >
+                Следующий игрок
+            </Button>
+
+            <Button
+                variant="contained" color="secondary"
+                component={ Link } to={ `/result` }
+            >
+                Узнать кто победил
+            </Button>
+        </Main>
     );
 };
 
