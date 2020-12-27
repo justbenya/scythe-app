@@ -7,7 +7,7 @@ import PlayerRow from '../components/PlayerRow';
 import AppContext from '../context/AppContext';
 import { mats } from '../ScytheLogic';
 
-const Step1: FunctionComponent = () => {
+const Start: FunctionComponent = () => {
     const {
         state: players,
         createPlayer,
@@ -63,5 +63,5 @@ const Step1: FunctionComponent = () => {
     );
 };
 
-export default Step1;
+export default Start;
 
