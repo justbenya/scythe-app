@@ -58,7 +58,7 @@ const Start: FunctionComponent = () => {
                 <Grid item>
                     <Grid container direction="column" spacing={ 2 }>
                         { Object.values(players).map((player) =>
-                            <Grid item><PlayerCard key={ player.id } { ...player } /></Grid>) }
+                            <Grid key={ player.id } item><PlayerCard { ...player } /></Grid>) }
                     </Grid>
                 </Grid>
             </Grid>
