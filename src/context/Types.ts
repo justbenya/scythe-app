@@ -44,4 +44,3 @@ export type Action = ActionFetchPlayerType
     | ActionEditPlayerType
     | ActionDeletePlayerType
     | ActionClearPlayerType;
-
