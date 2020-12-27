@@ -5,39 +5,13 @@ import TextField from '@material-ui/core/TextField';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import { IPlayer, mats } from '../ScytheLogic';
+import { fractions, IPlayer, mats } from '../ScytheLogic';
 import FractionCharacterImage from './FractionCharacterImage';
 import FractionIcon from './FractionIcon';
 
-const fractions = [
-    {
-        name: 'Республика Поляния',
-        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/polania.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/polania.png`,
-    },
-    {
-        name: 'Саксонская империя',
-        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/saxony.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/saxony.png`,
-    },
-    {
-        name: 'Крымское ханство',
-        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/crimean.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/crimean.png`,
-    },
-    {
-        name: 'Северное королевство',
-        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/nordic.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/nordic.png`,
-    },
-    {
-        name: 'Руссветский союз',
-        charactersArtPath: `${ process.env.PUBLIC_URL }/assets/fractions/rusvet.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/rusvet.png`,
-    },
-];
 
-const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
+
+const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
     const {
         name, fraction, mat, id,
     } = props;
@@ -185,4 +159,4 @@ const PlayerRow: FunctionComponent<IPlayer | any> = (props) => {
 };
 
 
-export default PlayerRow;
+export default PlayerCard;

@@ -10,11 +10,11 @@ const useStyles = makeStyles({
 
 type Props = {
     name?: string,
-    charactersArtPath?: string
+    characterPath?: string
 };
 
 const FractionCharacterImage: React.FC<Props> = (props) => {
-    const { name = '', charactersArtPath = '' } = props;
+    const { name = '', characterPath = '' } = props;
     const classes = useStyles();
 
     return (
@@ -22,7 +22,7 @@ const FractionCharacterImage: React.FC<Props> = (props) => {
             component="img"
             height="140"
             className={ classes.media }
-            image={ charactersArtPath }
+            image={ characterPath }
             alt={ name }
             title={ name }
         />

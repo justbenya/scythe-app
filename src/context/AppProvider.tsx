@@ -50,7 +50,7 @@ const AppProvider: React.FC = props => {
         const usedMats = Object.values(players).map(i => i.mat);
 
         // 2. Рандомно выберем фракции и планшеты, уберем уже используемые
-        const randomFractions = shuffle(fractions).filter(i => !usedFraction.includes(i));
+        const randomFractions = shuffle(fractions.map(i => i.name)).filter(i => !usedFraction.includes(i));
         const randomMats = shuffle(mats).filter(i => !usedMats.includes(i));
 
         // 3. Готово!

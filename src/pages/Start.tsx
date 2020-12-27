@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import PlayerRow from '../components/PlayerRow';
+import PlayerCard from '../components/PlayerCard';
 import AppContext from '../context/AppContext';
 import Main from '../layouts/Main';
 import { mats } from '../ScytheLogic';
@@ -58,7 +58,7 @@ const Start: FunctionComponent = () => {
                 <Grid item>
                     <Grid container direction="column" spacing={ 2 }>
                         { Object.values(players).map((player) =>
-                            <Grid item><PlayerRow key={ player.id } { ...player } /></Grid>) }
+                            <Grid item><PlayerCard key={ player.id } { ...player } /></Grid>) }
                     </Grid>
                 </Grid>
             </Grid>
