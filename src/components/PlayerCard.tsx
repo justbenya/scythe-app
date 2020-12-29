@@ -10,8 +10,6 @@ import { fractions, IPlayer, mats } from '../ScytheLogic';
 import FractionCharacterImage from './FractionCharacterImage';
 import FractionIcon from './FractionIcon';
 
-
-
 const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
     const {
         name, fraction, mat, id,
@@ -68,6 +66,10 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
         deletePlayer(id);
     };
 
+    const handleOnClick = (event: React.FocusEvent<any>): void => {
+        event.target.select();
+    };
+
     return (
         <Card>
             <FractionCharacterImage { ...fractions.find(i => i.name === fraction) } />
@@ -78,6 +80,7 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
                             label="Имя"
                             defaultValue={ name }
                             onChange={ (event) => handleChangeName(event, id) }
+                            onClick={handleOnClick}
                             variant="outlined"
                             size="medium"
                             fullWidth
