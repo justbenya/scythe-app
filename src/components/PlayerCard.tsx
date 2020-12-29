@@ -65,7 +65,7 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
         deletePlayer(id);
     };
 
-    const handleOnClick = (event: React.FocusEvent<any>): void => {
+    const handleOnFocus = (event: React.FocusEvent<any>): void => {
         event.target.select();
     };
 
@@ -79,7 +79,7 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
                             label="Имя"
                             defaultValue={ name }
                             onChange={ (event) => handleChangeName(event, id) }
-                            onClick={ handleOnClick }
+                            onFocus={ handleOnFocus }
                             variant="outlined"
                             size="medium"
                             fullWidth

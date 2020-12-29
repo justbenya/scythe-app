@@ -43,7 +43,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         reset(player);
-    }, [reset, player])
+    }, [reset, player]);
 
     const onSubmit = (data: IPoints) => {
         const result = calculatePoints(data);
@@ -54,7 +54,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
         });
     };
 
-    const handleOnClick = (event: React.FocusEvent<any>): void => {
+    const handleOnFocus = (event: React.FocusEvent<any>): void => {
         event.target.select();
     };
 
@@ -73,7 +73,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
                         size="small"
                         label="Монеты на руках"
                         type="number"
-                        onClick={ handleOnClick }
+                        onFocus={ handleOnFocus }
                         InputProps={ {
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -96,7 +96,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
                         size="small"
                         label="Популярность"
                         type="number"
-                        onClick={ handleOnClick }
+                        onFocus={ handleOnFocus }
                         InputProps={ {
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -119,7 +119,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
                         size="small"
                         label="Кол-во звезд"
                         type="number"
-                        onClick={ handleOnClick }
+                        onFocus={ handleOnFocus }
                         InputProps={ {
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -142,7 +142,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
                         size="small"
                         label="Территорий (фабрика дает +3)"
                         type="number"
-                        onClick={ handleOnClick }
+                        onFocus={ handleOnFocus }
                         InputProps={ {
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -165,7 +165,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
                         size="small"
                         label="Всего ресурсов"
                         type="number"
-                        onClick={ handleOnClick }
+                        onFocus={ handleOnFocus }
                         InputProps={ {
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -188,7 +188,7 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
                         size="small"
                         label="Бонусы зданий"
                         type="number"
-                        onClick={ handleOnClick }
+                        onFocus={ handleOnFocus }
                         InputProps={ {
                             startAdornment: (
                                 <InputAdornment position="start">
