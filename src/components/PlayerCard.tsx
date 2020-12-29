@@ -69,74 +69,80 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
         event.target.select();
     };
 
+    const onSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+    }
+
     return (
         <Card>
             <FractionCharacterImage { ...fractions.find(i => i.name === fraction) } />
             <CardContent>
-                <Grid container spacing={ 2 } direction={ 'column' }>
-                    <Grid item xs={ 12 }>
-                        <TextField
-                            label="Имя"
-                            defaultValue={ name }
-                            onChange={ (event) => handleChangeName(event, id) }
-                            onFocus={ handleOnFocus }
-                            variant="outlined"
-                            size="medium"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={ 12 }>
-                        <Grid container justify={ 'space-between' }>
-                            <Grid item>
-                                <TextField
-                                    select
-                                    SelectProps={ {
-                                        renderValue: (value: any) => {
-                                            const fraction = fractions.find(i => i.name === value);
-                                            return (
-                                                <div
-                                                    style={ {
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                    } }
-                                                >
-                                                    { fraction && <FractionIcon { ...fraction } /> }
-                                                </div>);
-                                        },
-                                    } }
-                                    label="Фракция"
-                                    value={ fraction }
-                                    onChange={ (event) => handleChangeFraction(event, id) }
-                                    variant="outlined"
-                                    size="small"
-                                >
-                                    { fractions.map((value) => (
-                                        <MenuItem key={ value.name } value={ value.name }>
-                                            <FractionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
-                                        </MenuItem>
-                                    )) }
-                                </TextField>
-                            </Grid>
-                            <Grid item className="mats-input">
-                                <TextField
-                                    select
-                                    label="Планшет"
-                                    value={ mat }
-                                    onChange={ (event) => handleChangeMat(event, id) }
-                                    variant="outlined"
-                                    size="medium"
-                                    fullWidth
-                                >
-                                    { mats.map((value) => (
-                                        <MenuItem key={ value } value={ value }>
-                                            { value }
-                                        </MenuItem>
-                                    )) }
-                                </TextField>
+                <form onSubmit={ onSubmit }>
+                    <Grid container spacing={ 2 } direction={ 'column' }>
+                        <Grid item xs={ 12 }>
+                            <TextField
+                                label="Имя"
+                                defaultValue={ name }
+                                onChange={ (event) => handleChangeName(event, id) }
+                                onFocus={ handleOnFocus }
+                                variant="outlined"
+                                size="medium"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={ 12 }>
+                            <Grid container justify={ 'space-between' }>
+                                <Grid item>
+                                    <TextField
+                                        select
+                                        SelectProps={ {
+                                            renderValue: (value: any) => {
+                                                const fraction = fractions.find(i => i.name === value);
+                                                return (
+                                                    <div
+                                                        style={ {
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                        } }
+                                                    >
+                                                        { fraction && <FractionIcon { ...fraction } /> }
+                                                    </div>);
+                                            },
+                                        } }
+                                        label="Фракция"
+                                        value={ fraction }
+                                        onChange={ (event) => handleChangeFraction(event, id) }
+                                        variant="outlined"
+                                        size="small"
+                                    >
+                                        { fractions.map((value) => (
+                                            <MenuItem key={ value.name } value={ value.name }>
+                                                <FractionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
+                                            </MenuItem>
+                                        )) }
+                                    </TextField>
+                                </Grid>
+                                <Grid item className="mats-input">
+                                    <TextField
+                                        select
+                                        label="Планшет"
+                                        value={ mat }
+                                        onChange={ (event) => handleChangeMat(event, id) }
+                                        variant="outlined"
+                                        size="medium"
+                                        fullWidth
+                                    >
+                                        { mats.map((value) => (
+                                            <MenuItem key={ value } value={ value }>
+                                                { value }
+                                            </MenuItem>
+                                        )) }
+                                    </TextField>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
+                </form>
             </CardContent>
 
             <CardActions disableSpacing style={ { paddingTop: 0, display: 'flex', justifyContent: 'flex-end' } }>

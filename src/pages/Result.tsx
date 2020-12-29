@@ -1,14 +1,4 @@
-import {
-    Button,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-} from '@material-ui/core';
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import mapKeys from 'lodash-es/mapKeys';
 import React, { FunctionComponent, useEffect } from 'react';
@@ -43,7 +33,7 @@ const Result: FunctionComponent = () => {
     players = { ...mapKeys(result, 'id') };
 
     return (
-        <Main title={'Итоги по окончанию игры'}>
+        <Main title={ 'Итоги по окончанию игры' }>
             <TableContainer component={ Paper }>
                 <Table className={ classes.table } size="medium">
                     <TableHead>
@@ -82,7 +72,7 @@ const Result: FunctionComponent = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-
+            <br />
             <Button
                 variant="contained" color="secondary"
                 onClick={ () => {
