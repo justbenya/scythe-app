@@ -20,6 +20,10 @@ const Start: FunctionComponent = () => {
         fetchPlayers();
     }, []);
 
+    const handleAddPlayer = () => {
+        createPlayer();
+    };
+
     const handleCalculateScore = (): void => {
         for (const mat of mats) {
             const playerFirstTurn = Object.values(players).find(player => player.mat === mat);
@@ -34,11 +38,11 @@ const Start: FunctionComponent = () => {
         <Main>
             <Grid container direction="column" spacing={ 4 }>
                 <Grid item>
-                    <Grid container direction="column" spacing={1}>
+                    <Grid container direction="column" spacing={ 1 }>
                         <Grid item>
                             <Button
                                 variant="contained" color="primary" fullWidth
-                                onClick={ createPlayer }
+                                onClick={ handleAddPlayer }
                             >
                                 Добавить игрока
                             </Button>

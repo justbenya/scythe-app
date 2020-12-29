@@ -43,7 +43,29 @@ const AppProvider: React.FC = props => {
     }
 
     function createPlayer(): void {
-        if (Object.values(players).length >= TOTAL_PLAYERS) return;
+        if (Object.values(players).length >= TOTAL_PLAYERS) {
+            toast.error('🔥 Максимальное количество игроков: 5', {
+                position: 'bottom-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+
+            return;
+        } else {
+            toast.success('✔ Добавлен игрок', {
+                position: 'bottom-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
 
         // 1. Получить уже используемые фракции и планшеты
         const usedFraction = Object.values(players).map(i => i.fraction);
