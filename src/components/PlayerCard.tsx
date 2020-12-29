@@ -17,7 +17,7 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
     } = props;
 
     const {
-        state: players,
+        players: players,
         editPlayer,
         deletePlayer,
     } = React.useContext(AppContext);

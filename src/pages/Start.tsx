@@ -9,7 +9,7 @@ import { mats } from '../ScytheLogic';
 
 const Start: FunctionComponent = () => {
     const {
-        state: players,
+        players,
         createPlayer,
         fetchPlayers,
     } = React.useContext(AppContext);

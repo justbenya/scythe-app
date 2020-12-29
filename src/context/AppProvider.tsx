@@ -30,15 +30,15 @@ const AppProvider: React.FC = props => {
     // SAVE TO LocalStorage
     useEffect(() => { writeStorage('players', players); }, [players]);
 
-    function fetchPlayers(): void {
-        if (storagePlayers) {
-            dispatch({ type: Types.FETCH_PLAYERS, payload: storagePlayers });
-        }
-    }
-
     function fetchPlayer(id: string): void {
         if (storagePlayers) {
             dispatch({ type: Types.FETCH_PLAYER, payload: storagePlayers[id] });
+        }
+    }
+
+    function fetchPlayers(): void {
+        if (storagePlayers) {
+            dispatch({ type: Types.FETCH_PLAYERS, payload: storagePlayers });
         }
     }
 
@@ -89,7 +89,7 @@ const AppProvider: React.FC = props => {
     return (
         <AppContext.Provider
             value={ {
-                state: players,
+                players,
                 dispatch,
                 fetchPlayer,
                 fetchPlayers,

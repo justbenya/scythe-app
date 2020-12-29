@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 
 
 const ResultShort: FunctionComponent = () => {
-    const { state, fetchPlayers } = React.useContext(AppContext);
+    const { players, fetchPlayers } = React.useContext(AppContext);
     const classes = useStyles();
 
     useEffect(() => {

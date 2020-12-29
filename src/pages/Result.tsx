@@ -27,7 +27,7 @@ const Result: FunctionComponent = () => {
     const classes = useStyles();
 
     let {
-        state: players,
+        players,
         fetchPlayers,
         clearData,
         editPlayer,

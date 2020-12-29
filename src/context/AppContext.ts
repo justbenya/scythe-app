@@ -7,7 +7,7 @@ export type SpecType = {
 }
 
 type AppContextType = {
-    state: SpecType;
+    players: SpecType;
     dispatch: React.Dispatch<Action>;
     fetchPlayer(id: string): void;
     fetchPlayers(): void;
@@ -18,7 +18,7 @@ type AppContextType = {
 }
 
 const AppContext = createContext<AppContextType>({
-    state: {},
+    players: {},
     dispatch: () => null,
     fetchPlayer: () => {},
     fetchPlayers: () => {},
