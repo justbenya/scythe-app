@@ -6,7 +6,6 @@ import AppContext, { SpecType } from './AppContext';
 import appReducer from './appReducer';
 import { Action, Types } from './Types';
 
-
 function shuffle(array: any): Array<any> {
     const result = [...array];
     for (let i = result.length - 1; i > 0; i--) {
