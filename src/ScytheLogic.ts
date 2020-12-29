@@ -1,33 +1,35 @@
+import keyBy from 'lodash-es/keyBy';
+
 export const TOTAL_PLAYERS = 5;
 
 export const fractions = [
     {
         name: 'Республика Поляния',
-        nameEng: 'polania',
+        slug: 'polania',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/polania.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/polania.png`,
     },
     {
         name: 'Саксонская империя',
-        nameEng: 'saxony',
+        slug: 'saxony',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/saxony.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/saxony.png`,
     },
     {
         name: 'Крымское ханство',
-        nameEng: 'crimean',
+        slug: 'crimean',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/crimean.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/crimean.png`,
     },
     {
         name: 'Северное королевство',
-        nameEng: 'nordic',
+        slug: 'nordic',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/nordic.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/nordic.png`,
     },
     {
         name: 'Руссветский союз',
-        nameEng: 'rusvet',
+        slug: 'rusvet',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/rusvet.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/rusvet.png`,
     },
@@ -62,6 +64,11 @@ export const calculatePoints = (points: IPoints): number => {
     }
 
     return result;
+};
+
+export const foundEngNameFractionToUrl = (fraction: string): string => {
+    const dictionaryByFractionNames = keyBy(fractions, 'name');
+    return dictionaryByFractionNames[fraction].slug;
 };
 
 export interface IPlayer extends IPoints {

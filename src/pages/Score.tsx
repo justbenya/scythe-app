@@ -4,13 +4,21 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ScoreForm from '../components/ScoreForm';
-import AppContext from '../context/AppContext';
+import AppContext, { SpecType } from '../context/AppContext';
 import Main from '../layouts/Main';
 import { routes } from '../routes';
+import { foundEngNameFractionToUrl, IPlayer } from '../ScytheLogic';
+
+function foundPlayer(players: SpecType, searchWord: string): IPlayer {
+    const array: IPlayer[] = Object.values(players);
+    return array.find(item => foundEngNameFractionToUrl(item.fraction) === searchWord) as IPlayer
+}
 
 const Score: FunctionComponent = (props: any) => {
     const { players, fetchPlayers, editPlayer } = React.useContext(AppContext);
-    const player = players[props.match.params.id];
+
+    const fraction = props.match.params.id;
+    const player = foundPlayer(players, fraction)
 
     useEffect(() => {
         fetchPlayers();
@@ -24,8 +32,8 @@ const Score: FunctionComponent = (props: any) => {
 
         const currentIndex = sorted.findIndex(item => item.id === player.id);
 
-        prevPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex - 1] ? Object.values(sorted)[currentIndex - 1].id : null;
-        nextPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex + 1] ? Object.values(sorted)[currentIndex + 1].id : null;
+        prevPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex - 1] ? foundEngNameFractionToUrl(Object.values(sorted)[currentIndex - 1].fraction) : null;
+        nextPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex + 1] ? foundEngNameFractionToUrl(Object.values(sorted)[currentIndex + 1].fraction) : null;
     }
 
     if (!player) return <div>Loading</div>;

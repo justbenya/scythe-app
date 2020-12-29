@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import PlayerCard from '../components/PlayerCard';
 import AppContext from '../context/AppContext';
 import Main from '../layouts/Main';
-import { mats } from '../ScytheLogic';
+import { foundEngNameFractionToUrl, mats } from '../ScytheLogic';
 
 const Start: FunctionComponent = () => {
     const {
@@ -24,7 +24,7 @@ const Start: FunctionComponent = () => {
         for (const mat of mats) {
             const playerFirstTurn = Object.values(players).find(player => player.mat === mat);
             if (playerFirstTurn) {
-                history.push(`/score/${ playerFirstTurn.id }`);
+                history.push(`/score/${ foundEngNameFractionToUrl(playerFirstTurn.fraction) }`);
                 break;
             }
         }
