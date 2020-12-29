@@ -1,5 +1,5 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
-import { nanoid } from 'nanoid';
+import keyBy from 'lodash-es/keyBy';
 import React, { useEffect, useReducer } from 'react';
 import { fractions, mats, TOTAL_PLAYERS } from '../ScytheLogic';
 import AppContext, { SpecType } from './AppContext';
@@ -58,7 +58,7 @@ const AppProvider: React.FC = props => {
         const mat = randomMats[0];
 
         const player = {
-            id: nanoid(),
+            id: keyBy(fractions, 'name')[fraction].nameEng,
             name: 'Player ' + (Object.values(players).length + 1),
             fraction,
             mat,

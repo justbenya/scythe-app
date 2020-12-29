@@ -2,6 +2,7 @@ import { Card, CardActions, CardContent, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import keyBy from 'lodash-es/keyBy';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
@@ -17,7 +18,7 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
     } = props;
 
     const {
-        players: players,
+        players,
         editPlayer,
         deletePlayer,
     } = React.useContext(AppContext);
@@ -139,7 +140,7 @@ const PlayerCard: FunctionComponent<IPlayer | any> = (props) => {
             <CardActions disableSpacing style={ { paddingTop: 0, display: 'flex', justifyContent: 'flex-end' } }>
                 <Button
                     style={ { marginRight: 'auto' } }
-                    component={ Link } to={ `/score/${ id }` }
+                    component={ Link } to={ `/score/${ keyBy(fractions, 'name')[fraction].nameEng }` }
                     color="primary"
                     size="medium"
                 >

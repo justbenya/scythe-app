@@ -3,26 +3,31 @@ export const TOTAL_PLAYERS = 5;
 export const fractions = [
     {
         name: 'Республика Поляния',
+        nameEng: 'polania',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/polania.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/polania.png`,
     },
     {
         name: 'Саксонская империя',
+        nameEng: 'saxony',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/saxony.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/saxony.png`,
     },
     {
         name: 'Крымское ханство',
+        nameEng: 'crimean',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/crimean.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/crimean.png`,
     },
     {
         name: 'Северное королевство',
+        nameEng: 'nordic',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/nordic.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/nordic.png`,
     },
     {
         name: 'Руссветский союз',
+        nameEng: 'rusvet',
         characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/rusvet.jpg`,
         iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/rusvet.png`,
     },
