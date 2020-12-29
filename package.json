@@ -2,6 +2,7 @@
   "name": "scythe-point-calculator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://justbenya.github.io/scythe-app",
   "dependencies": {
     "@hookform/resolvers": "^1.2.0",
     "@material-ui/core": "^4.11.2",
@@ -31,7 +32,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +56,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.4",
-    "@types/react-router-dom": "^5.1.6"
+    "@types/react-router-dom": "^5.1.6",
+    "gh-pages": "^3.1.0"
   }
 }
