@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { FunctionComponent } from 'react';
 import AppHeader from '../components/AppHeader';
-import ToastMessage from '../pages/ToastMessage';
+import ToastMessage from '../components/ToastMessage';
 
 const useStyles = makeStyles({
     fixed: {
