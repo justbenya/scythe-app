@@ -1,5 +1,4 @@
 import Result from './pages/Result';
-import ResultShort from './pages/ResultShort';
 import Score from './pages/Score';
 import Start from './pages/Start';
 
@@ -21,11 +20,5 @@ export const routes = {
         title: 'Итоги по окончанию игры',
         exact: true,
         component: Result,
-    },
-    'winner': {
-        path: '/winner',
-        title: 'Результат',
-        exact: true,
-        component: ResultShort,
-    },
+    }
 };
