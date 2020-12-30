@@ -11,13 +11,18 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { calculatePoints, IPlayer, IPoints } from '../ScytheLogic';
 
+const text = {
+    min:  `Значение не может быть отрицательным`,
+    max:  (max: number) => `Значение не может быть больше ${max}`
+}
+
 const schema = yup.object().shape({
-    gold: yup.number().required().min(0).integer(),
-    popularity: yup.number().required().min(0).max(18).integer(),
-    stars: yup.number().required().min(0).max(6).integer(),
-    territories: yup.number().required().min(0).integer(),
-    resources: yup.number().required().min(0).integer(),
-    buildingBonuses: yup.number().required().min(0).max(9).integer(),
+    gold: yup.number().required().min(0, text.min).integer().typeError('Введите накопленные монеты'),
+    popularity: yup.number().required().min(0, text.min).max(18, text.max(18)).integer().typeError('Введите накопленную популярность'),
+    stars: yup.number().required().min(0, text.min).max(6, text.max(6)).integer().typeError('Введите накопленные звезды'),
+    territories: yup.number().required().min(0, text.min).integer().typeError('Введите кол-во контролируемых территорий'),
+    resources: yup.number().required().min(0, text.min).integer().typeError('Введите кол-во контролируемых ресурсов'),
+    buildingBonuses: yup.number().required().min(0, text.min).max(9, text.max(9)).integer().typeError('Введите кол-во монет за бонус зданий'),
 });
 
 type Props = {
