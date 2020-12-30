@@ -1,24 +1,23 @@
 {
   "files": {
     "main.css": "/scythe-app/static/css/main.1b223ab1.chunk.css",
-    "main.js": "/scythe-app/static/js/main.f768d32b.chunk.js",
-    "main.js.map": "/scythe-app/static/js/main.f768d32b.chunk.js.map",
+    "main.js": "/scythe-app/static/js/main.46e28ef1.chunk.js",
+    "main.js.map": "/scythe-app/static/js/main.46e28ef1.chunk.js.map",
     "runtime-main.js": "/scythe-app/static/js/runtime-main.45d19f8e.js",
     "runtime-main.js.map": "/scythe-app/static/js/runtime-main.45d19f8e.js.map",
     "static/css/2.ccc6f86f.chunk.css": "/scythe-app/static/css/2.ccc6f86f.chunk.css",
-    "static/js/2.6604dff9.chunk.js": "/scythe-app/static/js/2.6604dff9.chunk.js",
-    "static/js/2.6604dff9.chunk.js.map": "/scythe-app/static/js/2.6604dff9.chunk.js.map",
+    "static/js/2.bc27452f.chunk.js": "/scythe-app/static/js/2.bc27452f.chunk.js",
+    "static/js/2.bc27452f.chunk.js.map": "/scythe-app/static/js/2.bc27452f.chunk.js.map",
     "index.html": "/scythe-app/index.html",
     "static/css/2.ccc6f86f.chunk.css.map": "/scythe-app/static/css/2.ccc6f86f.chunk.css.map",
     "static/css/main.1b223ab1.chunk.css.map": "/scythe-app/static/css/main.1b223ab1.chunk.css.map",
-    "static/js/2.6604dff9.chunk.js.LICENSE.txt": "/scythe-app/static/js/2.6604dff9.chunk.js.LICENSE.txt",
-    "static/media/wreath.49b89a82.svg": "/scythe-app/static/media/wreath.49b89a82.svg"
+    "static/js/2.bc27452f.chunk.js.LICENSE.txt": "/scythe-app/static/js/2.bc27452f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.45d19f8e.js",
     "static/css/2.ccc6f86f.chunk.css",
-    "static/js/2.6604dff9.chunk.js",
+    "static/js/2.bc27452f.chunk.js",
     "static/css/main.1b223ab1.chunk.css",
-    "static/js/main.f768d32b.chunk.js"
+    "static/js/main.46e28ef1.chunk.js"
   ]
 }
