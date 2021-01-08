@@ -1,27 +1,30 @@
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PlayerCard from '../components/PlayerCard';
-import AppContext from '../context/AppContext';
+import PlayerCard from '../features/players/PlayerCard';
+import { addPlayer, deletePlayer, editPlayer } from '../features/players/playersSlice';
+import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
 import { foundEngNameFractionToUrl, mats } from '../ScytheLogic';
+import { RootState } from '../store/rootReducer';
 
-const Start: FunctionComponent = () => {
-    const {
-        players,
-        createPlayer,
-        fetchPlayers,
-    } = React.useContext(AppContext);
+type Props = {
+    addPlayer: typeof addPlayer;
+    editPlayer: typeof editPlayer;
+    deletePlayer: typeof deletePlayer;
+    players: PlayersType
+}
+
+const Start: FunctionComponent<Props> = props => {
+    const { addPlayer, editPlayer, deletePlayer, players } = props;
 
     const history = useHistory();
 
-    useEffect(() => {
-        fetchPlayers();
-    }, []);
 
     const handleAddPlayer = () => {
-        createPlayer();
+        addPlayer();
     };
 
     const handleCalculateScore = (): void => {
@@ -62,7 +65,9 @@ const Start: FunctionComponent = () => {
                 <Grid item>
                     <Grid container direction="column" spacing={ 2 }>
                         { Object.values(players).map((player) =>
-                            <Grid key={ player.id } item><PlayerCard { ...player } /></Grid>) }
+                            <Grid key={ player.id } item>
+                                <PlayerCard player={ player } players={players} deletePlayer={deletePlayer} editPlayer={editPlayer} />
+                            </Grid>) }
                     </Grid>
                 </Grid>
             </Grid>
@@ -70,5 +75,10 @@ const Start: FunctionComponent = () => {
     );
 };
 
-export default Start;
+export default connect(
+    (state: RootState) => ({
+        players: state.players,
+    }),
+    { addPlayer, deletePlayer, editPlayer },
+)(Start);
 

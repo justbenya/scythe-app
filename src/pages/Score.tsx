@@ -79,7 +79,7 @@ const Score: FunctionComponent = (props: any) => {
                 <Grid item>
                     <Grid container alignItems={ 'center' } justify={ 'space-between' } spacing={ 2 }>
                         <Grid item>
-                            <Button component={ Link } to={ routes.result.path } type="submit" color="secondary" variant="contained">Результаты</Button>
+                            {/*<Button component={ Link } to={ routes.result.path } type="submit" color="secondary" variant="contained">Результаты</Button>*/}
                         </Grid>
                     </Grid>
                 </Grid>

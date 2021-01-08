@@ -9,16 +9,16 @@ export const routes = {
         exact: true,
         component: Start,
     },
-    'score': {
-        path: '/score/:id',
-        title: 'Подсчет очков',
-        exact: true,
-        component: Score,
-    },
-    'result': {
-        path: '/result',
-        title: 'Итоги по окончанию игры',
-        exact: true,
-        component: Result,
-    }
+    // 'score': {
+    //     path: '/score/:id',
+    //     title: 'Подсчет очков',
+    //     exact: true,
+    //     component: Score,
+    // },
+    // 'result': {
+    //     path: '/result',
+    //     title: 'Итоги по окончанию игры',
+    //     exact: true,
+    //     component: Result,
+    // }
 };
