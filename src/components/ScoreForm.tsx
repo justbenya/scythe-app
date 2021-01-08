@@ -9,7 +9,8 @@ import TerrainIcon from '@material-ui/icons/Terrain';
 import React, { FunctionComponent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { calculatePoints, IPlayer, IPoints } from '../ScytheLogic';
+import { IPlayer, IPoints } from '../features/players/types';
+import { calculatePoints} from '../ScytheLogic';
 
 const text = {
     min:  `Значение не может быть отрицательным`,

@@ -1,4 +1,5 @@
 import keyBy from 'lodash-es/keyBy';
+import { IPlayer, IPoints, PlayersType } from './features/players/types';
 
 export const TOTAL_PLAYERS = 5;
 
@@ -66,25 +67,12 @@ export const calculatePoints = (points: IPoints): number => {
     return result;
 };
 
+export function foundPlayer(players: PlayersType, searchWord: string): IPlayer {
+    const array: IPlayer[] = Object.values(players);
+    return array.find(item => foundEngNameFractionToUrl(item.fraction) === searchWord) as IPlayer
+}
+
 export const foundEngNameFractionToUrl = (fraction: string): string => {
     const dictionaryByFractionNames = keyBy(fractions, 'name');
     return dictionaryByFractionNames[fraction].slug;
 };
-
-export interface IPlayer extends IPoints {
-    id: string;
-    name: string;
-    fraction: string;
-    mat: string;
-    points: number;
-    gameEndPosition?: number;
-}
-
-export interface IPoints {
-    gold: number;
-    popularity: number;
-    stars: number;
-    territories: number;
-    resources: number;
-    buildingBonuses: number;
-}

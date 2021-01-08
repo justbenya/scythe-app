@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import omit from 'lodash-es/omit';
 import { nanoid } from 'nanoid';
 import { shuffle } from '../../common/utils';
-import { fractions, IPlayer, mats, TOTAL_PLAYERS } from '../../ScytheLogic';
-import { PlayersType } from './types';
+import { fractions, mats, TOTAL_PLAYERS } from '../../ScytheLogic';
+import { IPlayer, PlayersType } from './types';
 
 const initialState: PlayersType = {};
 

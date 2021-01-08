@@ -6,8 +6,8 @@ import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import FractionCharacterImage from '../../components/FractionCharacterImage';
 import FractionIcon from '../../components/FractionIcon';
-import { foundEngNameFractionToUrl, fractions, IPlayer, mats } from '../../ScytheLogic';
-import { PlayersType } from './types';
+import { foundEngNameFractionToUrl, fractions, mats } from '../../ScytheLogic';
+import { IPlayer, PlayersType } from './types';
 import { editPlayer, deletePlayer } from './playersSlice';
 
 type Props = {

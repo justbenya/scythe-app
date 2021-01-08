@@ -1,10 +1,13 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import mapKeys from 'lodash-es/mapKeys';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import AppContext from '../context/AppContext';
+import { addPlayer, deletePlayers, editPlayer } from '../features/players/playersSlice';
+import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
+import { RootState } from '../store/rootReducer';
 
 const useStyles = makeStyles({
     table: {
@@ -12,25 +15,34 @@ const useStyles = makeStyles({
     },
 });
 
-const Result: FunctionComponent = () => {
+type Props = {
+    players: PlayersType;
+    editPlayer: typeof editPlayer;
+    deletePlayers: typeof deletePlayers;
+}
+
+const Result: FunctionComponent<Props> = (props) => {
     const history = useHistory();
     const classes = useStyles();
 
-    let {
+    const {
         players,
-        fetchPlayers,
-        clearData,
+        deletePlayers,
         editPlayer,
-    } = React.useContext(AppContext);
-
-    useEffect(() => {
-        fetchPlayers();
-    }, []);
+    } = props;
 
     const sortedPlayers = [...Object.values(players)].sort((a, b) => b.points - a.points);
-    const result = sortedPlayers.map((player, index) => ({ ...player, gameEndPosition: index + 1 }));
+    const playersByWinningPosition = sortedPlayers.map((player, index) => ({ ...player, gameEndPosition: index + 1 }));
+    const converted = { ...mapKeys(playersByWinningPosition, 'id') };
 
-    players = { ...mapKeys(result, 'id') };
+    const handleNewGame = () => {
+        // TODO добавить сохранение места
+        const sortedPlayers = [...Object.values(players)].sort((a, b) => b.points - a.points);
+        sortedPlayers.forEach((player, index) => editPlayer({ ...player, gameEndPosition: index + 1 }));
+
+        deletePlayers();
+        setTimeout(() => {history.push('/');}, 100);
+    };
 
     return (
         <Main title={ 'Итоги по окончанию игры' }>
@@ -50,7 +62,7 @@ const Result: FunctionComponent = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        { Object.values(players).map((player) => (
+                        { Object.values(converted).map((player) => (
                             <TableRow key={ player.name }>
                                 <TableCell align="center">{ player.gameEndPosition }</TableCell>
                                 <TableCell component="th" scope="player">
@@ -75,14 +87,7 @@ const Result: FunctionComponent = () => {
             <br />
             <Button
                 variant="contained" color="secondary"
-                onClick={ () => {
-                    // TODO добавить сохранение места
-                    const sortedPlayers = [...Object.values(players)].sort((a, b) => b.points - a.points);
-                    sortedPlayers.forEach((player, index) => editPlayer({ ...player, gameEndPosition: index + 1 }));
-
-                    clearData();
-                    setTimeout(() => {history.push('/');}, 100);
-                } }
+                onClick={ handleNewGame }
             >
                 Новая игра
             </Button>
@@ -90,4 +95,9 @@ const Result: FunctionComponent = () => {
     );
 };
 
-export default Result;
+export default connect(
+    (state: RootState) => ({
+        players: state.players,
+    }),
+    { deletePlayers, editPlayer },
+)(Result);

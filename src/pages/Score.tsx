@@ -1,28 +1,29 @@
 import { Button, Grid, IconButton, Typography } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ScoreForm from '../components/ScoreForm';
-import AppContext, { SpecType } from '../context/AppContext';
+import { addPlayer, editPlayer } from '../features/players/playersSlice';
+import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
 import { routes } from '../routes';
-import { foundEngNameFractionToUrl, IPlayer } from '../ScytheLogic';
+import { foundEngNameFractionToUrl, foundPlayer } from '../ScytheLogic';
+import { RootState } from '../store/rootReducer';
 
-function foundPlayer(players: SpecType, searchWord: string): IPlayer {
-    const array: IPlayer[] = Object.values(players);
-    return array.find(item => foundEngNameFractionToUrl(item.fraction) === searchWord) as IPlayer
+type Props = {
+    players: PlayersType;
+    match: any;
+    addPlayer: typeof addPlayer;
+    editPlayer: typeof editPlayer;
 }
 
-const Score: FunctionComponent = (props: any) => {
-    const { players, fetchPlayers, editPlayer } = React.useContext(AppContext);
+const Score: FunctionComponent<Props> = (props) => {
+    const { players, editPlayer } = props;
 
     const fraction = props.match.params.id;
-    const player = foundPlayer(players, fraction)
-
-    useEffect(() => {
-        fetchPlayers();
-    }, []);
+    const player = foundPlayer(players, fraction);
 
     let prevPlayer = null;
     let nextPlayer = null;
@@ -79,7 +80,7 @@ const Score: FunctionComponent = (props: any) => {
                 <Grid item>
                     <Grid container alignItems={ 'center' } justify={ 'space-between' } spacing={ 2 }>
                         <Grid item>
-                            {/*<Button component={ Link } to={ routes.result.path } type="submit" color="secondary" variant="contained">Результаты</Button>*/}
+                            <Button component={ Link } to={ routes.result.path } type="submit" color="secondary" variant="contained">Результаты</Button>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -88,4 +89,9 @@ const Score: FunctionComponent = (props: any) => {
     );
 };
 
-export default Score;
+export default connect(
+    (state: RootState) => ({
+        players: state.players,
+    }),
+    { addPlayer, editPlayer },
+)(Score);

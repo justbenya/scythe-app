@@ -6,7 +6,7 @@ import { routes } from './routes';
 const App: FC = () => (
     <HashRouter basename="/">
         <Switch>
-            { Object.values(routes).map(route => <Route key={ route.path } { ...route } />) }
+            { Object.values(routes).map((route: any) => <Route key={ route.path } { ...route } />) }
             <Route component={ NotFound } />
         </Switch>
     </HashRouter>
