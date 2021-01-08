@@ -1,4 +1,4 @@
-import { calculatePoints } from '../ScytheLogic';
+import { calculatePoints } from '../common/scytheLogic';
 
 describe('basic calculating points', () => {
     test('first', () => {

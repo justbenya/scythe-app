@@ -10,7 +10,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { IPlayer, IPoints } from '../features/players/types';
-import { calculatePoints} from '../ScytheLogic';
+import { calculatePoints} from '../common/scytheLogic';
 
 const text = {
     min:  `Значение не может быть отрицательным`,

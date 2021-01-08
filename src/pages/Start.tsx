@@ -7,7 +7,7 @@ import PlayerCard from '../features/players/PlayerCard';
 import { addPlayer, deletePlayer, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
-import { foundEngNameFractionToUrl, mats } from '../ScytheLogic';
+import { foundEngNameFractionToUrl, mats } from '../common/scytheLogic';
 import { RootState } from '../store/rootReducer';
 
 type Props = {

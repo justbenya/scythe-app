@@ -1,5 +1,5 @@
 import keyBy from 'lodash-es/keyBy';
-import { IPlayer, IPoints, PlayersType } from './features/players/types';
+import { IPlayer, IPoints, PlayersType } from '../features/players/types';
 
 export const TOTAL_PLAYERS = 5;
 

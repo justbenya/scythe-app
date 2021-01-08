@@ -9,7 +9,7 @@ import { addPlayer, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
 import { routes } from '../routes';
-import { foundEngNameFractionToUrl, foundPlayer } from '../ScytheLogic';
+import { foundEngNameFractionToUrl, foundPlayer } from '../common/scytheLogic';
 import { RootState } from '../store/rootReducer';
 
 type Props = {

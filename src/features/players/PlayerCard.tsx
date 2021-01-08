@@ -6,7 +6,7 @@ import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import FractionCharacterImage from '../../components/FractionCharacterImage';
 import FractionIcon from '../../components/FractionIcon';
-import { foundEngNameFractionToUrl, fractions, mats } from '../../ScytheLogic';
+import { foundEngNameFractionToUrl, fractions, mats } from '../../common/scytheLogic';
 import { IPlayer, PlayersType } from './types';
 import { editPlayer, deletePlayer } from './playersSlice';
 
