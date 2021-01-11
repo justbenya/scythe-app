@@ -81,7 +81,7 @@ const Home: FunctionComponent<Props> = (props) => {
 
                     <Grid item>
                         <Button
-                            variant="contained" color="primary" fullWidth
+                            variant="contained" disabled={ !player } color="primary" fullWidth
                             onClick={ handleNewGame }
                         >
                             Новая игра
