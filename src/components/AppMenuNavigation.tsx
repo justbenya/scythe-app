@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { getLastAddedFraction } from '../common/scytheLogic';
 import { IPlayer } from '../features/players/types';
+import { routes } from '../routes';
 import { RootState } from '../store/rootReducer';
 
 const AppMenuNavigation: FunctionComponent = () => {
@@ -15,7 +16,7 @@ const AppMenuNavigation: FunctionComponent = () => {
             <BottomNavigationAction
                 component={ Link }
                 label="Игроки"
-                value={ `/fraction/${ getLastAddedFraction(players) }` }
+                value={ history.location.pathname.includes(routes.index.path) ? history.location.pathname : null }
                 to={ `/fraction/${ getLastAddedFraction(players) }` }
             />
 
