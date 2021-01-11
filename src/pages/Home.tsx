@@ -7,12 +7,12 @@ import { foundEngNameFractionToUrl, moveToLastAddedPlayer } from '../common/scyt
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
 import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
-import { PlayersType } from '../features/players/types';
+import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
 import { RootState } from '../store/rootReducer';
 
 type Props = {
-    players: PlayersType;
+    players: IPlayer[];
     addPlayer: any;
     deleteAllPlayers: any;
 }
@@ -20,37 +20,31 @@ type Props = {
 const Home: FunctionComponent<Props> = (props) => {
     const { players, deleteAllPlayers, addPlayer } = props;
 
-    // Проверка если игроки или нужно показать начальную страницу
+    // Проверка есть ли игроки или нужно показать начальную страницу
     const { id = '' } = useParams<any>();
     let player = null;
 
     if (id) {
-        player = Object.values(players).find(i => foundEngNameFractionToUrl(i.fraction) === id);
+        player = players.find(i => foundEngNameFractionToUrl(i.fraction) === id);
     }
 
     useEffect(() => {
         if (!id && players.length) {
-            moveToLastAddedPlayer(Object.values(players));
+            moveToLastAddedPlayer(players);
         }
     }, []);
-
-    // const handleCalculateScore = (): void => {
-    //     for (const mat of mats) {
-    //         const playerFirstTurn = players.find(player => player.mat === mat);
-    //         if (playerFirstTurn) {
-    //             history.push(`/score/${ foundEngNameFractionToUrl(playerFirstTurn.fraction) }`);
-    //             break;
-    //         }
-    //     }
-    // };
 
     const handleNewGame = () => {
         deleteAllPlayers();
     };
 
+    if (!id && players.length) {
+        return null;
+    }
+
     return (
         <>
-            <AppMenuFactions players={ Object.values(players) } />
+            <AppMenuFactions players={ players } />
 
             <Main>
                 <Grid container direction="column" spacing={ 2 } justify={ 'center' }>
@@ -88,9 +82,7 @@ const Home: FunctionComponent<Props> = (props) => {
                         </Button>
                     </Grid>
 
-                    <br />
-                    <br />
-                    <br />
+                    <Grid item> <br /> </Grid>
 
                 </Grid>
             </Main>
@@ -100,7 +92,7 @@ const Home: FunctionComponent<Props> = (props) => {
 
 export default connect(
     (state: RootState) => ({
-        players: state.players,
+        players: Object.values(state.players),
     }),
     { addPlayer, editPlayer, deleteAllPlayers },
 )(Home);

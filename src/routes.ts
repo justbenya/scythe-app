@@ -6,12 +6,6 @@ import StartGame from './pages/Home';
 import Topics from './Topics';
 
 export const routes = {
-    // 'index': {
-    //     path: '/',
-    //     title: '',
-    //     exact: false,
-    //     component: Home,
-    // },
     'index': {
         path: '/fraction/',
         title: 'Фракции',
