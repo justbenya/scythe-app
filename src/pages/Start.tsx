@@ -1,27 +1,43 @@
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PlayerCard from '../features/players/PlayerCard';
+import PlayerList from '../features/players/PlayerList';
 import { addPlayer, deletePlayer, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
-import { foundEngNameFractionToUrl, mats } from '../common/scytheLogic';
+import { foundEngNameFractionToUrl, foundPlayer, mats } from '../common/scytheLogic';
+import { routes } from '../routes';
 import { RootState } from '../store/rootReducer';
 
 type Props = {
-    addPlayer: typeof addPlayer;
+    players: PlayersType;
+    addPlayer: any;
     editPlayer: typeof editPlayer;
     deletePlayer: typeof deletePlayer;
-    players: PlayersType
+    match: any;
 }
 
 const Start: FunctionComponent<Props> = props => {
-    const { addPlayer, editPlayer, deletePlayer, players } = props;
+    const { players, addPlayer, editPlayer, deletePlayer } = props;
 
     const history = useHistory();
 
+    // useEffect(() => {
+    //     addPlayer()
+    // }, [])
+
+    // if (!Object.values(players).length) return null;
+
+    const fraction = props.match.params.id;
+
+    if (!fraction) {
+        // history.push(routes.index.path)
+    }
+
+    const player = foundPlayer(players, fraction);
 
     const handleAddPlayer = () => {
         addPlayer();
@@ -40,6 +56,9 @@ const Start: FunctionComponent<Props> = props => {
     return (
         <Main>
             <Grid container direction="column" spacing={ 4 }>
+                <br/>
+                <br/>
+                <br/>
                 <Grid item>
                     <Grid container direction="column" spacing={ 1 }>
                         <Grid item>
@@ -63,12 +82,14 @@ const Start: FunctionComponent<Props> = props => {
                 </Grid>
 
                 <Grid item>
-                    <Grid container direction="column" spacing={ 2 }>
-                        { Object.values(players).map((player) =>
-                            <Grid key={ player.id } item>
-                                <PlayerCard player={ player } players={players} deletePlayer={deletePlayer} editPlayer={editPlayer} />
-                            </Grid>) }
-                    </Grid>
+                    {/*<PlayerCard player={ player } players={players} deletePlayer={deletePlayer} editPlayer={editPlayer} />*/}
+
+                    {/*<Grid container direction="column" spacing={ 2 }>*/}
+                    {/*    { Object.values(players).map((player) =>*/}
+                    {/*        <Grid key={ player.id } item>*/}
+                    {/*            <PlayerCard player={ player } players={players} deletePlayer={deletePlayer} editPlayer={editPlayer} />*/}
+                    {/*        </Grid>) }*/}
+                    {/*</Grid>*/}
                 </Grid>
             </Grid>
         </Main>

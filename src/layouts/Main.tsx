@@ -3,6 +3,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { FunctionComponent } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppMenuNavigation from '../components/AppMenuNavigation';
+import AppMenuFractions from '../components/AppMenuFractions';
 import ToastMessage from '../components/ToastMessage';
 
 const useStyles = makeStyles({
@@ -31,7 +33,9 @@ const Main: FunctionComponent<Props> = (props) => {
         <>
             <CssBaseline />
 
-            <AppHeader title={ title } />
+            {/*<AppHeader title={ title } />*/}
+
+            {/*<AppMenuFractions/>*/}
 
             <ToastMessage />
 
@@ -40,6 +44,8 @@ const Main: FunctionComponent<Props> = (props) => {
                     { props.children }
                 </main>
             </Container>
+
+            <AppMenuNavigation/>
         </>
     );
 };

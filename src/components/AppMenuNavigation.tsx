@@ -1,28 +1,31 @@
-import { AppBar, Container, Tab, Tabs, Toolbar } from '@material-ui/core';
+import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import React, { FunctionComponent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { routes } from '../routes';
 
 const AppMenuNavigation: FunctionComponent = () => {
     const history = useHistory();
+    const [value, setValue] = React.useState(history.location.pathname);
+
+    const handleChange = (newValue: any) => {
+        setValue(newValue)
+    }
+
     return (
-        <AppBar className="menu-footer" position="fixed" color="primary">
-            <Toolbar>
-                <Container fixed>
-                    <Tabs value={ history.location.pathname }>
-                        { Object.values(routes).map(route => (
-                            <Tab
-                                key={ route.path }
-                                component={ Link }
-                                label={ route.title }
-                                value={ route.path }
-                                to={ route.path }
-                            />
-                        )) }
-                    </Tabs>
-                </Container>
-            </Toolbar>
-        </AppBar>
+        <BottomNavigation
+            className="menu-footer" value={ value } showLabels
+            onChange={ handleChange }
+        >
+            { Object.values(routes).map(route => (
+                <BottomNavigationAction
+                    key={ route.path }
+                    component={ Link }
+                    label={ route.title }
+                    value={ route.path + value }
+                    to={ route.path }
+                />
+            )) }
+        </BottomNavigation>
     );
 };
 

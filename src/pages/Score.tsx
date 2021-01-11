@@ -15,7 +15,7 @@ import { RootState } from '../store/rootReducer';
 type Props = {
     players: PlayersType;
     match: any;
-    addPlayer: typeof addPlayer;
+    addPlayer: any;
     editPlayer: typeof editPlayer;
 }
 

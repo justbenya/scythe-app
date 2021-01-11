@@ -34,5 +34,15 @@ code {
     }
 }
 
+.menu-top {
+
+}
+
+.menu-footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #d6d6d6;
+}
 
 /*Стили для страницы с победителями*/

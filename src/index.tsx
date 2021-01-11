@@ -1,3 +1,4 @@
+import { StylesProvider } from '@material-ui/core/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -9,7 +10,9 @@ import store, { persistor } from './store';
 ReactDOM.render(
     <Provider store={ store }>
         <PersistGate loading={ null } persistor={ persistor }>
-            <App />
+            <StylesProvider injectFirst>
+                <App />
+            </StylesProvider>
         </PersistGate>
     </Provider>,
     document.getElementById('root'),
