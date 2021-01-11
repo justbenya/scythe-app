@@ -14,6 +14,10 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
 
     const history = useHistory();
 
+    const getIcon = (player: IPlayer) => <FactionIcon name={ player.fraction } iconPath={ getIconPath(player) } />
+    const getIconPath = (player: IPlayer) => fractions.find(i => i.name === player.fraction)?.iconPath;
+    const getLabel = (player: IPlayer) => fractions.find(i => i.name === player.fraction)?.shortName;
+
     return (
         <AppBar position="relative" color="primary">
             <Toolbar>
@@ -26,19 +30,15 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
                     { players.map((player: IPlayer) => (
                         <Tab
                             className="faction-tab"
-                            icon={ <FactionIcon
-                                name={ player.fraction }
-                                iconPath={ fractions.find(i => i.name === player.fraction)?.iconPath }
-                            /> }
+                            icon={ getIcon(player) }
+                            label={ getLabel(player) }
                             key={ player.fraction }
-                            label={ fractions.find(i => i.name === player.fraction)?.shortName }
                             component={ Link }
                             value={ `/fraction/${ foundEngNameFractionToUrl(player.fraction) }` }
                             to={ `/fraction/${ foundEngNameFractionToUrl(player.fraction) }` }
                         />
                     )) }
                 </Tabs>
-
             </Toolbar>
         </AppBar>
     );
