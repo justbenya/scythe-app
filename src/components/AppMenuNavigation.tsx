@@ -14,7 +14,7 @@ const AppMenuNavigation: FunctionComponent = () => {
         <BottomNavigation className="menu-footer" value={ history.location.pathname } showLabels>
             <BottomNavigationAction
                 component={ Link }
-                label="Фракции"
+                label="Игроки"
                 value={ `/fraction/${ getLastAddedFraction(players) }` }
                 to={ `/fraction/${ getLastAddedFraction(players) }` }
             />
