@@ -5,41 +5,41 @@ import { routes } from '../routes';
 
 export const TOTAL_PLAYERS = 5;
 
-export const fractions = [
+export const factions = [
     {
         name: 'Республика Поляния',
         shortName: 'Поляния',
         slug: 'polania',
-        characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/polania.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/polania.png`,
+        characterPath: `${ process.env.PUBLIC_URL }/assets/factions/polania.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/polania.png`,
     },
     {
         name: 'Саксонская империя',
         shortName: 'Саксония',
         slug: 'saxony',
-        characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/saxony.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/saxony.png`,
+        characterPath: `${ process.env.PUBLIC_URL }/assets/factions/saxony.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/saxony.png`,
     },
     {
         name: 'Крымское ханство',
         shortName: 'Крым',
         slug: 'crimean',
-        characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/crimean.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/crimean.png`,
+        characterPath: `${ process.env.PUBLIC_URL }/assets/factions/crimean.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/crimean.png`,
     },
     {
         name: 'Северное королевство',
         shortName: 'Север',
         slug: 'nordic',
-        characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/nordic.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/nordic.png`,
+        characterPath: `${ process.env.PUBLIC_URL }/assets/factions/nordic.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/nordic.png`,
     },
     {
         name: 'Руссветский союз',
         shortName: 'Руссвет',
         slug: 'rusvet',
-        characterPath: `${ process.env.PUBLIC_URL }/assets/fractions/rusvet.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/fractions/rusvet.png`,
+        characterPath: `${ process.env.PUBLIC_URL }/assets/factions/rusvet.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/rusvet.png`,
     },
 ];
 
@@ -76,22 +76,22 @@ export function calculatePoints(points: IPoints): number {
 
 export function foundPlayer(players: PlayersType, searchWord: string): IPlayer {
     const array: IPlayer[] = Object.values(players);
-    return array.find(item => foundEngNameFractionToUrl(item.fraction) === searchWord) as IPlayer;
+    return array.find(item => foundEngNameFactionToUrl(item.faction) === searchWord) as IPlayer;
 }
 
-export function foundEngNameFractionToUrl(fraction: string): string {
-    const dictionaryByFractionNames = keyBy(fractions, 'name');
-    return dictionaryByFractionNames[fraction].slug ? dictionaryByFractionNames[fraction].slug : '';
+export function foundEngNameFactionToUrl(faction: string): string {
+    const dictionaryByFactionNames = keyBy(factions, 'name');
+    return dictionaryByFactionNames[faction].slug ? dictionaryByFactionNames[faction].slug : '';
 }
 
-export function getLastAddedFraction(players: IPlayer[]): string {
+export function getLastAddedFaction(players: IPlayer[]): string {
     if (players.length <= 0) return '';
     const lastAddedPlayer = players[players.length - 1];
-    return foundEngNameFractionToUrl(lastAddedPlayer.fraction);
+    return foundEngNameFactionToUrl(lastAddedPlayer.faction);
 }
 
 export function moveToLastAddedPlayer(players: IPlayer[]) {
     const lastAddedPlayer = players[players.length - 1];
     const homePage = routes['index'].path;
-    history.push(`${ homePage }${ foundEngNameFractionToUrl(lastAddedPlayer.fraction) }`);
+    history.push(`${ homePage }${ foundEngNameFactionToUrl(lastAddedPlayer.faction) }`);
 }

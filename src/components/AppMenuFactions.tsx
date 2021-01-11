@@ -1,8 +1,9 @@
 import { AppBar, Tab, Tabs, Toolbar } from '@material-ui/core';
 import React, { FunctionComponent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { foundEngNameFractionToUrl, fractions } from '../common/scytheLogic';
+import { factions, foundEngNameFactionToUrl } from '../common/scytheLogic';
 import { IPlayer } from '../features/players/types';
+import { routes } from '../routes';
 import FactionIcon from './FactionIcon';
 
 type Props = {
@@ -14,9 +15,9 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
 
     const history = useHistory();
 
-    const getIcon = (player: IPlayer) => <FactionIcon name={ player.fraction } iconPath={ getIconPath(player) } />
-    const getIconPath = (player: IPlayer) => fractions.find(i => i.name === player.fraction)?.iconPath;
-    const getLabel = (player: IPlayer) => fractions.find(i => i.name === player.fraction)?.shortName;
+    const getIcon = (player: IPlayer) => <FactionIcon name={ player.faction } iconPath={ getIconPath(player) } />;
+    const getIconPath = (player: IPlayer) => factions.find(i => i.name === player.faction)?.iconPath;
+    const getLabel = (player: IPlayer) => factions.find(i => i.name === player.faction)?.shortName;
 
     return (
         <AppBar position="relative" color="primary">
@@ -32,10 +33,10 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
                             className="faction-tab"
                             icon={ getIcon(player) }
                             label={ getLabel(player) }
-                            key={ player.fraction }
+                            key={ player.faction }
                             component={ Link }
-                            value={ `/fraction/${ foundEngNameFractionToUrl(player.fraction) }` }
-                            to={ `/fraction/${ foundEngNameFractionToUrl(player.fraction) }` }
+                            value={ `${ routes['index'].path }${ foundEngNameFactionToUrl(player.faction) }` }
+                            to={ `${ routes['index'].path }${ foundEngNameFactionToUrl(player.faction) }` }
                         />
                     )) }
                 </Tabs>

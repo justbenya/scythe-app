@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import omit from 'lodash-es/omit';
 import { nanoid } from 'nanoid';
 import {
-    foundEngNameFractionToUrl,
-    fractions,
+    foundEngNameFactionToUrl,
+    factions,
     mats,
     moveToLastAddedPlayer,
     TOTAL_PLAYERS,
@@ -27,21 +27,21 @@ const playersSlice = createSlice({
                 }
 
                 // 1. Получить уже используемые фракции и планшеты
-                const usedFraction = Object.values(state).map(i => i.fraction);
+                const usedFaction = Object.values(state).map(i => i.faction);
                 const usedMats = Object.values(state).map(i => i.mat);
 
                 // 2. Рандомно выберем фракции и планшеты, уберем уже используемые
-                const randomFractions = shuffle(fractions.map(i => i.name)).filter(i => !usedFraction.includes(i));
+                const randomFactions = shuffle(factions.map(i => i.name)).filter(i => !usedFaction.includes(i));
                 const randomMats = shuffle(mats).filter(i => !usedMats.includes(i));
 
                 // 3. Готово!
-                const fraction = randomFractions[0];
+                const faction = randomFactions[0];
                 const mat = randomMats[0];
 
                 const player = {
                     id: action.payload.id,
                     name: 'Player ' + (Object.values(state).length + 1),
-                    fraction,
+                    faction,
                     mat,
                     gold: 0,
                     popularity: 0,
@@ -90,10 +90,10 @@ export const addPlayer = (): AppThunk => {
     };
 };
 
-export const changeFractionPlayer = (player: IPlayer): AppThunk => {
+export const changeFactionPlayer = (player: IPlayer): AppThunk => {
     return (dispatch) => {
         dispatch(editPlayer(player));
-        history.push(`${ routes.index.path }${ foundEngNameFractionToUrl(player.fraction) }`);
+        history.push(`${ routes.index.path }${ foundEngNameFactionToUrl(player.faction) }`);
     };
 };
 

@@ -35,8 +35,6 @@ const Main: FunctionComponent<Props> = (props) => {
 
             {/*<AppHeader title={ title } />*/}
 
-            {/*<AppMenuFractions/>*/}
-
             {/*TODO убрать, удалить из проекта*/}
             <ToastMessage />
 

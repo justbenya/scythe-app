@@ -9,7 +9,7 @@ import { addPlayer, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
 import { routes } from '../routes';
-import { foundEngNameFractionToUrl, foundPlayer } from '../common/scytheLogic';
+import { foundEngNameFactionToUrl, foundPlayer } from '../common/scytheLogic';
 import { RootState } from '../store/rootReducer';
 
 type Props = {
@@ -22,8 +22,8 @@ type Props = {
 const Score: FunctionComponent<Props> = (props) => {
     const { players, editPlayer } = props;
 
-    const fraction = props.match.params.id;
-    const player = foundPlayer(players, fraction);
+    const faction = props.match.params.id;
+    const player = foundPlayer(players, faction);
 
     let prevPlayer = null;
     let nextPlayer = null;
@@ -33,8 +33,8 @@ const Score: FunctionComponent<Props> = (props) => {
 
         const currentIndex = sorted.findIndex(item => item.id === player.id);
 
-        prevPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex - 1] ? foundEngNameFractionToUrl(Object.values(sorted)[currentIndex - 1].fraction) : null;
-        nextPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex + 1] ? foundEngNameFractionToUrl(Object.values(sorted)[currentIndex + 1].fraction) : null;
+        prevPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex - 1] ? foundEngNameFactionToUrl(Object.values(sorted)[currentIndex - 1].faction) : null;
+        nextPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex + 1] ? foundEngNameFactionToUrl(Object.values(sorted)[currentIndex + 1].faction) : null;
     }
 
     if (!player) return <div>Loading</div>;

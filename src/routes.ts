@@ -7,13 +7,13 @@ import Topics from './Topics';
 
 export const routes = {
     'index': {
-        path: '/fraction/',
+        path: '/faction/',
         title: 'Фракции',
         exact: true,
         component: Home,
     },
-    'fraction': {
-        path: '/fraction/:id',
+    'faction': {
+        path: '/faction/:id',
         title: 'Фракции',
         exact: false,
         component: Home,

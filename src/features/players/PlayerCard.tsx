@@ -4,11 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { foundEngNameFractionToUrl, fractions, mats } from '../../common/scytheLogic';
+import { foundEngNameFactionToUrl, factions, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
 import { RootState } from '../../store/rootReducer';
-import { changeFractionPlayer, editPlayer } from './playersSlice';
+import { changeFactionPlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
 
 const PlayerCard: FunctionComponent = () => {
@@ -16,7 +16,7 @@ const PlayerCard: FunctionComponent = () => {
 
     const players = useSelector<RootState, PlayersType>((state => state.players));
     const player = useSelector<RootState, IPlayer | undefined>((state => (
-        Object.values(state.players).find(i => foundEngNameFractionToUrl(i.fraction) === id))));
+        Object.values(state.players).find(i => foundEngNameFactionToUrl(i.faction) === id))));
     const dispatch = useDispatch();
 
     if (!player) return null;
@@ -26,19 +26,19 @@ const PlayerCard: FunctionComponent = () => {
         dispatch(editPlayer(changesPlayers));
     };
 
-    const handleChangeFraction = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
-        const newFraction = event.target.value;
-        const prevFraction = players[id].fraction;
-        const isNewFractionSelect = Object.values(players).find(player => player.fraction === newFraction);
+    const handleChangeFaction = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
+        const newFaction = event.target.value;
+        const prevFaction = players[id].faction;
+        const isNewFactionSelect = Object.values(players).find(player => player.faction === newFaction);
 
         // Если мы выбрали уже задействованную фракцию, поменяем значения местами
-        if (isNewFractionSelect) {
-            const changesPlayers = { ...players[isNewFractionSelect.id], fraction: prevFraction };
+        if (isNewFactionSelect) {
+            const changesPlayers = { ...players[isNewFactionSelect.id], faction: prevFaction };
             dispatch(editPlayer(changesPlayers));
         }
 
-        const changesPlayers = { ...players[id], fraction: newFraction };
-        dispatch(changeFractionPlayer(changesPlayers));
+        const changesPlayers = { ...players[id], faction: newFaction };
+        dispatch(changeFactionPlayer(changesPlayers));
     };
 
     const handleChangeMat = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
@@ -66,7 +66,7 @@ const PlayerCard: FunctionComponent = () => {
 
     return (
         <Card>
-            <FactionCharacterImage { ...fractions.find(i => i.name === player.fraction) } />
+            <FactionCharacterImage { ...factions.find(i => i.name === player.faction) } />
             <CardContent>
                 <form onSubmit={ onSubmit }>
                     <Grid container spacing={ 2 } direction={ 'column' }>
@@ -89,7 +89,7 @@ const PlayerCard: FunctionComponent = () => {
                                         select
                                         SelectProps={ {
                                             renderValue: (value: any) => {
-                                                const fraction = fractions.find(i => i.name === value);
+                                                const faction = factions.find(i => i.name === value);
                                                 return (
                                                     <div
                                                         style={ {
@@ -97,17 +97,17 @@ const PlayerCard: FunctionComponent = () => {
                                                             alignItems: 'center',
                                                         } }
                                                     >
-                                                        { fraction && <FactionIcon { ...fraction } /> }
+                                                        { faction && <FactionIcon { ...faction } /> }
                                                     </div>);
                                             },
                                         } }
                                         label="Фракция"
-                                        value={ player.fraction }
-                                        onChange={ (event) => handleChangeFraction(event, player.id) }
+                                        value={ player.faction }
+                                        onChange={ (event) => handleChangeFaction(event, player.id) }
                                         variant="outlined"
                                         size="small"
                                     >
-                                        { fractions.map((value) => (
+                                        { factions.map((value) => (
                                             <MenuItem key={ value.name } value={ value.name }>
                                                 <FactionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
                                             </MenuItem>

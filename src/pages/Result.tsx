@@ -68,7 +68,7 @@ const Result: FunctionComponent<Props> = (props) => {
                                 <TableCell component="th" scope="player">
                                     { player.name }
                                     <br />
-                                    { player.fraction }
+                                    { player.faction }
                                     <br />
                                     { player.mat }
                                 </TableCell>

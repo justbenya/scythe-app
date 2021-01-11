@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { foundEngNameFractionToUrl, moveToLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
+import { foundEngNameFactionToUrl, moveToLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
 import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
@@ -25,7 +25,7 @@ const Home: FunctionComponent<Props> = (props) => {
     let player = null;
 
     if (id) {
-        player = players.find(i => foundEngNameFractionToUrl(i.fraction) === id);
+        player = players.find(i => foundEngNameFactionToUrl(i.faction) === id);
     }
 
     useEffect(() => {

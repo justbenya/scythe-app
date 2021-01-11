@@ -64,7 +64,7 @@ const PlayerList: FunctionComponent<Props> = (props) => {
     //     <>
     //         { players && Object.values(players).map((player, index) => (
     //             <TabPanel value={ index } index={ index }>
-    //                 {player.fraction }
+    //                 {player.faction }
     //             </TabPanel>
     //         )) }
     //     </>

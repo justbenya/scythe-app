@@ -1,7 +1,7 @@
 export interface IPlayer extends IPoints {
     id: string;
     name: string;
-    fraction: string;
+    faction: string;
     mat: string;
     points: number;
     gameEndPosition?: number;
