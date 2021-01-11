@@ -1,30 +1,29 @@
-import { Card, CardActions, CardContent, MenuItem } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { Card, CardContent, MenuItem } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { foundEngNameFractionToUrl, fractions, mats } from '../../common/scytheLogic';
 import FractionCharacterImage from '../../components/FractionCharacterImage';
 import FractionIcon from '../../components/FractionIcon';
-import { foundEngNameFractionToUrl, fractions, mats } from '../../common/scytheLogic';
+import { RootState } from '../../store/rootReducer';
+import { changeFractionPlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
-import { editPlayer, deletePlayer } from './playersSlice';
 
-type Props = {
-    player: IPlayer;
-    players: PlayersType;
-    editPlayer: typeof editPlayer;
-    deletePlayer: typeof deletePlayer;
-}
+const PlayerCard: FunctionComponent = () => {
+    const { id = '' } = useParams<any>();
 
-const PlayerCard: FunctionComponent<Props> = (props) => {
-    const {
-        player, players, editPlayer, deletePlayer
-    } = props;
+    const players = useSelector<RootState, PlayersType>((state => state.players));
+    const player = useSelector<RootState, IPlayer | undefined>((state => (
+        Object.values(state.players).find(i => foundEngNameFractionToUrl(i.fraction) === id))));
+    const dispatch = useDispatch();
+
+    if (!player) return null;
 
     const handleChangeName = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const changesPlayers = { ...player, name: event.target.value };
-        editPlayer(changesPlayers);
+        dispatch(editPlayer(changesPlayers));
     };
 
     const handleChangeFraction = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
@@ -35,11 +34,11 @@ const PlayerCard: FunctionComponent<Props> = (props) => {
         // Если мы выбрали уже задействованную фракцию, поменяем значения местами
         if (isNewFractionSelect) {
             const changesPlayers = { ...players[isNewFractionSelect.id], fraction: prevFraction };
-            editPlayer(changesPlayers);
+            dispatch(editPlayer(changesPlayers));
         }
 
         const changesPlayers = { ...players[id], fraction: newFraction };
-        editPlayer(changesPlayers);
+        dispatch(changeFractionPlayer(changesPlayers));
     };
 
     const handleChangeMat = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
@@ -50,15 +49,11 @@ const PlayerCard: FunctionComponent<Props> = (props) => {
 
         if (isNewMatSelect) {
             const changesPlayers = { ...players[isNewMatSelect.id], mat: prevMat };
-            editPlayer(changesPlayers);
+            dispatch(editPlayer(changesPlayers));
         }
 
         const changesPlayers = { ...players[id], mat: newMat };
-        editPlayer(changesPlayers);
-    };
-
-    const handleDeletePlayer = (id: string) => {
-        deletePlayer(id);
+        dispatch(editPlayer(changesPlayers));
     };
 
     const handleOnFocus = (event: React.FocusEvent<any>): void => {
@@ -78,7 +73,7 @@ const PlayerCard: FunctionComponent<Props> = (props) => {
                         <Grid item xs={ 12 }>
                             <TextField
                                 label="Имя"
-                                defaultValue={ player.name }
+                                value={ player.name }
                                 onChange={ handleChangeName }
                                 onFocus={ handleOnFocus }
                                 variant="outlined"
@@ -86,6 +81,7 @@ const PlayerCard: FunctionComponent<Props> = (props) => {
                                 fullWidth
                             />
                         </Grid>
+
                         <Grid item xs={ 12 }>
                             <Grid container justify={ 'space-between' }>
                                 <Grid item>
@@ -140,25 +136,6 @@ const PlayerCard: FunctionComponent<Props> = (props) => {
                     </Grid>
                 </form>
             </CardContent>
-
-            <CardActions disableSpacing style={ { paddingTop: 0, display: 'flex', justifyContent: 'flex-end' } }>
-                <Button
-                    style={ { marginRight: 'auto' } }
-                    component={ Link } to={ `/score/${ foundEngNameFractionToUrl(player.fraction) }` }
-                    color="primary"
-                    size="medium"
-                >
-                    Подсчитать очки
-                </Button>
-
-                <Button
-                    color="secondary"
-                    size="medium"
-                    onClick={ () => handleDeletePlayer(player.id) }
-                >
-                    Удалить
-                </Button>
-            </CardActions>
         </Card>
     );
 };
