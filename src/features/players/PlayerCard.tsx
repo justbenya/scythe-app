@@ -5,8 +5,8 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { foundEngNameFractionToUrl, fractions, mats } from '../../common/scytheLogic';
-import FractionCharacterImage from '../../components/FractionCharacterImage';
-import FractionIcon from '../../components/FractionIcon';
+import FactionCharacterImage from '../../components/FactionCharacterImage';
+import FactionIcon from '../../components/FactionIcon';
 import { RootState } from '../../store/rootReducer';
 import { changeFractionPlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
@@ -66,7 +66,7 @@ const PlayerCard: FunctionComponent = () => {
 
     return (
         <Card>
-            <FractionCharacterImage { ...fractions.find(i => i.name === player.fraction) } />
+            <FactionCharacterImage { ...fractions.find(i => i.name === player.fraction) } />
             <CardContent>
                 <form onSubmit={ onSubmit }>
                     <Grid container spacing={ 2 } direction={ 'column' }>
@@ -97,7 +97,7 @@ const PlayerCard: FunctionComponent = () => {
                                                             alignItems: 'center',
                                                         } }
                                                     >
-                                                        { fraction && <FractionIcon { ...fraction } /> }
+                                                        { fraction && <FactionIcon { ...fraction } /> }
                                                     </div>);
                                             },
                                         } }
@@ -109,7 +109,7 @@ const PlayerCard: FunctionComponent = () => {
                                     >
                                         { fractions.map((value) => (
                                             <MenuItem key={ value.name } value={ value.name }>
-                                                <FractionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
+                                                <FactionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
                                             </MenuItem>
                                         )) }
                                     </TextField>

@@ -13,7 +13,7 @@ type Props = {
     characterPath?: string
 };
 
-const FractionCharacterImage: React.FC<Props> = (props) => {
+const FactionCharacterImage: React.FC<Props> = (props) => {
     const { name = '', characterPath = '' } = props;
     const classes = useStyles();
 
@@ -29,4 +29,4 @@ const FractionCharacterImage: React.FC<Props> = (props) => {
     );
 };
 
-export default FractionCharacterImage;
+export default FactionCharacterImage;

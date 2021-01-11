@@ -38,12 +38,18 @@ code {
 
 }
 
+.faction-tab {
+    font-size      : 12px;
+    font-weight    : 300;
+    text-transform : initial;
+}
+
 .menu-footer {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    background-color: #d6d6d6;
-    z-index: 10000;
+    position         : fixed;
+    bottom           : 0;
+    z-index          : 10000;
+    width            : 100%;
+    background-color : #d6d6d6;
 }
 
 /*Стили для страницы с победителями*/

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { FunctionComponent } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppMenuNavigation from '../components/AppMenuNavigation';
-import AppMenuFractions from '../components/AppMenuFractions';
+import AppMenuFactions from '../components/AppMenuFactions';
 import ToastMessage from '../components/ToastMessage';
 
 const useStyles = makeStyles({
