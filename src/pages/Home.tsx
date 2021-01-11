@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { foundEngNameFractionToUrl, moveToLastAddedPlayer } from '../common/scytheLogic';
+import { foundEngNameFractionToUrl, moveToLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
 import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
@@ -57,7 +57,7 @@ const Home: FunctionComponent<Props> = (props) => {
 
                     <Grid item>
                         <Button
-                            variant="contained" color="primary" fullWidth
+                            variant="contained" disabled={ players.length >= TOTAL_PLAYERS } color="secondary" fullWidth
                             onClick={ addPlayer }
                         >
                             Добавить игрока

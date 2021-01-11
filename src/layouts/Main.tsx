@@ -37,6 +37,7 @@ const Main: FunctionComponent<Props> = (props) => {
 
             {/*<AppMenuFractions/>*/}
 
+            {/*TODO убрать, удалить из проекта*/}
             <ToastMessage />
 
             <Container fixed  className={ classes.fixed }>
