@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import omit from 'lodash-es/omit';
 import { nanoid } from 'nanoid';
-import { foundEngNameFractionToUrl, fractions, mats, TOTAL_PLAYERS } from '../../common/scytheLogic';
+import {
+    foundEngNameFractionToUrl,
+    fractions,
+    mats,
+    moveToLastAddedPlayer,
+    TOTAL_PLAYERS,
+} from '../../common/scytheLogic';
 import { shuffle } from '../../common/utils';
 import history from '../../history';
 import { routes } from '../../routes';
@@ -79,11 +85,23 @@ export const {
 export const addPlayer = (): AppThunk => {
     return async (dispatch, getState) => {
         dispatch(createPlayer());
-
         const players = Object.values(getState().players);
-        const lastAddedPlayer = players[players.length - 1];
-        history.push(`${ routes['index'].path }${ foundEngNameFractionToUrl(lastAddedPlayer.fraction) }`);
+        moveToLastAddedPlayer(players);
     };
 };
+
+export const changeFractionPlayer = (player: IPlayer): AppThunk => {
+    return (dispatch) => {
+        dispatch(editPlayer(player));
+        history.push(`${ routes.index.path }${ foundEngNameFractionToUrl(player.fraction) }`);
+    };
+};
+
+export const deleteAllPlayers = (): AppThunk => {
+    return (dispatch => {
+        dispatch(deletePlayers())
+        history.push(routes['index'].path);
+    })
+}
 
 export default playersSlice.reducer;

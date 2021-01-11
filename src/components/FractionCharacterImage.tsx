@@ -20,7 +20,7 @@ const FractionCharacterImage: React.FC<Props> = (props) => {
     return (
         <CardMedia
             component="img"
-            height="240"
+            height="140"
             className={ classes.media }
             image={ characterPath }
             alt={ name }

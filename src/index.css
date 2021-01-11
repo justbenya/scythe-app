@@ -43,6 +43,7 @@ code {
     position: fixed;
     bottom: 0;
     background-color: #d6d6d6;
+    z-index: 10000;
 }
 
 /*Стили для страницы с победителями*/

@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import PlayerCard from '../features/players/PlayerCard';
 import PlayerList from '../features/players/PlayerList';
 import { addPlayer, deletePlayer, editPlayer } from '../features/players/playersSlice';
@@ -20,11 +20,11 @@ type Props = {
     match: any;
 }
 
-const Start: FunctionComponent<Props> = props => {
+const PlayerCardPage: FunctionComponent<Props> = props => {
     const { players, addPlayer, editPlayer, deletePlayer } = props;
 
     const history = useHistory();
-
+    let { path, url } = useRouteMatch();
     // useEffect(() => {
     //     addPlayer()
     // }, [])
@@ -101,5 +101,5 @@ export default connect(
         players: state.players,
     }),
     { addPlayer, deletePlayer, editPlayer },
-)(Start);
+)(PlayerCardPage);
 

@@ -1,5 +1,7 @@
 import keyBy from 'lodash-es/keyBy';
 import { IPlayer, IPoints, PlayersType } from '../features/players/types';
+import history from '../history';
+import { routes } from '../routes';
 
 export const TOTAL_PLAYERS = 5;
 
@@ -53,7 +55,7 @@ export const structureBonus = [
     'Количество тундр и ферм с вашими зданиями',
 ];
 
-export const calculatePoints = (points: IPoints): number => {
+export function calculatePoints(points: IPoints): number {
     let result = 0;
 
     if (points.popularity >= 0 && points.popularity <= 6) {
@@ -65,14 +67,26 @@ export const calculatePoints = (points: IPoints): number => {
     }
 
     return result;
-};
+}
 
 export function foundPlayer(players: PlayersType, searchWord: string): IPlayer {
     const array: IPlayer[] = Object.values(players);
-    return array.find(item => foundEngNameFractionToUrl(item.fraction) === searchWord) as IPlayer
+    return array.find(item => foundEngNameFractionToUrl(item.fraction) === searchWord) as IPlayer;
 }
 
-export const foundEngNameFractionToUrl = (fraction: string): string => {
+export function foundEngNameFractionToUrl(fraction: string): string {
     const dictionaryByFractionNames = keyBy(fractions, 'name');
-    return dictionaryByFractionNames[fraction].slug;
-};
+    return dictionaryByFractionNames[fraction].slug ? dictionaryByFractionNames[fraction].slug : '';
+}
+
+export function getLastAddedFraction(players: IPlayer[]): string {
+    if (players.length <= 0) return '';
+    const lastAddedPlayer = players[players.length - 1];
+    return foundEngNameFractionToUrl(lastAddedPlayer.fraction);
+}
+
+export function moveToLastAddedPlayer(players: IPlayer[]) {
+    const lastAddedPlayer = players[players.length - 1];
+    const homePage = routes['index'].path;
+    history.push(`${ homePage }${ foundEngNameFractionToUrl(lastAddedPlayer.fraction) }`);
+}

@@ -1,22 +1,28 @@
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 import Result from './pages/Result';
 import Score from './pages/Score';
-import Start from './pages/Start';
-import StartGame from './pages/StartGame';
-import NotFound from './pages/NotFound';
+import StartGame from './pages/Home';
 import Topics from './Topics';
 
 export const routes = {
+    // 'index': {
+    //     path: '/',
+    //     title: '',
+    //     exact: false,
+    //     component: Home,
+    // },
     'index': {
         path: '/fraction/',
         title: 'Фракции',
-        exact: false,
-        component: StartGame,
+        exact: true,
+        component: Home,
     },
     'fraction': {
-        path: '/fraction/:id/',
-        title: 'Кто играет?',
-        exact: true,
-        component: Topics,
+        path: '/fraction/:id',
+        title: 'Фракции',
+        exact: false,
+        component: Home,
     },
     'score': {
         path: '/score/:id',
