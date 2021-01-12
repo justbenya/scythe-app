@@ -4,8 +4,8 @@ import { nanoid } from 'nanoid';
 import {
     factions,
     findEngNameFactionToUrl,
+    getRouteLastAddedPlayer,
     mats,
-    moveToLastAddedPlayer,
     TOTAL_PLAYERS,
 } from '../../common/scytheLogic';
 import { clearPath, shuffle } from '../../common/utils';
@@ -86,7 +86,8 @@ export const addPlayer = (): AppThunk => {
     return async (dispatch, getState) => {
         dispatch(createPlayer());
         const players = Object.values(getState().players);
-        moveToLastAddedPlayer(players);
+        const path = getRouteLastAddedPlayer(players);
+        history.push(path);
     };
 };
 

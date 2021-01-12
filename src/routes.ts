@@ -12,7 +12,7 @@ export const routes = {
         component: Home,
     },
     'score': {
-        path: '/score/:id',
+        path: '/score/:id?/',
         title: 'Подсчет очков',
         exact: true,
         component: Score,

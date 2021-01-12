@@ -1,10 +1,18 @@
+import _ from 'lodash';
 import keyBy from 'lodash-es/keyBy';
 import { IPlayer, IPoints } from '../features/players/types';
-import history from '../history';
 import { routes } from '../routes';
 import { clearPath } from './utils';
 
 export const TOTAL_PLAYERS = 5;
+
+export const factionsMoveOrder = [
+    'Республика Поляния',
+    'Северное королевство',
+    'Руссветский союз',
+    'Крымское ханство',
+    'Саксонская империя',
+];
 
 export const factions = [
     {
@@ -90,13 +98,23 @@ export function getLastAddedFaction(players: IPlayer[]): string {
     return findEngNameFactionToUrl(lastAddedPlayer.faction);
 }
 
-export function moveToLastAddedPlayer(players: IPlayer[]) {
+export function getRouteLastAddedPlayer(players: IPlayer[]) {
     const lastAddedPlayer = players[players.length - 1];
     const homePage = clearPath(routes['index'].path);
-    history.push(`${ homePage }${ findEngNameFactionToUrl(lastAddedPlayer.faction) }`);
+    return `${ homePage }${ findEngNameFactionToUrl(lastAddedPlayer.faction) }`;
 }
 
-export function findWhoHasFirstTurn(players: IPlayer[]): string {
+export function findPlayerWhoHasFirstTurn(players: IPlayer[]): IPlayer | null {
+    for (const mat of mats) {
+        const playerFirstTurn = players.find(player => player.mat === mat);
+        if (playerFirstTurn) {
+            return playerFirstTurn;
+        }
+    }
+    return null;
+}
+
+export function findFactionWhoHasFirstTurn(players: IPlayer[]): string {
     for (const mat of mats) {
         const playerFirstTurn = players.find(player => player.mat === mat);
         if (playerFirstTurn) {
@@ -104,4 +122,25 @@ export function findWhoHasFirstTurn(players: IPlayer[]): string {
         }
     }
     return '';
+}
+
+export function findTurnOrder(players: IPlayer[]): IPlayer[] {
+    const player = findPlayerWhoHasFirstTurn(players);
+    const playerFirstTurnIndex = factionsMoveOrder.indexOf(player?.faction as string);
+    let turnOrder: (string | undefined)[] = [];
+
+    const isFound = playerFirstTurnIndex !== -1;
+    if (isFound) {
+        const reversedMoveOrder = factionsMoveOrder
+            .map((item, index) => {
+                return _.nth(factionsMoveOrder, playerFirstTurnIndex - index);
+            })
+            .filter(faction => players.find(it => it.faction === faction));
+        const fistElement = reversedMoveOrder.slice(0, 1);
+        const other = reversedMoveOrder.slice(1, reversedMoveOrder.length).reverse();
+        turnOrder = [...fistElement, ...other];
+    }
+
+    // @ts-ignore
+    return turnOrder.map(item => players.find(player => player.faction === item));
 }

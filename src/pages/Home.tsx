@@ -1,9 +1,9 @@
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { findPlayerByFaction, moveToLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
+import { Redirect, useParams } from 'react-router-dom';
+import { findPlayerByFaction, getRouteLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
 import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
@@ -24,19 +24,25 @@ const Home: FunctionComponent<Props> = (props) => {
     const { id = '' } = useParams<any>();
     const player = findPlayerByFaction(players, id);
 
-    useEffect(() => {
-        if (!id && players.length) {
-            moveToLastAddedPlayer(players);
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!id && players.length) {
+    //         getRouteLastAddedPlayer(players);
+    //     }
+    // }, []);
 
     const handleNewGame = () => {
         deleteAllPlayers();
     };
 
+    // if (!id && players.length) {
+    //     return null;
+    // }
+
     if (!id && players.length) {
-        return null;
+        return <Redirect to={ getRouteLastAddedPlayer(players) } />;
     }
+
+    // if (!id || !players.length) return <NotFound />;
 
     return (
         <>

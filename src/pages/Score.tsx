@@ -4,7 +4,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { findEngNameFactionToUrl, findPlayerByFaction } from '../common/scytheLogic';
+import { findEngNameFactionToUrl, findPlayerByFaction, findTurnOrder } from '../common/scytheLogic';
 import AppMenuFactions from '../components/AppMenuFactions';
 import ScoreForm from '../components/ScoreForm';
 import { addPlayer, editPlayer } from '../features/players/playersSlice';
@@ -12,33 +12,28 @@ import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
 import { routes } from '../routes';
 import { RootState } from '../store/rootReducer';
+import NotFound from './NotFound';
 
 type Props = {
     players: IPlayer[];
+    player: IPlayer;
     match: any;
     addPlayer: any;
     editPlayer: typeof editPlayer;
 }
 
 const Score: FunctionComponent<Props> = (props) => {
-    const { players, editPlayer } = props;
-
-    const faction = props.match.params.id;
-    const player = findPlayerByFaction(players, faction);
+    const { players, player, editPlayer } = props;
 
     let prevPlayer = null;
     let nextPlayer = null;
-    if (Object.values(players).length > 0) {
-        const sorted = Object.values(players).sort((a, b) =>
-            parseInt(a.mat.slice(-2, -1)) - parseInt(b.mat.slice(-2, -1)));
-
-        const currentIndex = sorted.findIndex(item => item.id === player.id);
-
-        prevPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex - 1] ? findEngNameFactionToUrl(Object.values(sorted)[currentIndex - 1].faction) : null;
-        nextPlayer = currentIndex >= 0 && Object.values(sorted)[currentIndex + 1] ? findEngNameFactionToUrl(Object.values(sorted)[currentIndex + 1].faction) : null;
+    if (players.length > 0 && player?.id) {
+        const currentIndex = players.findIndex(item => item.id === player.id);
+        prevPlayer = currentIndex >= 0 && players[currentIndex - 1] ? findEngNameFactionToUrl(players[currentIndex - 1].faction) : null;
+        nextPlayer = currentIndex >= 0 && players[currentIndex + 1] ? findEngNameFactionToUrl(players[currentIndex + 1].faction) : null;
     }
 
-    if (!player) return <div>Loading</div>;
+    if (!player || !players) return <NotFound/>;
 
     return (
         <>
@@ -94,8 +89,9 @@ const Score: FunctionComponent<Props> = (props) => {
 };
 
 export default connect(
-    (state: RootState) => ({
-        players: Object.values(state.players),
+    (state: RootState, ownProps: Props) => ({
+        players: findTurnOrder(Object.values(state.players)),
+        player: findPlayerByFaction(Object.values(state.players), ownProps.match.params.id),
     }),
     { addPlayer, editPlayer },
 )(Score);

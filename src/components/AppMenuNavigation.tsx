@@ -2,7 +2,7 @@ import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { findWhoHasFirstTurn, getLastAddedFaction } from '../common/scytheLogic';
+import { findFactionWhoHasFirstTurn, getLastAddedFaction } from '../common/scytheLogic';
 import { clearPath } from '../common/utils';
 import { IPlayer } from '../features/players/types';
 import { routes } from '../routes';
@@ -25,7 +25,7 @@ const AppMenuNavigation: FunctionComponent = () => {
                 component={ Link }
                 label="Подсчет очков"
                 value={ history.location.pathname.includes(clearPath(routes.score.path)) ? history.location.pathname : null }
-                to={ `${ clearPath(routes.score.path) }${ findWhoHasFirstTurn(players) }` }
+                to={ `${ clearPath(routes.score.path) }${ findFactionWhoHasFirstTurn(players) }` }
             />
 
             <BottomNavigationAction
