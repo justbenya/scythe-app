@@ -24,7 +24,7 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
     const getLabel = (player: IPlayer) => factions.find(i => i.name === player.faction)?.shortName;
 
     return (
-        <AppBar position="relative" color="primary">
+        <AppBar position="fixed" color="primary">
             <div className="container">
                 <Toolbar>
                     { players.length

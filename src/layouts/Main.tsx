@@ -35,7 +35,7 @@ const Main: FunctionComponent<Props> = (props) => {
             <ToastMessage />
 
             <Container fixed className={ classes.fixed }>
-                <main style={ { height: '100%', paddingTop: 15 } }>
+                <main style={ { height: '100%', paddingTop: 95, paddingBottom: 25 } }>
                     { props.children }
                 </main>
             </Container>

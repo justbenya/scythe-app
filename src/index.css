@@ -34,10 +34,10 @@ code {
     }
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width : 960px) {
     .container {
-        max-width: 960px;
-        margin : 0 auto;
+        max-width : 960px;
+        margin    : 0 auto;
     }
 }
 
@@ -47,10 +47,15 @@ code {
     text-transform : initial;
 }
 
+.faction-tab .MuiTab-wrapper > *:first-child {
+    margin-bottom : 2px;
+}
+
 .menu-footer {
-    position         : fixed;
-    bottom           : 0;
-    width            : 100%;
+    position : fixed;
+    bottom   : 0;
+    z-index  : 1;
+    width    : 100%;
 }
 
 /*Стили для страницы с победителями*/
