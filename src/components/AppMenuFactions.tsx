@@ -1,4 +1,4 @@
-import { AppBar, Tab, Tabs, Toolbar } from '@material-ui/core';
+import { AppBar, Container, Tab, Tabs, Toolbar } from '@material-ui/core';
 import React, { FunctionComponent } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { factions, findEngNameFactionToUrl } from '../common/scytheLogic';
@@ -25,29 +25,32 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
 
     return (
         <AppBar position="relative" color="primary">
-            <Toolbar>
-                { players.length
-                    ? <Tabs
-                        variant="scrollable"
-                        scrollButtons="auto"
-                        indicatorColor="secondary"
-                        value={ history.location.pathname }
-                    >
-                        { players.map((player: IPlayer) => (
-                            <Tab
-                                className="faction-tab"
-                                icon={ getIcon(player) }
-                                label={ getLabel(player) }
-                                key={ player.faction }
-                                component={ Link }
-                                value={ `${ clearPath(url) }${ findEngNameFactionToUrl(player.faction) }` }
-                                to={ `${ clearPath(url) }${ findEngNameFactionToUrl(player.faction) }` }
-                            />
-                        )) }
-                    </Tabs>
-                    : null }
-            </Toolbar>
+            <Container>
+                <Toolbar>
+                    { players.length
+                        ? <Tabs
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            indicatorColor="secondary"
+                            value={ history.location.pathname }
+                        >
+                            { players.map((player: IPlayer) => (
+                                <Tab
+                                    className="faction-tab"
+                                    icon={ getIcon(player) }
+                                    label={ getLabel(player) }
+                                    key={ player.faction }
+                                    component={ Link }
+                                    value={ `${ clearPath(url) }${ findEngNameFactionToUrl(player.faction) }` }
+                                    to={ `${ clearPath(url) }${ findEngNameFactionToUrl(player.faction) }` }
+                                />
+                            )) }
+                        </Tabs>
+                        : null }
+                </Toolbar>
+            </Container>
         </AppBar>
+
     );
 };
 
