@@ -11,11 +11,11 @@ const useStyles = makeStyles({
             maxWidth: 768,
         },
         '@media (min-width: 960px)': {
-            maxWidth: 960
+            maxWidth: 960,
         },
         '@media (min-width: 1280px)': {
-            maxWidth: 1280
-        }
+            maxWidth: 1280,
+        },
     },
 });
 
@@ -31,18 +31,16 @@ const Main: FunctionComponent<Props> = (props) => {
         <>
             <CssBaseline />
 
-            {/*<AppHeader title={ title } />*/}
-
-            {/*TODO убрать, удалить из проекта*/}
+            {/*TODO убрать, удалить из проекта*/ }
             <ToastMessage />
 
             <Container fixed className={ classes.fixed }>
-                <main style={ { height: '100%', paddingTop: 15} }>
+                <main style={ { height: '100%', paddingTop: 15 } }>
                     { props.children }
                 </main>
             </Container>
 
-            <AppMenuNavigation/>
+            <AppMenuNavigation />
         </>
     );
 };

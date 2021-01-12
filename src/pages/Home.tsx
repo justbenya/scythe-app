@@ -2,11 +2,12 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { findPlayerByFaction, getRouteLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
+import AppHeader from '../components/AppHeader';
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
-import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
+import { addPlayer, deleteAllPlayers, deletePlayer, editPlayer } from '../features/players/playersSlice';
 import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
 import { RootState } from '../store/rootReducer';
@@ -15,38 +16,27 @@ type Props = {
     players: IPlayer[];
     addPlayer: any;
     deleteAllPlayers: any;
+    deletePlayer: typeof deletePlayer;
 }
 
 const Home: FunctionComponent<Props> = (props) => {
-    const { players, deleteAllPlayers, addPlayer } = props;
+    const { players, deleteAllPlayers, deletePlayer, addPlayer } = props;
+
+    const history = useHistory();
 
     // Проверка есть ли игроки или нужно показать начальную страницу
     const { id = '' } = useParams<any>();
     const player = findPlayerByFaction(players, id);
 
-    // useEffect(() => {
-    //     if (!id && players.length) {
-    //         getRouteLastAddedPlayer(players);
-    //     }
-    // }, []);
-
-    const handleNewGame = () => {
-        deleteAllPlayers();
-    };
-
-    // if (!id && players.length) {
-    //     return null;
-    // }
-
     if (!id && players.length) {
         return <Redirect to={ getRouteLastAddedPlayer(players) } />;
     }
 
-    // if (!id || !players.length) return <NotFound />;
-
     return (
         <>
-            <AppMenuFactions players={ players } />
+            { players.length
+                ? <AppMenuFactions players={ players } />
+                : <AppHeader /> }
 
             <Main>
                 <Grid container direction="column" spacing={ 2 } justify={ 'center' }>
@@ -68,10 +58,10 @@ const Home: FunctionComponent<Props> = (props) => {
 
                     <Grid item>
                         <Button
-                            variant="contained" disabled color="primary" fullWidth
-                            onClick={ () => console.log('2') }
+                            variant="contained" disabled={ !player } color="primary" fullWidth
+                            onClick={ handleDeletePlayer }
                         >
-                            Перевыбрать игрока
+                            Удалить игрока
                         </Button>
                     </Grid>
 
@@ -85,16 +75,24 @@ const Home: FunctionComponent<Props> = (props) => {
                     </Grid>
 
                     <Grid item> <br /> </Grid>
-
                 </Grid>
             </Main>
         </>
     );
+
+    function handleDeletePlayer() {
+        deletePlayer(player.id);
+        history.push('/');
+    }
+
+    function handleNewGame() {
+        deleteAllPlayers();
+    }
 };
 
 export default connect(
     (state: RootState) => ({
         players: Object.values(state.players),
     }),
-    { addPlayer, editPlayer, deleteAllPlayers },
+    { addPlayer, editPlayer, deletePlayer, deleteAllPlayers },
 )(Home);

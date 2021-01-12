@@ -1,4 +1,4 @@
-import { AppBar, Container, Tab, Tabs, Toolbar } from '@material-ui/core';
+import { AppBar, Tab, Tabs, Toolbar } from '@material-ui/core';
 import React, { FunctionComponent } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { factions, findEngNameFactionToUrl } from '../common/scytheLogic';
@@ -25,7 +25,7 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
 
     return (
         <AppBar position="relative" color="primary">
-            <Container>
+            <div className="container">
                 <Toolbar>
                     { players.length
                         ? <Tabs
@@ -48,7 +48,7 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
                         </Tabs>
                         : null }
                 </Toolbar>
-            </Container>
+            </div>
         </AppBar>
 
     );

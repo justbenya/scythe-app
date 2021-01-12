@@ -94,7 +94,7 @@ export const addPlayer = (): AppThunk => {
 export const changeFactionPlayer = (player: IPlayer): AppThunk => {
     return (dispatch) => {
         dispatch(editPlayer(player));
-        history.push(`${ routes.index.path }${ findEngNameFactionToUrl(player.faction) }`);
+        history.push(`${ clearPath(routes.index.path) }${ findEngNameFactionToUrl(player.faction) }`);
     };
 };
 
