@@ -9,6 +9,11 @@ export function shuffle(array: any): Array<any> {
     return result;
 }
 
-export function isEmpty(obj: object) {
-    return Object.keys(obj).length === 0;
+export function isEmpty(obj: object | null) {
+    return obj === null ? true : Object.keys(obj).length === 0;
+}
+
+export function clearPath(path: string): string {
+    const firstVariant = path.replace(':id?/', '');
+    return firstVariant.replace(':id', '');
 }

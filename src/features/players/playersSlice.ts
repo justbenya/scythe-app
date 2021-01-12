@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import omit from 'lodash-es/omit';
 import { nanoid } from 'nanoid';
 import {
-    foundEngNameFactionToUrl,
     factions,
+    findEngNameFactionToUrl,
     mats,
     moveToLastAddedPlayer,
     TOTAL_PLAYERS,
 } from '../../common/scytheLogic';
-import { shuffle } from '../../common/utils';
+import { clearPath, shuffle } from '../../common/utils';
 import history from '../../history';
 import { routes } from '../../routes';
 import { AppThunk } from '../../store';
@@ -93,15 +93,15 @@ export const addPlayer = (): AppThunk => {
 export const changeFactionPlayer = (player: IPlayer): AppThunk => {
     return (dispatch) => {
         dispatch(editPlayer(player));
-        history.push(`${ routes.index.path }${ foundEngNameFactionToUrl(player.faction) }`);
+        history.push(`${ routes.index.path }${ findEngNameFactionToUrl(player.faction) }`);
     };
 };
 
 export const deleteAllPlayers = (): AppThunk => {
     return (dispatch => {
-        dispatch(deletePlayers())
-        history.push(routes['index'].path);
-    })
-}
+        dispatch(deletePlayers());
+        history.push(clearPath(routes['index'].path));
+    });
+};
 
 export default playersSlice.reducer;

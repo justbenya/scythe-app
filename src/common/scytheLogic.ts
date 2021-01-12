@@ -1,7 +1,8 @@
 import keyBy from 'lodash-es/keyBy';
-import { IPlayer, IPoints, PlayersType } from '../features/players/types';
+import { IPlayer, IPoints } from '../features/players/types';
 import history from '../history';
 import { routes } from '../routes';
+import { clearPath } from './utils';
 
 export const TOTAL_PLAYERS = 5;
 
@@ -74,12 +75,11 @@ export function calculatePoints(points: IPoints): number {
     return result;
 }
 
-export function foundPlayer(players: PlayersType, searchWord: string): IPlayer {
-    const array: IPlayer[] = Object.values(players);
-    return array.find(item => foundEngNameFactionToUrl(item.faction) === searchWord) as IPlayer;
+export function findPlayerByFaction(players: IPlayer[], searchWord: string): IPlayer {
+    return players.find(item => findEngNameFactionToUrl(item.faction) === searchWord) as IPlayer;
 }
 
-export function foundEngNameFactionToUrl(faction: string): string {
+export function findEngNameFactionToUrl(faction: string): string {
     const dictionaryByFactionNames = keyBy(factions, 'name');
     return dictionaryByFactionNames[faction].slug ? dictionaryByFactionNames[faction].slug : '';
 }
@@ -87,11 +87,21 @@ export function foundEngNameFactionToUrl(faction: string): string {
 export function getLastAddedFaction(players: IPlayer[]): string {
     if (players.length <= 0) return '';
     const lastAddedPlayer = players[players.length - 1];
-    return foundEngNameFactionToUrl(lastAddedPlayer.faction);
+    return findEngNameFactionToUrl(lastAddedPlayer.faction);
 }
 
 export function moveToLastAddedPlayer(players: IPlayer[]) {
     const lastAddedPlayer = players[players.length - 1];
-    const homePage = routes['index'].path;
-    history.push(`${ homePage }${ foundEngNameFactionToUrl(lastAddedPlayer.faction) }`);
+    const homePage = clearPath(routes['index'].path);
+    history.push(`${ homePage }${ findEngNameFactionToUrl(lastAddedPlayer.faction) }`);
+}
+
+export function findWhoHasFirstTurn(players: IPlayer[]): string {
+    for (const mat of mats) {
+        const playerFirstTurn = players.find(player => player.mat === mat);
+        if (playerFirstTurn) {
+            return findEngNameFactionToUrl(playerFirstTurn.faction);
+        }
+    }
+    return '';
 }

@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { foundEngNameFactionToUrl, factions, mats } from '../../common/scytheLogic';
+import { factions, findEngNameFactionToUrl, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
 import { RootState } from '../../store/rootReducer';
@@ -16,7 +16,7 @@ const PlayerCard: FunctionComponent = () => {
 
     const players = useSelector<RootState, PlayersType>((state => state.players));
     const player = useSelector<RootState, IPlayer | undefined>((state => (
-        Object.values(state.players).find(i => foundEngNameFactionToUrl(i.faction) === id))));
+        Object.values(state.players).find(i => findEngNameFactionToUrl(i.faction) === id))));
     const dispatch = useDispatch();
 
     if (!player) return null;

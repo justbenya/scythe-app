@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { foundEngNameFactionToUrl, moveToLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
+import { findPlayerByFaction, moveToLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
 import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
@@ -22,11 +22,7 @@ const Home: FunctionComponent<Props> = (props) => {
 
     // Проверка есть ли игроки или нужно показать начальную страницу
     const { id = '' } = useParams<any>();
-    let player = null;
-
-    if (id) {
-        player = players.find(i => foundEngNameFactionToUrl(i.faction) === id);
-    }
+    const player = findPlayerByFaction(players, id);
 
     useEffect(() => {
         if (!id && players.length) {
