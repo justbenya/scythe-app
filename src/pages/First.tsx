@@ -4,7 +4,6 @@ import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { addPlayer } from '../features/players/playersSlice';
 import Image from '../img/bg.jpg';
-import Logo from '../img/logo.png';
 
 const useStyles = makeStyles({
     container: {
@@ -23,12 +22,15 @@ const useStyles = makeStyles({
         height: 120,
     },
     title: {
+        paddingTop: 50,
         fontWeight: 'bold',
-        fontSize: 21,
+        color: '#fff',
+        fontSize: 46,
+        textShadow: '0 4px 3px rgba(0, 0, 0, 0.4), 0 8px 14px rgba(0, 0, 0, 0.1), 0 18px 30px rgba(0, 0, 0, 0.1)',
     },
     btnAddPlayer: {
         marginTop: 'auto',
-        marginBottom: 50,
+        marginBottom: '15vh',
     },
 });
 
@@ -51,7 +53,7 @@ const First: FC = () => {
                         alignItems={ 'center' }
                     >
                         <Grid item>
-                            <img className={ classes.logo } src={ Logo } alt="logo" />
+                            {/*<img className={ classes.logo } src={ Logo } alt="logo" />*/ }
                         </Grid>
 
                         <Grid item>
