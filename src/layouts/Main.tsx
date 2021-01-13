@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     main: {
         height: '100%',
         paddingTop: 80,
-        paddingBottom: 25,
+        paddingBottom: 80,
     },
 });
 

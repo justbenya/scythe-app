@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Typography } from '@material-ui/core';
+import { Grid, IconButton, Typography } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import React, { FunctionComponent } from 'react';
@@ -10,7 +10,6 @@ import ScoreForm from '../components/ScoreForm';
 import { addPlayer, editPlayer } from '../features/players/playersSlice';
 import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
-import { routes } from '../routes';
 import { RootState } from '../store/rootReducer';
 import NotFound from './NotFound';
 
@@ -73,14 +72,6 @@ const Score: FunctionComponent<Props> = (props) => {
 
                     <Grid item>
                         <ScoreForm player={ player } editPlayer={ editPlayer } />
-                    </Grid>
-
-                    <Grid item>
-                        <Grid container alignItems={ 'center' } justify={ 'space-between' } spacing={ 2 }>
-                            <Grid item>
-                                <Button component={ Link } to={ routes.result.path } type="submit" color="secondary" variant="contained">Результаты</Button>
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
             </Main>

@@ -9,13 +9,13 @@ import TerrainIcon from '@material-ui/icons/Terrain';
 import React, { FunctionComponent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { calculatePoints } from '../common/scytheLogic';
 import { IPlayer, IPoints } from '../features/players/types';
-import { calculatePoints} from '../common/scytheLogic';
 
 const text = {
-    min:  `Значение не может быть отрицательным`,
-    max:  (max: number) => `Значение не может быть больше ${max}`
-}
+    min: `Значение не может быть отрицательным`,
+    max: (max: number) => `Значение не может быть больше ${ max }`,
+};
 
 const schema = yup.object().shape({
     gold: yup.number().required().min(0, text.min).integer().typeError('Введите накопленные монеты'),
