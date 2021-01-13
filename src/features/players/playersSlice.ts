@@ -64,7 +64,7 @@ const playersSlice = createSlice({
             return { ...state, [action.payload.id]: action.payload };
         },
 
-        deletePlayer(state, action: PayloadAction<string>) {
+        removePlayer(state, action: PayloadAction<string>) {
             return omit(state, action.payload);
         },
 
@@ -78,7 +78,7 @@ const playersSlice = createSlice({
 export const {
     createPlayer,
     editPlayer,
-    deletePlayer,
+    removePlayer,
     deletePlayers,
 } = playersSlice.actions;
 
@@ -98,10 +98,17 @@ export const changeFactionPlayer = (player: IPlayer): AppThunk => {
     };
 };
 
+export const deletePlayer = (id: string): AppThunk => {
+    return (dispatch => {
+        dispatch(removePlayer(id));
+        history.push(clearPath(routes['index'].path));
+    });
+};
+
 export const deleteAllPlayers = (): AppThunk => {
     return (dispatch => {
         dispatch(deletePlayers());
-        history.push(clearPath(routes['index'].path));
+        history.push('/');
     });
 };
 

@@ -4,10 +4,9 @@ import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, useParams } from 'react-router-dom';
 import { findPlayerByFaction, getRouteLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
-import AppHeader from '../components/AppHeader';
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
-import { addPlayer, deleteAllPlayers, deletePlayer, editPlayer } from '../features/players/playersSlice';
+import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
 import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
 import { RootState } from '../store/rootReducer';
@@ -29,11 +28,13 @@ const Home: FunctionComponent<Props> = (props) => {
         return <Redirect to={ getRouteLastAddedPlayer(players) } />;
     }
 
+    if (!players.length) {
+        return <Redirect to={ '/' } />;
+    }
+
     return (
         <>
-            { players.length
-                ? <AppMenuFactions players={ players } />
-                : <AppHeader /> }
+            <AppMenuFactions players={ players } />
 
             <Main>
                 <Grid container direction="column" spacing={ 2 } justify={ 'center' }>
@@ -77,5 +78,5 @@ export default connect(
     (state: RootState) => ({
         players: Object.values(state.players),
     }),
-    { addPlayer, editPlayer, deletePlayer, deleteAllPlayers },
+    { addPlayer, editPlayer, deleteAllPlayers },
 )(Home);

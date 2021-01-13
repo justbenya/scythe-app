@@ -7,7 +7,7 @@ import { useWindowWidth } from '@react-hook/window-size';
 import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { factions, findEngNameFactionToUrl, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
@@ -69,7 +69,6 @@ const PlayerCard: FunctionComponent = () => {
     const player = useSelector<RootState, IPlayer | undefined>((state => (
         Object.values(state.players).find(i => findEngNameFactionToUrl(i.faction) === id))));
     const dispatch = useDispatch();
-    const history = useHistory();
 
     if (!player) return null;
 
@@ -114,7 +113,6 @@ const PlayerCard: FunctionComponent = () => {
 
     const handleDeletePlayer = () => {
         dispatch(deletePlayer(player.id));
-        history.push('/');
     };
 
     return (
