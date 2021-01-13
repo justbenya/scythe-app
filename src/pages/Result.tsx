@@ -4,7 +4,7 @@ import mapKeys from 'lodash-es/mapKeys';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addPlayer, deletePlayers, editPlayer } from '../features/players/playersSlice';
+import { deletePlayers, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
 import { RootState } from '../store/rootReducer';
@@ -45,7 +45,7 @@ const Result: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <Main title={ 'Итоги по окончанию игры' }>
+        <Main>
             <TableContainer component={ Paper }>
                 <Table className={ classes.table } size="medium">
                     <TableHead>

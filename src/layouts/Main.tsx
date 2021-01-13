@@ -3,7 +3,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { FunctionComponent } from 'react';
 import AppMenuNavigation from '../components/AppMenuNavigation';
-import ToastMessage from '../components/ToastMessage';
 
 const useStyles = makeStyles({
     fixed: {
@@ -24,20 +23,12 @@ const useStyles = makeStyles({
     },
 });
 
-type Props = {
-    title?: string;
-};
-
-const Main: FunctionComponent<Props> = (props) => {
-    const { title } = props;
+const Main: FunctionComponent = (props) => {
     const classes = useStyles();
 
     return (
         <>
             <CssBaseline />
-
-            {/*TODO убрать, удалить из проекта*/ }
-            <ToastMessage />
 
             <Container fixed className={ classes.fixed }>
                 <main className={ classes.main }>{ props.children }</main>

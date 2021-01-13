@@ -45,7 +45,6 @@ const AppMenuNavigation: FunctionComponent = () => {
             />
 
             <BottomNavigationAction
-                disabled
                 icon={ <SettingsIcon /> }
                 component={ Link }
                 label="Настройки"

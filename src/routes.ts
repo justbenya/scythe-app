@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Result from './pages/Result';
 import Score from './pages/Score';
-import Topics from './Topics';
+import Settings from './pages/Settings';
 
 export const routes = {
     'first': {
@@ -24,22 +24,22 @@ export const routes = {
         exact: true,
         component: Score,
     },
-    'map': {
-        path: '/map',
-        title: 'Карта',
-        exact: true,
-        component: Topics,
-    },
-    'settings': {
-        path: '/settings',
-        title: 'Настройки',
-        exact: true,
-        component: NotFound,
-    },
     'result': {
         path: '/result',
         title: 'Итоги по окончанию игры',
         exact: true,
         component: Result,
-    }
+    },
+    'map': {
+        path: '/map',
+        title: 'Карта',
+        exact: true,
+        component: NotFound,
+    },
+    'settings': {
+        path: '/settings',
+        title: 'Настройки',
+        exact: true,
+        component: Settings,
+    },
 };

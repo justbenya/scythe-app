@@ -38,7 +38,7 @@ const Score: FunctionComponent<Props> = (props) => {
     return (
         <>
             <AppMenuFactions players={ players } />
-            <Main title={ 'Подсчет очков' }>
+            <Main>
                 <Grid container direction={ 'column' } spacing={ 2 }>
                     <Grid item>
                         <Grid container alignItems={ 'center' }>
