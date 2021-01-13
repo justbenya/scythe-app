@@ -1,4 +1,5 @@
 import { AppBar, Tab, Tabs, Toolbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import React, { FunctionComponent } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { factions, findEngNameFactionToUrl } from '../common/scytheLogic';
@@ -7,12 +8,24 @@ import { IPlayer } from '../features/players/types';
 import { routes } from '../routes';
 import FactionIcon from './FactionIcon';
 
+const useStyles = makeStyles({
+    toolbar: {
+        padding: '3px 6px',
+        fontSize: '12px',
+        fontWeight: 300,
+        textTransform: 'initial',
+        opacity: 0.4,
+        minHeight: 65,
+    },
+});
+
 type Props = {
     players: IPlayer[];
 };
 
 const AppMenuFactions: FunctionComponent<Props> = (props) => {
     const { players } = props;
+    const classes = useStyles();
 
     const history = useHistory();
     let factionUrl = useRouteMatch(routes.index.path);
@@ -36,7 +49,7 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
                         >
                             { players.map((player: IPlayer) => (
                                 <Tab
-                                    className="faction-tab"
+                                    className={ classes.toolbar + ' faction-tab' }
                                     icon={ getIcon(player) }
                                     label={ getLabel(player) }
                                     key={ player.faction }

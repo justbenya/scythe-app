@@ -41,12 +41,6 @@ code {
     }
 }
 
-.faction-tab {
-    font-size      : 12px;
-    font-weight    : 300;
-    text-transform : initial;
-}
-
 .faction-tab .MuiTab-wrapper > *:first-child {
     margin-bottom : 2px;
 }

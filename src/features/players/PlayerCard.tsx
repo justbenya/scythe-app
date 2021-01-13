@@ -15,7 +15,6 @@ import { RootState } from '../../store/rootReducer';
 import { changeFactionPlayer, deletePlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
 
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
