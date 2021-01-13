@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, Collapse, IconButton, MenuItem } from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, Collapse, IconButton, MenuItem } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -7,12 +7,12 @@ import { useWindowWidth } from '@react-hook/window-size';
 import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { factions, findEngNameFactionToUrl, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
 import { RootState } from '../../store/rootReducer';
-import { changeFactionPlayer, editPlayer } from './playersSlice';
+import { changeFactionPlayer, deletePlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
 
 
@@ -70,6 +70,7 @@ const PlayerCard: FunctionComponent = () => {
     const player = useSelector<RootState, IPlayer | undefined>((state => (
         Object.values(state.players).find(i => findEngNameFactionToUrl(i.faction) === id))));
     const dispatch = useDispatch();
+    const history = useHistory();
 
     if (!player) return null;
 
@@ -112,8 +113,9 @@ const PlayerCard: FunctionComponent = () => {
         event.target.select();
     };
 
-    const onSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
+    const handleDeletePlayer = () => {
+        dispatch(deletePlayer(player.id));
+        history.push('/');
     };
 
     return (
@@ -185,6 +187,14 @@ const PlayerCard: FunctionComponent = () => {
             </CardContent>
 
             <CardActions disableSpacing className={ classes.cardActions }>
+                <Button
+                    color="secondary"
+                    size="medium"
+                    onClick={ handleDeletePlayer }
+                >
+                    Удалить
+                </Button>
+
                 <IconButton
                     className={ clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -199,7 +209,7 @@ const PlayerCard: FunctionComponent = () => {
 
             <Collapse in={ expanded } timeout="auto" unmountOnExit>
                 <CardContent className={ classes.cardContent }>
-                    <div className={ classes.slider } style={ { width: windowWidth - 80 } }>
+                    <div className={ classes.slider } style={ { width: windowWidth - 65 } }>
                         <div className={ classes.sliderBody }>
                             <img
                                 className={ classes.sliderImage }

@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { findPlayerByFaction, getRouteLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
 import AppHeader from '../components/AppHeader';
 import AppMenuFactions from '../components/AppMenuFactions';
@@ -16,13 +16,10 @@ type Props = {
     players: IPlayer[];
     addPlayer: any;
     deleteAllPlayers: any;
-    deletePlayer: typeof deletePlayer;
 }
 
 const Home: FunctionComponent<Props> = (props) => {
-    const { players, deleteAllPlayers, deletePlayer, addPlayer } = props;
-
-    const history = useHistory();
+    const { players, deleteAllPlayers, addPlayer } = props;
 
     // Проверка есть ли игроки или нужно показать начальную страницу
     const { id = '' } = useParams<any>();
@@ -59,15 +56,6 @@ const Home: FunctionComponent<Props> = (props) => {
                     <Grid item>
                         <Button
                             variant="contained" disabled={ !player } color="primary" fullWidth
-                            onClick={ handleDeletePlayer }
-                        >
-                            Удалить игрока
-                        </Button>
-                    </Grid>
-
-                    <Grid item>
-                        <Button
-                            variant="contained" disabled={ !player } color="primary" fullWidth
                             onClick={ handleNewGame }
                         >
                             Новая игра
@@ -79,11 +67,6 @@ const Home: FunctionComponent<Props> = (props) => {
             </Main>
         </>
     );
-
-    function handleDeletePlayer() {
-        deletePlayer(player.id);
-        history.push('/');
-    }
 
     function handleNewGame() {
         deleteAllPlayers();
