@@ -31,12 +31,12 @@ const playersSlice = createSlice({
                 const usedMats = Object.values(state).map(i => i.mat);
 
                 // 2. Рандомно выберем фракции и планшеты, уберем уже используемые
-                const randomFactions = shuffle(factions.map(i => i.name)).filter(i => !usedFaction.includes(i));
-                const randomMats = shuffle(mats).filter(i => !usedMats.includes(i));
+                const randomFactions = shuffle(factions).filter(faction => !usedFaction.includes(faction.name));
+                const randomMats = shuffle(mats).filter(mat => !usedMats.includes(mat.name));
 
                 // 3. Готово!
-                const faction = randomFactions[0];
-                const mat = randomMats[0];
+                const faction = randomFactions[0].name;
+                const mat = randomMats[0].name;
 
                 const player = {
                     id: action.payload.id,

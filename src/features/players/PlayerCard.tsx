@@ -1,6 +1,10 @@
-import { Card, CardContent, MenuItem } from '@material-ui/core';
+import { Card, CardActions, CardContent, Collapse, IconButton, MenuItem } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useWindowWidth } from '@react-hook/window-size';
+import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -11,8 +15,56 @@ import { RootState } from '../../store/rootReducer';
 import { changeFactionPlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
 
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            maxWidth: 345,
+        },
+        expand: {
+            transform: 'rotate(0deg)',
+            marginLeft: 'auto',
+            transition: theme.transitions.create('transform', {
+                duration: theme.transitions.duration.shortest,
+            }),
+        },
+        cardActions: {
+            paddingBottom: 0,
+            paddingTop: 0,
+        },
+        cardContent: {
+            paddingTop: 0,
+        },
+        expandOpen: {
+            transform: 'rotate(180deg)',
+        },
+        slider: {
+            overflow: 'auto',
+            maxWidth: 1200,
+            margin: '0 auto',
+        },
+        sliderBody: {
+            overflow: 'auto',
+            width: '100%',
+            height: 350,
+            textAlign: 'center',
+        },
+        sliderImage: {
+            width: 'auto',
+            height: 345,
+        },
+    }),
+);
+
 const PlayerCard: FunctionComponent = () => {
     const { id = '' } = useParams<any>();
+    const windowWidth = useWindowWidth();
+
+    const classes = useStyles();
+    const [expanded, setExpanded] = React.useState(false);
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
     const players = useSelector<RootState, PlayersType>((state => state.players));
     const player = useSelector<RootState, IPlayer | undefined>((state => (
@@ -68,74 +120,96 @@ const PlayerCard: FunctionComponent = () => {
         <Card>
             <FactionCharacterImage { ...factions.find(i => i.name === player.faction) } />
             <CardContent>
-                <form onSubmit={ onSubmit }>
-                    <Grid container spacing={ 2 } direction={ 'column' }>
-                        <Grid item xs={ 12 }>
-                            <TextField
-                                label="Имя"
-                                value={ player.name }
-                                onChange={ handleChangeName }
-                                onFocus={ handleOnFocus }
-                                variant="outlined"
-                                size="medium"
-                                fullWidth
-                            />
-                        </Grid>
-
-                        <Grid item xs={ 12 }>
-                            <Grid container justify={ 'space-between' }>
-                                <Grid item>
-                                    <TextField
-                                        select
-                                        SelectProps={ {
-                                            renderValue: (value: any) => {
-                                                const faction = factions.find(i => i.name === value);
-                                                return (
-                                                    <div
-                                                        style={ {
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                        } }
-                                                    >
-                                                        { faction && <FactionIcon { ...faction } /> }
-                                                    </div>);
-                                            },
-                                        } }
-                                        label="Фракция"
-                                        value={ player.faction }
-                                        onChange={ (event) => handleChangeFaction(event, player.id) }
-                                        variant="outlined"
-                                        size="small"
-                                    >
-                                        { factions.map((value) => (
-                                            <MenuItem key={ value.name } value={ value.name }>
-                                                <FactionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
-                                            </MenuItem>
-                                        )) }
-                                    </TextField>
-                                </Grid>
-                                <Grid item className="mats-input">
-                                    <TextField
-                                        select
-                                        label="Планшет"
-                                        value={ player.mat }
-                                        onChange={ (event) => handleChangeMat(event, player.id) }
-                                        variant="outlined"
-                                        size="medium"
-                                        fullWidth
-                                    >
-                                        { mats.map((value) => (
-                                            <MenuItem key={ value } value={ value }>
-                                                { value }
-                                            </MenuItem>
-                                        )) }
-                                    </TextField>
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                <Grid container spacing={ 2 } direction={ 'row' }>
+                    <Grid item xs={ 12 } sm={ 6 }>
+                        <TextField
+                            label="Имя"
+                            value={ player.name }
+                            onChange={ handleChangeName }
+                            onFocus={ handleOnFocus }
+                            variant="outlined"
+                            size="medium"
+                            fullWidth
+                        />
                     </Grid>
-                </form>
+
+                    <Grid item>
+                        <TextField
+                            select
+                            SelectProps={ {
+                                renderValue: (value: any) => {
+                                    const faction = factions.find(i => i.name === value);
+                                    return (
+                                        <div
+                                            style={ {
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            } }
+                                        >
+                                            { faction && <FactionIcon { ...faction } /> }
+                                        </div>);
+                                },
+                            } }
+                            label="Фракция"
+                            value={ player.faction }
+                            onChange={ (event) => handleChangeFaction(event, player.id) }
+                            variant="outlined"
+                            size="small"
+                        >
+                            { factions.map((value) => (
+                                <MenuItem key={ value.name } value={ value.name }>
+                                    <FactionIcon { ...value } />&nbsp;&nbsp;&nbsp;{ value.name }
+                                </MenuItem>
+                            )) }
+                        </TextField>
+                    </Grid>
+
+                    <Grid item xs>
+                        <TextField
+                            select
+                            label="Планшет"
+                            value={ player.mat }
+                            onChange={ (event) => handleChangeMat(event, player.id) }
+                            variant="outlined"
+                            size="medium"
+                            fullWidth
+                        >
+                            { mats.map((mat) => (
+                                <MenuItem key={ mat.name } value={ mat.name }>
+                                    { mat.name }
+                                </MenuItem>
+                            )) }
+                        </TextField>
+                    </Grid>
+                </Grid>
             </CardContent>
+
+            <CardActions disableSpacing className={ classes.cardActions }>
+                <IconButton
+                    className={ clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                    }) }
+                    onClick={ handleExpandClick }
+                    aria-expanded={ expanded }
+                    aria-label="show mat"
+                >
+                    <ExpandMoreIcon />
+                </IconButton>
+            </CardActions>
+
+            <Collapse in={ expanded } timeout="auto" unmountOnExit>
+                <CardContent className={ classes.cardContent }>
+                    <div className={ classes.slider } style={ { width: windowWidth - 80 } }>
+                        <div className={ classes.sliderBody }>
+                            <img
+                                className={ classes.sliderImage }
+                                src={ `${ mats.find(mat => mat.name === player.mat)?.imgPath }` }
+                                alt={ player.mat }
+                            />
+                        </div>
+                    </div>
+                </CardContent>
+            </Collapse>
         </Card>
     );
 };

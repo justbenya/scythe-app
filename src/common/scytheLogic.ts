@@ -53,11 +53,26 @@ export const factions = [
 ];
 
 export const mats = [
-    'Промышленный (1)',
-    'Строительный (2)',
-    'Патриотический (3)',
-    'Технический (4)',
-    'Фермерский (5)',
+    {
+        name: 'Промышленный (1)',
+        imgPath: `${ process.env.PUBLIC_URL }/assets/mats/industrial1.jpg`,
+    },
+    {
+        name: 'Строительный (2)',
+        imgPath: `${ process.env.PUBLIC_URL }/assets/mats/engineering2.jpg`,
+    },
+    {
+        name: 'Патриотический (3)',
+        imgPath: `${ process.env.PUBLIC_URL }/assets/mats/patriotic3.jpg`,
+    },
+    {
+        name: 'Технический (4)',
+        imgPath: `${ process.env.PUBLIC_URL }/assets/mats/mechanical4.jpg`,
+    },
+    {
+        name: 'Фермерский (5)',
+        imgPath: `${ process.env.PUBLIC_URL }/assets/mats/argicultural5.jpg`,
+    },
 ];
 
 export const structureBonus = [
@@ -106,7 +121,7 @@ export function getRouteLastAddedPlayer(players: IPlayer[]) {
 
 export function findPlayerWhoHasFirstTurn(players: IPlayer[]): IPlayer | null {
     for (const mat of mats) {
-        const playerFirstTurn = players.find(player => player.mat === mat);
+        const playerFirstTurn = players.find(player => player.mat === mat.name);
         if (playerFirstTurn) {
             return playerFirstTurn;
         }
@@ -116,7 +131,7 @@ export function findPlayerWhoHasFirstTurn(players: IPlayer[]): IPlayer | null {
 
 export function findFactionWhoHasFirstTurn(players: IPlayer[]): string {
     for (const mat of mats) {
-        const playerFirstTurn = players.find(player => player.mat === mat);
+        const playerFirstTurn = players.find(player => player.mat === mat.name);
         if (playerFirstTurn) {
             return findEngNameFactionToUrl(playerFirstTurn.faction);
         }

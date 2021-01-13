@@ -17,6 +17,11 @@ const useStyles = makeStyles({
             maxWidth: 1280,
         },
     },
+    main: {
+        height: '100%',
+        paddingTop: 80,
+        paddingBottom: 25,
+    },
 });
 
 type Props = {
@@ -35,9 +40,7 @@ const Main: FunctionComponent<Props> = (props) => {
             <ToastMessage />
 
             <Container fixed className={ classes.fixed }>
-                <main style={ { height: '100%', paddingTop: 95, paddingBottom: 25 } }>
-                    { props.children }
-                </main>
+                <main className={ classes.main }>{ props.children }</main>
             </Container>
 
             <AppMenuNavigation />
