@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import omit from 'lodash-es/omit';
 import { nanoid } from 'nanoid';
+import { AppThunk } from '../../app/store';
 import {
     factions,
     findEngNameFactionToUrl,
@@ -11,7 +12,6 @@ import {
 import { clearPath, shuffle } from '../../common/utils';
 import history from '../../history';
 import { routes } from '../../routes';
-import { AppThunk } from '../../store';
 import { IPlayer, PlayersType } from './types';
 
 const initialState: PlayersType = {};

@@ -8,10 +8,10 @@ import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { RootState } from '../../app/rootReducer';
 import { factions, findEngNameFactionToUrl, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
-import { RootState } from '../../store/rootReducer';
 import { changeFactionPlayer, deletePlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
 

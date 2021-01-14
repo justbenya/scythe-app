@@ -6,11 +6,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { RootState } from '../app/rootReducer';
 import { findFactionWhoHasFirstTurn, getLastAddedFaction } from '../common/scytheLogic';
 import { clearPath } from '../common/utils';
 import { IPlayer } from '../features/players/types';
 import { routes } from '../routes';
-import { RootState } from '../store/rootReducer';
 
 const AppMenuNavigation: FunctionComponent = () => {
     const history = useHistory();

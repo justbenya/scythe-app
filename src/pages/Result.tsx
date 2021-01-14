@@ -4,10 +4,10 @@ import mapKeys from 'lodash-es/mapKeys';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { RootState } from '../app/rootReducer';
 import { deletePlayers, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
-import { RootState } from '../store/rootReducer';
 
 const useStyles = makeStyles({
     table: {

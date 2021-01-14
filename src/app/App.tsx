@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
-import history from './history';
-import NotFound from './pages/NotFound';
-import { routes } from './routes';
+import history from '../history';
+import NotFound from '../pages/NotFound';
+import { routes } from '../routes';
 
 const App: FunctionComponent = () => (
     <Router history={ history }>

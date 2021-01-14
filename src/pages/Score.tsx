@@ -4,13 +4,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { RootState } from '../app/rootReducer';
 import { findEngNameFactionToUrl, findPlayerByFaction, findTurnOrder } from '../common/scytheLogic';
 import AppMenuFactions from '../components/AppMenuFactions';
 import ScoreForm from '../components/ScoreForm';
 import { addPlayer, editPlayer } from '../features/players/playersSlice';
 import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
-import { RootState } from '../store/rootReducer';
 import NotFound from './NotFound';
 
 type Props = {

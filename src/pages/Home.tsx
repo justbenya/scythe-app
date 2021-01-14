@@ -3,13 +3,13 @@ import Grid from '@material-ui/core/Grid';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, useParams } from 'react-router-dom';
+import { RootState } from '../app/rootReducer';
 import { findPlayerByFaction, getRouteLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
 import AppMenuFactions from '../components/AppMenuFactions';
 import PlayerCard from '../features/players/PlayerCard';
 import { addPlayer, deleteAllPlayers, editPlayer } from '../features/players/playersSlice';
 import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
-import { RootState } from '../store/rootReducer';
 
 type Props = {
     players: IPlayer[];
