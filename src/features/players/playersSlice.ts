@@ -71,7 +71,6 @@ const playersSlice = createSlice({
         deletePlayers() {
             return {};
         },
-
     },
 });
 
