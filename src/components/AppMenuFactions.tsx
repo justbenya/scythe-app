@@ -1,12 +1,12 @@
 import { AppBar, Tab, Tabs, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { factions, findEngNameFactionToUrl } from '../common/scytheLogic';
 import { clearPath } from '../common/utils';
 import { IPlayer } from '../features/players/types';
 import { routes } from '../routes';
-import FactionIcon from './FactionIcon';
+import { FactionIconWithBadge } from './FactionIconWithBadge';
 
 const useStyles = makeStyles({
     toolbar: {
@@ -23,7 +23,7 @@ type Props = {
     players: IPlayer[];
 };
 
-const AppMenuFactions: FunctionComponent<Props> = (props) => {
+export const AppMenuFactions: FC<Props> = (props) => {
     const { players } = props;
     const classes = useStyles();
 
@@ -32,8 +32,6 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
     let scoreUrl = useRouteMatch(routes.score.path);
     const url = factionUrl?.path || scoreUrl?.path || '';
 
-    const getIcon = (player: IPlayer) => <FactionIcon name={ player.faction } iconPath={ getIconPath(player) } />;
-    const getIconPath = (player: IPlayer) => factions.find(i => i.name === player.faction)?.iconPath;
     const getLabel = (player: IPlayer) => factions.find(i => i.name === player.faction)?.shortName;
 
     return (
@@ -50,7 +48,7 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
                             { players.map((player: IPlayer) => (
                                 <Tab
                                     className={ classes.toolbar + ' faction-tab' }
-                                    icon={ getIcon(player) }
+                                    icon={ <FactionIconWithBadge player={ player } /> }
                                     label={ getLabel(player) }
                                     key={ player.faction }
                                     component={ Link }
@@ -66,5 +64,3 @@ const AppMenuFactions: FunctionComponent<Props> = (props) => {
 
     );
 };
-
-export default AppMenuFactions;

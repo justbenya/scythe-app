@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 type Props = {
     name: string;
     iconPath?: string;
 }
 
-const FactionIcon: React.FunctionComponent<Props> = (props) => {
+const FactionIcon: FC<Props> = (props) => {
     const { name, iconPath } = props;
 
     if (!iconPath) return null;

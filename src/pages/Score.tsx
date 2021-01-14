@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../app/rootReducer';
 import { findEngNameFactionToUrl, findPlayerByFaction, findTurnOrder } from '../common/scytheLogic';
-import AppMenuFactions from '../components/AppMenuFactions';
+import { AppMenuFactions } from '../components/AppMenuFactions';
 import ScoreForm from '../components/ScoreForm';
 import { addPlayer, editPlayer } from '../features/players/playersSlice';
 import { IPlayer } from '../features/players/types';
