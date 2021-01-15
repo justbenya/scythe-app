@@ -186,7 +186,7 @@ export const ScoreForm: FC = () => {
                         fullWidth
                         variant="outlined"
                         size="small"
-                        label="Всего ресурсов"
+                        label="Всего ресурсов (каждый ресурс)"
                         type="number"
                         onFocus={ handleOnFocus }
                         InputProps={ {
