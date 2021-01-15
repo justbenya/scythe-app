@@ -6,7 +6,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import StarIcon from '@material-ui/icons/Star';
 import TerrainIcon from '@material-ui/icons/Terrain';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -47,7 +47,7 @@ export const ScoreForm: FC = () => {
             resources: player?.resources,
             buildingBonuses: player?.buildingBonuses,
         },
-        mode: 'onBlur',
+        mode: 'onSubmit',
         resolver: yupResolver(schema),
     });
 
@@ -77,6 +77,15 @@ export const ScoreForm: FC = () => {
         }
     };
 
+    const firstInput = useRef<HTMLInputElement>();
+
+    useEffect(() => {
+        if (firstInput.current) {
+            register(firstInput.current);
+            firstInput.current.focus();
+        }
+    }, [nextPlayer.id]);
+
     const handleOnFocus = (event: React.FocusEvent<any>): void => {
         event.target.select();
     };
@@ -88,7 +97,10 @@ export const ScoreForm: FC = () => {
                     <TextField
                         error={ !!errors.gold }
                         helperText={ (errors?.gold as any)?.message }
-                        inputRef={ register }
+                        inputRef={ (e: HTMLInputElement) => {
+                            register(e);
+                            firstInput.current = e;
+                        } }
                         id="gold"
                         name="gold"
                         fullWidth
