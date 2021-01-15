@@ -74,6 +74,15 @@ export const mats = [
     },
 ];
 
+export const resources = [
+    { name: 'Популярность', imgPath: `${ process.env.PUBLIC_URL }/assets/icons/resources/popularity.png` },
+    { name: 'Звезд', imgPath: `${ process.env.PUBLIC_URL }/assets/icons/resources/stars.png` },
+    { name: 'Территорий', imgPath: `${ process.env.PUBLIC_URL }/assets/icons/resources/territories.png` },
+    { name: 'Ресурсов', imgPath: `${ process.env.PUBLIC_URL }/assets/icons/resources/resources.png` },
+    { name: 'Бонусов зданий', imgPath: `${ process.env.PUBLIC_URL }/assets/icons/resources/structureBonus.png` },
+    { name: 'Монет', imgPath: `${ process.env.PUBLIC_URL }/assets/icons/resources/gold.png` },
+];
+
 export const structureBonus = [
     'Количество территорий с туннелями',
     'Количество озёр',
@@ -104,6 +113,11 @@ export function findPlayerByFaction(players: IPlayer[], searchWord: string): IPl
 export function findEngNameFactionToUrl(faction: string = ''): string {
     const dictionaryByFactionNames = keyBy(factions, 'name');
     return dictionaryByFactionNames[faction].slug ? dictionaryByFactionNames[faction].slug : '';
+}
+
+export function getShortNameFaction(faction: string = ''): string {
+    const dictionaryByFactionNames = keyBy(factions, 'name');
+    return dictionaryByFactionNames[faction].shortName ? dictionaryByFactionNames[faction].shortName : '';
 }
 
 export function getLastAddedFaction(players: IPlayer[]): string {
@@ -139,6 +153,6 @@ export function foundPrevNextPlayers(players: IPlayer[] = [], player: IPlayer) {
 
     return {
         prevPlayer,
-        nextPlayer
-    }
+        nextPlayer,
+    };
 }

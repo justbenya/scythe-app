@@ -53,4 +53,6 @@ code {
     width    : 100%;
 }
 
-/*Стили для страницы с победителями*/
+.result-page {
+    padding-top : 20px;
+}

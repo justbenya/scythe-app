@@ -5,6 +5,7 @@ import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../app/rootReducer';
+import { getShortNameFaction, resources } from '../common/scytheLogic';
 import { deletePlayers, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
@@ -12,6 +13,12 @@ import Main from '../layouts/Main';
 const useStyles = makeStyles({
     table: {
         minWidth: 320,
+    },
+    sticky: {
+        position: 'sticky',
+        background: '#fff',
+        left: 0,
+        zIndex: 1,
     },
 });
 
@@ -45,40 +52,41 @@ const Result: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <Main>
+        <Main className={ 'result-page' }>
             <TableContainer component={ Paper }>
-                <Table className={ classes.table } size="medium">
+                <Table className={ classes.table } size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Место</TableCell>
-                            <TableCell>Фракция</TableCell>
-                            <TableCell align="right">Популярность</TableCell>
-                            <TableCell align="right">Звезд</TableCell>
-                            <TableCell align="right">Территорий</TableCell>
-                            <TableCell align="right">Ресурсов</TableCell>
-                            <TableCell align="right">Бонусов зданий</TableCell>
-                            <TableCell align="right">Монет</TableCell>
-                            <TableCell align="right">Всего</TableCell>
+                            <TableCell align="center" size={ 'small' }>№</TableCell>
+                            <TableCell className={ classes.sticky }>Игрок</TableCell>
+                            {
+                                resources.map(resource => (
+                                    <TableCell align="center">
+                                        <img width={ 30 } height={ 30 } src={ resource.imgPath } alt={ resource.name } />
+                                    </TableCell>
+                                ))
+                            }
+                            <TableCell align="center">Всего</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         { Object.values(converted).map((player) => (
                             <TableRow key={ player.name }>
                                 <TableCell align="center">{ player.gameEndPosition }</TableCell>
-                                <TableCell component="th" scope="player">
+                                <TableCell className={ classes.sticky } component="th" scope="player" size={ 'small' }>
                                     { player.name }
                                     <br />
-                                    { player.faction }
+                                    { getShortNameFaction(player.faction) }
                                     <br />
                                     { player.mat }
                                 </TableCell>
-                                <TableCell align="right">{ player.popularity }</TableCell>
-                                <TableCell align="right">{ player.stars }</TableCell>
-                                <TableCell align="right">{ player.territories }</TableCell>
-                                <TableCell align="right">{ player.resources }</TableCell>
-                                <TableCell align="right">{ player.buildingBonuses }</TableCell>
-                                <TableCell align="right">{ player.gold }</TableCell>
-                                <TableCell align="right">{ player.points }</TableCell>
+                                <TableCell size={ 'small' } align="center">{ player.popularity }</TableCell>
+                                <TableCell size={ 'small' } align="center">{ player.stars }</TableCell>
+                                <TableCell size={ 'small' } align="center">{ player.territories }</TableCell>
+                                <TableCell size={ 'small' } align="center">{ player.resources }</TableCell>
+                                <TableCell size={ 'small' } align="center">{ player.buildingBonuses }</TableCell>
+                                <TableCell size={ 'small' } align="center">{ player.gold }</TableCell>
+                                <TableCell size={ 'small' } align="center">{ player.points }</TableCell>
                             </TableRow>
                         )) }
                     </TableBody>

@@ -1,7 +1,8 @@
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { FunctionComponent } from 'react';
+import clsx from 'clsx';
+import React, { FC } from 'react';
 import { AppMenuNavigation } from '../components/AppMenuNavigation';
 
 const useStyles = makeStyles({
@@ -23,7 +24,12 @@ const useStyles = makeStyles({
     },
 });
 
-const Main: FunctionComponent = (props) => {
+type Props = {
+    [name: string]: any;
+}
+
+const Main: FC<Props> = (props) => {
+    const { className } = props;
     const classes = useStyles();
 
     return (
@@ -31,7 +37,7 @@ const Main: FunctionComponent = (props) => {
             <CssBaseline />
 
             <Container fixed className={ classes.fixed }>
-                <main className={ classes.main }>{ props.children }</main>
+                <main className={ clsx(classes.main, className) }>{ props.children }</main>
             </Container>
 
             <AppMenuNavigation />
