@@ -2,7 +2,6 @@ import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import PeopleIcon from '@material-ui/icons/People';
-import SettingsIcon from '@material-ui/icons/Settings';
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -46,13 +45,13 @@ export const AppMenuNavigation: FC = () => {
                 to={ routes.result.path }
             />
 
-            <BottomNavigationAction
-                icon={ <SettingsIcon /> }
-                component={ Link }
-                label="Настройки"
-                value="/settings"
-                to="/settings"
-            />
+            {/*<BottomNavigationAction*/}
+            {/*    icon={ <SettingsIcon /> }*/}
+            {/*    component={ Link }*/}
+            {/*    label="Настройки"*/}
+            {/*    value="/settings"*/}
+            {/*    to="/settings"*/}
+            {/*/>*/}
         </BottomNavigation>
     );
 };
