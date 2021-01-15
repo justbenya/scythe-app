@@ -12,6 +12,7 @@ import { RootState } from '../../app/rootReducer';
 import { factions, findEngNameFactionToUrl, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
+import { AutocompletePlayerName } from '../names/AutocompletePlayerName';
 import { changeFactionPlayer, deletePlayer, editPlayer } from './playersSlice';
 import { IPlayer, PlayersType } from './types';
 
@@ -72,11 +73,6 @@ const PlayerCard: FunctionComponent = () => {
 
     if (!player) return null;
 
-    const handleChangeName = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        const changesPlayers = { ...player, name: event.target.value };
-        dispatch(editPlayer(changesPlayers));
-    };
-
     const handleChangeFaction = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
         const newFaction = event.target.value;
         const prevFaction = players[id].faction;
@@ -107,10 +103,6 @@ const PlayerCard: FunctionComponent = () => {
         dispatch(editPlayer(changesPlayers));
     };
 
-    const handleOnFocus = (event: React.FocusEvent<any>): void => {
-        event.target.select();
-    };
-
     const handleDeletePlayer = () => {
         dispatch(deletePlayer(player.id));
     };
@@ -121,15 +113,7 @@ const PlayerCard: FunctionComponent = () => {
             <CardContent>
                 <Grid container spacing={ 2 } direction={ 'row' }>
                     <Grid item xs={ 12 } sm={ 6 }>
-                        <TextField
-                            label="Имя"
-                            value={ player.name }
-                            onChange={ handleChangeName }
-                            onFocus={ handleOnFocus }
-                            variant="outlined"
-                            size="medium"
-                            fullWidth
-                        />
+                        <AutocompletePlayerName />
                     </Grid>
 
                     <Grid item>
