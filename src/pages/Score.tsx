@@ -5,10 +5,11 @@ import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../app/rootReducer';
-import { findEngNameFactionToUrl, findPlayerByFaction, findTurnOrder } from '../common/scytheLogic';
+import { findEngNameFactionToUrl, foundPrevNextPlayers } from '../common/scytheLogic';
 import { AppMenuFactions } from '../components/AppMenuFactions';
-import ScoreForm from '../components/ScoreForm';
 import { addPlayer, editPlayer } from '../features/players/playersSlice';
+import { ScoreForm } from '../features/players/ScoreForm';
+import { getPlayerByFaction, getPlayersSortByFirstTurn } from '../features/players/selectors';
 import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
 import NotFound from './NotFound';
@@ -17,26 +18,21 @@ type Props = {
     players: IPlayer[];
     player: IPlayer;
     match: any;
-    addPlayer: any;
-    editPlayer: typeof editPlayer;
 }
 
 const Score: FunctionComponent<Props> = (props) => {
-    const { players, player, editPlayer } = props;
+    const { players, player } = props;
 
-    let prevPlayer = null;
-    let nextPlayer = null;
-    if (players.length > 0 && player?.id) {
-        const currentIndex = players.findIndex(item => item.id === player.id);
-        prevPlayer = currentIndex >= 0 && players[currentIndex - 1] ? findEngNameFactionToUrl(players[currentIndex - 1].faction) : null;
-        nextPlayer = currentIndex >= 0 && players[currentIndex + 1] ? findEngNameFactionToUrl(players[currentIndex + 1].faction) : null;
-    }
+    let { prevPlayer, nextPlayer } = foundPrevNextPlayers(players, player)
+    const prevPlayerPath = findEngNameFactionToUrl(prevPlayer.faction)
+    const nextPlayerPath = findEngNameFactionToUrl(nextPlayer.faction)
 
-    if (!player || !players) return <NotFound/>;
+    if (!player || !players) return <NotFound />;
 
     return (
         <>
             <AppMenuFactions players={ players } />
+
             <Main>
                 <Grid container direction={ 'column' } spacing={ 2 }>
                     <Grid item>
@@ -47,9 +43,9 @@ const Score: FunctionComponent<Props> = (props) => {
 
                             <Grid item xs={ 2 } sm={ 1 } style={ { textAlign: 'end' } }>
                                 <IconButton
-                                    disabled={ !Boolean(prevPlayer) }
+                                    disabled={ !Boolean(prevPlayerPath) }
                                     component={ Link }
-                                    to={ `/score/${ prevPlayer }` }
+                                    to={ `/score/${ prevPlayerPath }` }
                                     color="inherit"
                                 >
                                     <ChevronLeftIcon />
@@ -59,9 +55,9 @@ const Score: FunctionComponent<Props> = (props) => {
                             <Grid item xs={ 2 } sm={ 1 } style={ { textAlign: 'end' } }>
                                 <IconButton
                                     edge="end"
-                                    disabled={ !Boolean(nextPlayer) }
+                                    disabled={ !Boolean(nextPlayerPath) }
                                     component={ Link }
-                                    to={ `/score/${ nextPlayer }` }
+                                    to={ `/score/${ nextPlayerPath }` }
                                     color="inherit"
                                 >
                                     <ChevronRightIcon />
@@ -71,7 +67,7 @@ const Score: FunctionComponent<Props> = (props) => {
                     </Grid>
 
                     <Grid item>
-                        <ScoreForm player={ player } editPlayer={ editPlayer } />
+                        <ScoreForm />
                     </Grid>
                 </Grid>
             </Main>
@@ -81,8 +77,8 @@ const Score: FunctionComponent<Props> = (props) => {
 
 export default connect(
     (state: RootState, ownProps: Props) => ({
-        players: findTurnOrder(Object.values(state.players)),
-        player: findPlayerByFaction(Object.values(state.players), ownProps.match.params.id),
+        players: getPlayersSortByFirstTurn(state),
+        player: getPlayerByFaction(ownProps.match.params.id) as any,
     }),
     { addPlayer, editPlayer },
 )(Score);
