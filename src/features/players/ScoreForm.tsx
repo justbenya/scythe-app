@@ -6,11 +6,15 @@ import HomeIcon from '@material-ui/icons/Home';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import StarIcon from '@material-ui/icons/Star';
 import TerrainIcon from '@material-ui/icons/Terrain';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { calculatePoints } from '../common/scytheLogic';
-import { IPlayer, IPoints } from '../features/players/types';
+import { foundPrevNextPlayers } from '../../common/scytheLogic';
+import { scoreFormSubmit } from './playersSlice';
+import { getPlayerByFaction, getPlayersSortByFirstTurn } from './selectors';
+import { IPlayer, IPoints } from './types';
 
 const text = {
     min: `Значение не может быть отрицательным`,
@@ -26,13 +30,13 @@ const schema = yup.object().shape({
     buildingBonuses: yup.number().required().min(0, text.min).max(9, text.max(9)).integer().typeError('Введите кол-во монет за бонус зданий'),
 });
 
-type Props = {
-    player: IPlayer;
-    editPlayer(formValue: any): void;
-}
+export const ScoreForm: FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const players = useSelector(getPlayersSortByFirstTurn);
+    const player = useSelector(getPlayerByFaction(id));
+    const dispatch = useDispatch();
 
-const ScoreForm: FunctionComponent<Props> = (props) => {
-    const { player, editPlayer } = props;
+    const { nextPlayer } = foundPrevNextPlayers(players, player as IPlayer);
 
     const { register, handleSubmit, errors, reset } = useForm<IPoints>({
         defaultValues: {
@@ -48,16 +52,29 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
     });
 
     useEffect(() => {
-        reset(player);
+        if (!player?.gold &&
+            !player?.popularity &&
+            !player?.stars &&
+            !player?.territories &&
+            !player?.resources &&
+            !player?.buildingBonuses) {
+            reset({
+                gold: undefined,
+                popularity: undefined,
+                stars: undefined,
+                territories: undefined,
+                resources: undefined,
+                buildingBonuses: undefined,
+            });
+        } else {
+            reset(player);
+        }
     }, [reset, player]);
 
-    const onSubmit = (data: IPoints) => {
-        const result = calculatePoints(data);
-        editPlayer({
-            ...player,
-            ...data,
-            points: result,
-        });
+    const onSubmit = (formData: IPoints) => {
+        if (player) {
+            dispatch(scoreFormSubmit(player, formData, nextPlayer));
+        }
     };
 
     const handleOnFocus = (event: React.FocusEvent<any>): void => {
@@ -212,14 +229,14 @@ const ScoreForm: FunctionComponent<Props> = (props) => {
                         </Grid>
 
                         <Grid item>
-                            <Typography variant={ 'h6' }>Очков: { player.points }</Typography>
+                            { player?.points
+                                ? <Typography variant={ 'h6' }>Очков: { player?.points }</Typography>
+                                : null
+                            }
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
         </form>
-
     );
 };
-
-export default ScoreForm;

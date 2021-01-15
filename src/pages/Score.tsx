@@ -1,31 +1,25 @@
 import { Grid, IconButton, Typography } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import React, { FunctionComponent } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { RootState } from '../app/rootReducer';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
 import { findEngNameFactionToUrl, foundPrevNextPlayers } from '../common/scytheLogic';
 import { AppMenuFactions } from '../components/AppMenuFactions';
-import { addPlayer, editPlayer } from '../features/players/playersSlice';
 import { ScoreForm } from '../features/players/ScoreForm';
 import { getPlayerByFaction, getPlayersSortByFirstTurn } from '../features/players/selectors';
 import { IPlayer } from '../features/players/types';
 import Main from '../layouts/Main';
 import NotFound from './NotFound';
 
-type Props = {
-    players: IPlayer[];
-    player: IPlayer;
-    match: any;
-}
+const Score: FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const players = useSelector(getPlayersSortByFirstTurn);
+    const player = useSelector(getPlayerByFaction(id));
 
-const Score: FunctionComponent<Props> = (props) => {
-    const { players, player } = props;
-
-    let { prevPlayer, nextPlayer } = foundPrevNextPlayers(players, player)
-    const prevPlayerPath = findEngNameFactionToUrl(prevPlayer.faction)
-    const nextPlayerPath = findEngNameFactionToUrl(nextPlayer.faction)
+    let { prevPlayer, nextPlayer } = foundPrevNextPlayers(players, player as IPlayer);
+    const prevPlayerPath = findEngNameFactionToUrl(prevPlayer.faction);
+    const nextPlayerPath = findEngNameFactionToUrl(nextPlayer.faction);
 
     if (!player || !players) return <NotFound />;
 
@@ -75,10 +69,4 @@ const Score: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default connect(
-    (state: RootState, ownProps: Props) => ({
-        players: getPlayersSortByFirstTurn(state),
-        player: getPlayerByFaction(ownProps.match.params.id) as any,
-    }),
-    { addPlayer, editPlayer },
-)(Score);
+export default Score;

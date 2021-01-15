@@ -2,7 +2,7 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { FunctionComponent } from 'react';
-import AppMenuNavigation from '../components/AppMenuNavigation';
+import { AppMenuNavigation } from '../components/AppMenuNavigation';
 
 const useStyles = makeStyles({
     fixed: {

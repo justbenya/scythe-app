@@ -3,6 +3,7 @@ import omit from 'lodash-es/omit';
 import { nanoid } from 'nanoid';
 import { AppThunk } from '../../app/store';
 import {
+    calculatePoints,
     factions,
     findEngNameFactionToUrl,
     getRouteLastAddedPlayer,
@@ -12,7 +13,7 @@ import {
 import { clearPath, shuffle } from '../../common/utils';
 import history from '../../history';
 import { routes } from '../../routes';
-import { IPlayer, PlayersType } from './types';
+import { IPlayer, IPoints, PlayersType } from './types';
 
 const initialState: PlayersType = {};
 
@@ -80,6 +81,25 @@ export const {
     removePlayer,
     deletePlayers,
 } = playersSlice.actions;
+
+export const scoreFormSubmit = (player: IPlayer, formData: IPoints, nextPlayer: IPlayer): AppThunk => {
+    return (dispatch, getState) => {
+        const points = calculatePoints(formData);
+
+        dispatch(editPlayer({
+            ...player,
+            ...formData,
+            points,
+        }));
+
+        const players = Object.values(getState().players);
+        if (players.every(player => player.points > 0)) {
+            history.push(routes.result.path);
+        } else {
+            history.push(`${ clearPath(routes.score.path) }${ findEngNameFactionToUrl(nextPlayer.faction) }`);
+        }
+    }
+}
 
 export const addPlayer = (): AppThunk => {
     return async (dispatch, getState) => {

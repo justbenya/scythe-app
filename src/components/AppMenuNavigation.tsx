@@ -3,18 +3,20 @@ import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { RootState } from '../app/rootReducer';
-import { findFactionWhoHasFirstTurn, getLastAddedFaction } from '../common/scytheLogic';
+import { findEngNameFactionToUrl, getLastAddedFaction } from '../common/scytheLogic';
 import { clearPath } from '../common/utils';
+import { getPlayerWhoHasFirstTurn } from '../features/players/selectors';
 import { IPlayer } from '../features/players/types';
 import { routes } from '../routes';
 
-const AppMenuNavigation: FunctionComponent = () => {
+export const AppMenuNavigation: FC = () => {
     const history = useHistory();
     const players = useSelector<RootState, IPlayer[]>(state => Object.values(state.players));
+    const player = useSelector(getPlayerWhoHasFirstTurn);
 
     return (
         <BottomNavigation className="menu-footer" value={ history.location.pathname } showLabels>
@@ -27,16 +29,16 @@ const AppMenuNavigation: FunctionComponent = () => {
             />
 
             <BottomNavigationAction
-                disabled={!players.length}
+                disabled={ !players.length }
                 icon={ <DonutLargeIcon /> }
                 component={ Link }
                 label="Очки"
                 value={ history.location.pathname.includes(clearPath(routes.score.path)) ? history.location.pathname : null }
-                to={ `${ clearPath(routes.score.path) }${ findFactionWhoHasFirstTurn(players) }` }
+                to={ `${ clearPath(routes.score.path) }${ findEngNameFactionToUrl(player?.faction) }` }
             />
 
             <BottomNavigationAction
-                disabled={!players.length}
+                disabled={ !players.length }
                 icon={ <ListAltIcon /> }
                 component={ Link }
                 label="Результаты"
@@ -54,5 +56,3 @@ const AppMenuNavigation: FunctionComponent = () => {
         </BottomNavigation>
     );
 };
-
-export default AppMenuNavigation;
