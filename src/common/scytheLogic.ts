@@ -45,9 +45,9 @@ export const factions = [
     {
         name: 'Руссветский союз',
         shortName: 'Руссвет',
-        slug: 'rusvet',
-        characterPath: `${ process.env.PUBLIC_URL }/assets/factions/rusvet.jpg`,
-        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/rusvet.png`,
+        slug: 'rusviet',
+        characterPath: `${ process.env.PUBLIC_URL }/assets/factions/rusviet.jpg`,
+        iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/rusviet.png`,
     },
 ];
 
