@@ -1,5 +1,5 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import mapKeys from 'lodash-es/mapKeys';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
@@ -10,17 +10,20 @@ import { deletePlayers, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
 import Main from '../layouts/Main';
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 320,
-    },
-    sticky: {
-        position: 'sticky',
-        background: '#fff',
-        left: 0,
-        zIndex: 1,
-    },
-});
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            borderCollapse: 'separate',
+            minWidth: 320,
+        },
+        sticky: {
+            position: 'sticky',
+            background: theme.palette.background.paper,
+            left: 0,
+            zIndex: 1,
+        }
+    })
+);
 
 type Props = {
     players: PlayersType;
@@ -54,7 +57,7 @@ const Result: FunctionComponent<Props> = (props) => {
     return (
         <Main className={ 'result-page' }>
             <TableContainer component={ Paper }>
-                <Table className={ classes.table } size="small">
+                <Table className={ classes.root } size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell align="center" size={ 'small' }>№</TableCell>
