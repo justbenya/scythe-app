@@ -13,6 +13,8 @@ export const factionsMoveOrder = [
     'Саксонская империя',
 ];
 
+export type FactionType = 'polania' | 'saxony' | 'crimean' | 'nordic' | 'rusviet';
+
 export const factions = [
     {
         name: 'Республика Поляния',
@@ -155,4 +157,11 @@ export function foundPrevNextPlayers(players: IPlayer[] = [], player: IPlayer) {
         prevPlayer,
         nextPlayer,
     };
+}
+
+
+export function foundPlayerIndexByFaction(players: IPlayer[], searchFaction: FactionType) {
+    const factions = players.map(player => findEngNameFactionToUrl(player.faction));
+    const index = factions.findIndex(faction => faction === searchFaction);
+    return index <= 0 ? 0 : index;
 }

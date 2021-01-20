@@ -7,15 +7,15 @@ const useStyles = makeStyles({
         height: '100%',
         width: '100%',
         margin: '0 auto',
-        // '@media (min-width: 600px)': {
-        //     maxWidth: "100%",
-        // },
-        // '@media (min-width: 960px)': {
-        //     maxWidth: 960,
-        // },
-        // '@media (min-width: 1280px)': {
-        //     maxWidth: 1280,
-        // },
+        '@media (min-width: 600px)': {
+            maxWidth: "100%",
+        },
+        '@media (min-width: 960px)': {
+            maxWidth: 960,
+        },
+        '@media (min-width: 1280px)': {
+            maxWidth: 1280,
+        },
     },
 });
 

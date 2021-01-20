@@ -1,21 +1,16 @@
-import { Paper, Toolbar } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
+import { AppBar, Paper, Tab, Tabs, Toolbar } from '@material-ui/core';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { Link, useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import SwipeableViews from 'react-swipeable-views';
-import { factions, findEngNameFactionToUrl } from './common/scytheLogic';
-import { clearPath } from './common/utils';
-import { FactionIconWithBadge } from './components/FactionIconWithBadge';
-import { TabPanel } from './components/TabPanel';
-import PlayerCard from './features/players/PlayerCard';
-import { getPlayers } from './features/players/selectors';
-import { IPlayer } from './features/players/types';
-import { routes } from './routes';
+import { factions, FactionType, findEngNameFactionToUrl, foundPlayerIndexByFaction } from '../common/scytheLogic';
+import { clearPath } from '../common/utils';
+import { IPlayer } from '../features/players/types';
+import { routes } from '../routes';
+import { AppMenuNavigation } from './AppMenuNavigation';
+import { FactionIconWithBadge } from './FactionIconWithBadge';
+import { TabPanel } from './TabPanel';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -24,8 +19,11 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: '100%',
     },
     paper: {
-        height: '100vh',
         backgroundColor: theme.palette.background.default,
+        width: '100%',
+        height: '100%',
+        paddingTop: 80,
+        paddingBottom: 80,
     },
     tab: {
         padding: '3px 6px',
@@ -36,55 +34,52 @@ const useStyles = makeStyles((theme: Theme) => ({
         minHeight: 65,
         color: theme.palette.text.primary,
     },
+    swipeableViews: { height: '100%' },
 }));
 
-//todo перенести в scytheLogic
-type FactionType = 'polania' | 'saxony' | 'crimean' | 'nordic' | 'rusviet'
 
-const foundPlayerIndexByFaction = (players: IPlayer[], searchFaction: FactionType) => {
-    const factions = players.map(player => findEngNameFactionToUrl(player.faction));
-    const index = factions.findIndex(faction => faction === searchFaction);
-    return index <= 0 ? 0 : index;
-};
+type Props = {
+    players: IPlayer[],
+    children: ReactNode
+    faction?: FactionType
+}
 
-export default function FullWidthTabs() {
-    const { id: faction } = useParams<{ id: FactionType }>();
-    const players = useSelector(getPlayers);
-
+export const FullWidthTabs: FC<Props> = ({ children, players }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const [value, setValue] = React.useState(foundPlayerIndexByFaction(players, faction));
+    const { id: faction } = useParams<{ id: FactionType }>();
 
-    useEffect(() => {
-        setValue(foundPlayerIndexByFaction(players, faction));
-    }, [faction, players]);
+    const [value, setValue] = React.useState(foundPlayerIndexByFaction(players, faction));
 
     const history = useHistory();
     let factionUrl = useRouteMatch(routes.index.path);
     let scoreUrl = useRouteMatch(routes.score.path);
     const url = factionUrl?.path || scoreUrl?.path || '';
 
-    const getLabel = (player: IPlayer) => factions.find(i => i.name === player.faction)?.shortName;
-
-    const handleChange = (event: React.ChangeEvent<{}>, newFaction: FactionType) => {
-        const index = foundPlayerIndexByFaction(players, newFaction);
-        setValue(index <= 0 ? 0 : index);
+    const handleChange = (event: React.ChangeEvent<{}>, value: number) => {
+        setValue(value);
     };
 
     const handleChangeIndex = (index: number) => {
-        if (value !== index) {
+        if (index < players.length) {
             setValue(index);
             history.push(`${ clearPath(url) }${ findEngNameFactionToUrl(players[index].faction) }`);
         }
     };
 
+    useEffect(() => {
+        setValue(foundPlayerIndexByFaction(players, faction));
+    }, [faction]);
+
+    const getLabel = (player: IPlayer) => factions.find(i => i.name === player.faction)?.shortName;
+
     return (
         <Paper className={ classes.paper }>
-            <AppBar className={ classes.root } position="static">
+            <AppBar className={ classes.root } position="fixed">
                 <div className="container">
                     <Toolbar>
                         <Tabs
-                            value={ faction }
+                            value={ value }
                             onChange={ handleChange }
                             scrollButtons="auto"
                             variant="scrollable"
@@ -97,7 +92,6 @@ export default function FullWidthTabs() {
                                     className={ clsx(classes.tab, 'faction-tab') }
                                     label={ getLabel(player) }
                                     icon={ <FactionIconWithBadge player={ player } /> }
-                                    value={ `${ findEngNameFactionToUrl(player.faction) }` }
                                     to={ `${ clearPath(url) }${ findEngNameFactionToUrl(player.faction) }` }
                                 />
                             )) }
@@ -107,16 +101,22 @@ export default function FullWidthTabs() {
             </AppBar>
 
             <SwipeableViews
+                threshold={2}
+                hysteresis={0.1}
+                resistance
+                className={ classes.swipeableViews }
                 axis={ theme.direction === 'rtl' ? 'x-reverse' : 'x' }
                 index={ value }
                 onChangeIndex={ handleChangeIndex }
             >
                 { players.map((player, index) => (
                     <TabPanel key={ player.faction } value={ value } index={ index } dir={ theme.direction }>
-                        <PlayerCard />
+                        { children }
                     </TabPanel>
                 )) }
             </SwipeableViews>
+
+            <AppMenuNavigation />
         </Paper>
     );
-}
+};

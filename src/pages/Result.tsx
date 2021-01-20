@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../app/rootReducer';
 import { getShortNameFaction, resources } from '../common/scytheLogic';
+import MainLayout from '../components/MainLayout';
 import { deletePlayers, editPlayer } from '../features/players/playersSlice';
 import { PlayersType } from '../features/players/types';
-import Main from '../layouts/Main';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,7 +55,7 @@ const Result: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <Main className={ 'result-page' }>
+        <MainLayout className={ 'result-page' }>
             <TableContainer component={ Paper }>
                 <Table className={ classes.root } size="small">
                     <TableHead>
@@ -102,7 +102,7 @@ const Result: FunctionComponent<Props> = (props) => {
             >
                 Новая игра
             </Button>
-        </Main>
+        </MainLayout>
     );
 };
 

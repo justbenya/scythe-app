@@ -1,70 +1,31 @@
-import { Grid, IconButton, Typography } from '@material-ui/core';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { Grid, Typography } from '@material-ui/core';
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { findEngNameFactionToUrl, foundPrevNextPlayers } from '../common/scytheLogic';
-import { AppMenuFactions } from '../components/AppMenuFactions';
+import { useParams } from 'react-router-dom';
+import { FactionType } from '../common/scytheLogic';
+import { FullWidthTabs } from '../components/FullWidthTabs';
 import { ScoreForm } from '../features/players/ScoreForm';
 import { getPlayerByFaction, getPlayersSortByFirstTurn } from '../features/players/selectors';
-import { IPlayer } from '../features/players/types';
-import Main from '../layouts/Main';
 import NotFound from './NotFound';
 
 const Score: FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id: faction } = useParams<{ id: FactionType }>();
     const players = useSelector(getPlayersSortByFirstTurn);
-    const player = useSelector(getPlayerByFaction(id));
-
-    let { prevPlayer, nextPlayer } = foundPrevNextPlayers(players, player as IPlayer);
-    const prevPlayerPath = findEngNameFactionToUrl(prevPlayer.faction);
-    const nextPlayerPath = findEngNameFactionToUrl(nextPlayer.faction);
+    const player = useSelector(getPlayerByFaction(faction));
 
     if (!player || !players) return <NotFound />;
 
     return (
         <>
-            <AppMenuFactions players={ players } />
-
-            <Main>
-                <Grid container direction={ 'column' } spacing={ 2 }>
+            <FullWidthTabs players={ players } faction={ faction }>
+                <Grid container direction={ 'column' } spacing={ 3 } style={ { height: '100%' } }>
                     <Grid item>
-                        <Grid container alignItems={ 'center' }>
-                            <Grid item xs={ 8 } sm={ 10 }>
-                                <Typography variant={ 'h5' }>Игрок: { player.name }</Typography>
-                            </Grid>
-
-                            <Grid item xs={ 2 } sm={ 1 } style={ { textAlign: 'end' } }>
-                                <IconButton
-                                    disabled={ !Boolean(prevPlayerPath) }
-                                    component={ Link }
-                                    to={ `/score/${ prevPlayerPath }` }
-                                    color="inherit"
-                                >
-                                    <ChevronLeftIcon />
-                                </IconButton>
-                            </Grid>
-
-                            <Grid item xs={ 2 } sm={ 1 } style={ { textAlign: 'end' } }>
-                                <IconButton
-                                    edge="end"
-                                    disabled={ !Boolean(nextPlayerPath) }
-                                    component={ Link }
-                                    to={ `/score/${ nextPlayerPath }` }
-                                    color="inherit"
-                                >
-                                    <ChevronRightIcon />
-                                </IconButton>
-                            </Grid>
-                        </Grid>
+                        <Typography variant={ 'h5' }>Игрок: { player.name }</Typography>
                     </Grid>
 
-                    <Grid item>
-                        <ScoreForm />
-                    </Grid>
+                    <Grid item><ScoreForm /></Grid>
                 </Grid>
-            </Main>
+            </FullWidthTabs>
         </>
     );
 };

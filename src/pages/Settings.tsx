@@ -1,7 +1,7 @@
 import { Grid, Link } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import React, { FunctionComponent } from 'react';
-import Main from '../layouts/Main';
+import MainLayout from '../components/MainLayout';
 
 interface OwnProps {}
 
@@ -9,7 +9,7 @@ type Props = OwnProps;
 
 const Settings: FunctionComponent<Props> = (props) => {
     return (
-        <Main>
+        <MainLayout>
             <Grid container>
                 <Grid item>
                     <Link rel="noopener" href="https://github.com/justbenya/scythe-app">
@@ -19,7 +19,7 @@ const Settings: FunctionComponent<Props> = (props) => {
 
             </Grid>
 
-        </Main>
+        </MainLayout>
     );
 };
 

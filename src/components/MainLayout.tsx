@@ -2,7 +2,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { FC } from 'react';
-import { AppMenuNavigation } from '../components/AppMenuNavigation';
+import { AppMenuNavigation } from './AppMenuNavigation';
 
 const useStyles = makeStyles({
     fixed: {
@@ -18,8 +18,6 @@ const useStyles = makeStyles({
     },
     main: {
         height: '100%',
-        // paddingTop: 80,
-        // paddingBottom: 80,
     },
 });
 
@@ -27,7 +25,7 @@ type Props = {
     [name: string]: any;
 }
 
-const Main: FC<Props> = (props) => {
+const MainLayout: FC<Props> = (props) => {
     const { className } = props;
     const classes = useStyles();
 
@@ -42,4 +40,4 @@ const Main: FC<Props> = (props) => {
     );
 };
 
-export default Main;
+export default MainLayout;
