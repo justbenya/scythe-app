@@ -205,5 +205,4 @@ const PlayerCard: FunctionComponent = () => {
     );
 };
 
-
 export default PlayerCard;

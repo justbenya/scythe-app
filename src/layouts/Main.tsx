@@ -18,8 +18,8 @@ const useStyles = makeStyles({
     },
     main: {
         height: '100%',
-        paddingTop: 80,
-        paddingBottom: 80,
+        // paddingTop: 80,
+        // paddingBottom: 80,
     },
 });
 
