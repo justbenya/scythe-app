@@ -1,4 +1,4 @@
-import { Button, Container, CssBaseline, Grid, Paper, Typography } from '@material-ui/core';
+import { Button, Container, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
@@ -40,8 +40,6 @@ const First: FC = () => {
 
     return (
         <>
-            <CssBaseline />
-
             <Paper className={ classes.paperContainer } elevation={ 0 }>
                 <Container fixed>
 

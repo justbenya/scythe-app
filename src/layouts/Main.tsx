@@ -1,5 +1,4 @@
 import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { FC } from 'react';
@@ -34,8 +33,6 @@ const Main: FC<Props> = (props) => {
 
     return (
         <>
-            <CssBaseline />
-
             <Container fixed className={ classes.fixed }>
                 <main className={ clsx(classes.main, className) }>{ props.children }</main>
             </Container>
