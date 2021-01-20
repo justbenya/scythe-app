@@ -1,8 +1,8 @@
 {
   "name": "scythe-score-calculator",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "private": true,
-  "homepage": "https://justbenya.github.io/scythe-app",
+  "homepage": "./",
   "dependencies": {
     "@hookform/resolvers": "^1.2.0",
     "@material-ui/core": "^4.11.2",
