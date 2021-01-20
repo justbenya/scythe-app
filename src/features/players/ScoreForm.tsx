@@ -6,7 +6,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import StarIcon from '@material-ui/icons/Star';
 import TerrainIcon from '@material-ui/icons/Terrain';
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -77,15 +77,6 @@ export const ScoreForm: FC = () => {
         }
     };
 
-    const firstInput = useRef<HTMLInputElement>();
-
-    useEffect(() => {
-        if (firstInput.current) {
-            register(firstInput.current);
-            firstInput.current.focus();
-        }
-    }, [nextPlayer.id]);
-
     const handleOnFocus = (event: React.FocusEvent<any>): void => {
         event.target.select();
     };
@@ -97,10 +88,7 @@ export const ScoreForm: FC = () => {
                     <TextField
                         error={ !!errors.gold }
                         helperText={ (errors?.gold as any)?.message }
-                        inputRef={ (e: HTMLInputElement) => {
-                            register(e);
-                            firstInput.current = e;
-                        } }
+                        inputRef={ register }
                         id="gold"
                         name="gold"
                         fullWidth
@@ -236,16 +224,14 @@ export const ScoreForm: FC = () => {
 
                 <Grid item>
                     <Grid container alignItems={ 'center' } justify={ 'space-between' } spacing={ 2 }>
-                        <Grid item>
-                            <Button type="submit" color="primary" variant="contained">Подсчитать</Button>
+                        <Grid item xs={ 12 }>
+                            <Button type="submit" color="primary" variant="contained" fullWidth>Подсчитать</Button>
                         </Grid>
 
-                        <Grid item>
-                            { player?.points
-                                ? <Typography variant={ 'h6' }>Очков: { player?.points }</Typography>
-                                : null
-                            }
-                        </Grid>
+                        { player?.points
+                            ? <Grid item><Typography variant={ 'h6' }>Очков: { player?.points }</Typography></Grid>
+                            : null
+                        }
                     </Grid>
                 </Grid>
             </Grid>
