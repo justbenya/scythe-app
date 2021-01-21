@@ -94,12 +94,16 @@ export const changeFieldInPlayer = (
         const isValueAlreadySelected = Object.values(players).find(player => player[field] === newValue);
 
         if (isValueAlreadySelected) {
-            const changesPlayers = { ...players[isValueAlreadySelected.id], [field]: prevValue };
-            dispatch(editPlayer(changesPlayers));
+            const changePlayer = { ...players[isValueAlreadySelected.id], [field]: prevValue };
+            dispatch(editPlayer(changePlayer));
         }
 
-        const changesPlayers = { ...players[playerId], [field]: newValue };
-        dispatch(changeFactionPlayer(changesPlayers));
+        const changePlayer = { ...players[playerId], [field]: newValue };
+        dispatch(editPlayer(changePlayer));
+
+        if (field === 'faction') {
+            history.push(`${ clearPath(routes.index.path) }${ findEngNameFactionToUrl(changePlayer.faction) }`);
+        }
     }
 }
 
@@ -128,13 +132,6 @@ export const addPlayer = (): AppThunk => {
         const players = Object.values(getState().players);
         const path = getRouteLastAddedPlayer(players);
         history.push(path);
-    };
-};
-
-export const changeFactionPlayer = (player: IPlayer): AppThunk => {
-    return (dispatch) => {
-        dispatch(editPlayer(player));
-        history.push(`${ clearPath(routes.index.path) }${ findEngNameFactionToUrl(player.faction) }`);
     };
 };
 
