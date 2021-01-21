@@ -81,11 +81,12 @@ const Result: FC = () => {
                     name,
                     points,
                     popularity,
-                    resources: resources1,
+                    resources,
                     stars,
                     territories,
+                    id
                 }) => (
-                    <TableRow key={ name }>
+                    <TableRow key={ id }>
                         <TableCell align="center">{ gameEndPosition }</TableCell>
                         <TableCell className={ classes.sticky } component="th" scope="player" size={ 'small' }>
                             { name }
@@ -97,7 +98,7 @@ const Result: FC = () => {
                         <TableCell size={ 'small' } align="center">{ popularity }</TableCell>
                         <TableCell size={ 'small' } align="center">{ stars }</TableCell>
                         <TableCell size={ 'small' } align="center">{ territories }</TableCell>
-                        <TableCell size={ 'small' } align="center">{ resources1 }</TableCell>
+                        <TableCell size={ 'small' } align="center">{ resources }</TableCell>
                         <TableCell size={ 'small' } align="center">{ buildingBonuses }</TableCell>
                         <TableCell size={ 'small' } align="center">{ gold }</TableCell>
                         <TableCell size={ 'small' } align="center">{ points }</TableCell>
