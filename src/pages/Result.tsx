@@ -100,8 +100,10 @@ const Result: FunctionComponent<Props> = (props) => {
             </TableContainer>
             <br />
             <Button
-                variant="contained" color="secondary"
+                variant="contained"
+                color="primary"
                 onClick={ handleNewGame }
+                fullWidth
             >
                 Новая игра
             </Button>
