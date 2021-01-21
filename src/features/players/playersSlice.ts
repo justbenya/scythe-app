@@ -82,6 +82,27 @@ export const {
     deletePlayers,
 } = playersSlice.actions;
 
+export const changeFieldInPlayer = (
+    field: 'faction' | 'mat',
+    newValue: string,
+    playerId: string,
+): AppThunk => {
+    return (dispatch, getState) => {
+        const players = getState().players;
+        const prevValue = players[playerId][field];
+
+        const isValueAlreadySelected = Object.values(players).find(player => player[field] === newValue);
+
+        if (isValueAlreadySelected) {
+            const changesPlayers = { ...players[isValueAlreadySelected.id], [field]: prevValue };
+            dispatch(editPlayer(changesPlayers));
+        }
+
+        const changesPlayers = { ...players[playerId], [field]: newValue };
+        dispatch(changeFactionPlayer(changesPlayers));
+    }
+}
+
 export const scoreFormSubmit = (player: IPlayer, formData: IPoints, nextPlayer: IPlayer): AppThunk => {
     return (dispatch, getState) => {
         const points = calculatePoints(formData);

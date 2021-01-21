@@ -3,18 +3,16 @@ import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useWindowWidth } from '@react-hook/window-size';
 import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { RootState } from '../../app/rootReducer';
-import { factions, findEngNameFactionToUrl, mats } from '../../common/scytheLogic';
+import { factions, FactionType, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
 import { AutocompletePlayerName } from '../names/AutocompletePlayerName';
-import { changeFactionPlayer, deletePlayer, editPlayer } from './playersSlice';
-import { IPlayer, PlayersType } from './types';
+import { changeFieldInPlayer, deletePlayer } from './playersSlice';
+import { getPlayerByFaction } from './selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,27 +36,17 @@ const useStyles = makeStyles((theme: Theme) =>
         expandOpen: {
             transform: 'rotate(180deg)',
         },
-        slider: {
-            overflow: 'auto',
-            maxWidth: 1200,
-            margin: '0 auto',
-        },
-        sliderBody: {
-            overflow: 'auto',
+        matImage: {
             width: '100%',
-            height: 350,
-            textAlign: 'center',
-        },
-        sliderImage: {
-            width: 'auto',
-            height: 345,
+            height: 'auto',
         },
     }),
 );
 
-const PlayerCard: FunctionComponent = () => {
-    const { id = '' } = useParams<any>();
-    const windowWidth = useWindowWidth();
+export const PlayerCard: FunctionComponent = () => {
+    const { id: faction } = useParams<{ id: FactionType }>();
+    const player = useSelector(getPlayerByFaction(faction));
+    const dispatch = useDispatch();
 
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -66,41 +54,14 @@ const PlayerCard: FunctionComponent = () => {
         setExpanded(!expanded);
     };
 
-    const players = useSelector<RootState, PlayersType>((state => state.players));
-    const player = useSelector<RootState, IPlayer | undefined>((state => (
-        Object.values(state.players).find(i => findEngNameFactionToUrl(i.faction) === id))));
-    const dispatch = useDispatch();
+    if (!player?.id) return null;
 
-    if (!player) return null;
-
-    const handleChangeFaction = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
-        const newFaction = event.target.value;
-        const prevFaction = players[id].faction;
-        const isNewFactionSelect = Object.values(players).find(player => player.faction === newFaction);
-
-        // Если мы выбрали уже задействованную фракцию, поменяем значения местами
-        if (isNewFactionSelect) {
-            const changesPlayers = { ...players[isNewFactionSelect.id], faction: prevFaction };
-            dispatch(editPlayer(changesPlayers));
-        }
-
-        const changesPlayers = { ...players[id], faction: newFaction };
-        dispatch(changeFactionPlayer(changesPlayers));
+    const handleChangeFaction = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        dispatch(changeFieldInPlayer('faction', event.target.value, player.id));
     };
 
-    const handleChangeMat = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, id: string) => {
-        const newMat = event.target.value;
-
-        const prevMat = players[id].mat;
-        const isNewMatSelect = Object.values(players).find(player => player.mat === newMat);
-
-        if (isNewMatSelect) {
-            const changesPlayers = { ...players[isNewMatSelect.id], mat: prevMat };
-            dispatch(editPlayer(changesPlayers));
-        }
-
-        const changesPlayers = { ...players[id], mat: newMat };
-        dispatch(editPlayer(changesPlayers));
+    const handleChangeMat = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        dispatch(changeFieldInPlayer('mat', event.target.value, player.id));
     };
 
     const handleDeletePlayer = () => {
@@ -135,7 +96,7 @@ const PlayerCard: FunctionComponent = () => {
                             } }
                             label="Фракция"
                             value={ player.faction }
-                            onChange={ (event) => handleChangeFaction(event, player.id) }
+                            onChange={ handleChangeFaction }
                             variant="outlined"
                             size="small"
                         >
@@ -152,7 +113,7 @@ const PlayerCard: FunctionComponent = () => {
                             select
                             label="Планшет"
                             value={ player.mat }
-                            onChange={ (event) => handleChangeMat(event, player.id) }
+                            onChange={ handleChangeMat }
                             variant="outlined"
                             size="medium"
                             fullWidth
@@ -190,19 +151,13 @@ const PlayerCard: FunctionComponent = () => {
 
             <Collapse in={ expanded } timeout="auto" unmountOnExit>
                 <CardContent className={ classes.cardContent }>
-                    <div className={ classes.slider } style={ { width: windowWidth - 65 } }>
-                        <div className={ classes.sliderBody }>
-                            <img
-                                className={ classes.sliderImage }
-                                src={ `${ mats.find(mat => mat.name === player.mat)?.imgPath }` }
-                                alt={ player.mat }
-                            />
-                        </div>
-                    </div>
+                    <img
+                        className={ classes.matImage }
+                        src={ `${ mats.find(mat => mat.name === player.mat)?.imgPath }` }
+                        alt={ player.mat }
+                    />
                 </CardContent>
             </Collapse>
         </Card>
     );
 };
-
-export default PlayerCard;

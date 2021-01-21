@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useParams } from 'react-router-dom';
 import { FactionType, findPlayerByFaction, getRouteLastAddedPlayer, TOTAL_PLAYERS } from '../common/scytheLogic';
 import { FullWidthTabs } from '../components/FullWidthTabs';
-import PlayerCard from '../features/players/PlayerCard';
+import { PlayerCard } from '../features/players/PlayerCard';
 import { addPlayer, deleteAllPlayers } from '../features/players/playersSlice';
 import { getPlayers } from '../features/players/selectors';
 
