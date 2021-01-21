@@ -21,8 +21,11 @@ const useStyles = makeStyles((theme: Theme) =>
             background: theme.palette.background.paper,
             left: 0,
             zIndex: 1,
-        }
-    })
+        },
+        resourceIcon: {
+            verticalAlign: 'middle',
+        },
+    }),
 );
 
 type Props = {
@@ -64,8 +67,8 @@ const Result: FunctionComponent<Props> = (props) => {
                             <TableCell className={ classes.sticky }>Игрок</TableCell>
                             {
                                 resources.map(resource => (
-                                    <TableCell align="center">
-                                        <img width={ 30 } height={ 30 } src={ resource.imgPath } alt={ resource.name } />
+                                    <TableCell align="center" key={ resource.name }>
+                                        <img className={ classes.resourceIcon } width={ 30 } height={ 30 } src={ resource.imgPath } alt={ resource.name } />
                                     </TableCell>
                                 ))
                             }
