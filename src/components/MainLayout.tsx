@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     },
     main: {
         height: '100%',
-        padding: '10px 0 50px 0',
+        padding: '20px 0 50px 0',
     },
 });
 

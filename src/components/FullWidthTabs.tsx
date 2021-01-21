@@ -39,9 +39,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 
 type Props = {
-    players: IPlayer[],
-    children: ReactNode
-    faction?: FactionType
+    players: IPlayer[];
+    children: ReactNode;
+    faction?: FactionType;
 }
 
 export const FullWidthTabs: FC<Props> = ({ children, players }) => {
