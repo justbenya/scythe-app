@@ -19,7 +19,7 @@ import { IPlayer, PlayersType } from './types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 345,
+            minHeight: 370,
         },
         expand: {
             transform: 'rotate(0deg)',
@@ -108,7 +108,7 @@ const PlayerCard: FunctionComponent = () => {
     };
 
     return (
-        <Card>
+        <Card className={ classes.root }>
             <FactionCharacterImage { ...factions.find(i => i.name === player.faction) } />
             <CardContent>
                 <Grid container spacing={ 2 } direction={ 'row' }>

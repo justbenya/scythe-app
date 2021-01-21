@@ -5,6 +5,8 @@ import React from 'react';
 const useStyles = makeStyles({
     media: {
         objectPosition: '50% 25%',
+        height: '25vh',
+        minHeight: 140
     },
 });
 
@@ -20,7 +22,6 @@ const FactionCharacterImage: React.FC<Props> = (props) => {
     return (
         <CardMedia
             component="img"
-            height="140"
             className={ classes.media }
             image={ characterPath }
             alt={ name }

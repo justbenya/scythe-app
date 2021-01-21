@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme: Theme) => ({
         backgroundColor: theme.palette.background.default,
         width: '100%',
         height: '100%',
-        paddingTop: 80,
-        paddingBottom: 80,
+        paddingTop: 65,
+        paddingBottom: 55,
     },
     tab: {
         padding: '3px 6px',
