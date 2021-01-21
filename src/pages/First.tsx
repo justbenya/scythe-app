@@ -28,7 +28,7 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         color: '#fff',
         fontSize: 46,
-        textShadow: '0 4px 3px rgba(0, 0, 0, 0.4), 0 8px 14px rgba(0, 0, 0, 0.1), 0 18px 30px rgba(0, 0, 0, 0.1)',
+        textShadow: '0 2px 3px rgba(0, 0, 0, 0.4), 0 8px 14px rgba(0, 0, 0, 0.1), 0 18px 30px rgba(0, 0, 0, 0.1)',
     },
     btnAddPlayer: {
         marginTop: 'auto',
