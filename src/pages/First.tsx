@@ -2,17 +2,19 @@ import { Button, Container, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
+import { ButtonInstallPWA } from '../components/ButtonInstallPWA';
 import { addPlayer } from '../features/players/playersSlice';
 import Image from '../img/bg.jpg';
 
 const useStyles = makeStyles({
     container: {
         height: '100vh',
+        paddingBottom: '12vh',
     },
     paperContainer: {
         backgroundColor: '#acacac',
         backgroundImage: `url(${ Image })`,
-        height: '100vh',
+        height: '100%',
         backgroundPosition: 'top center',
         backgroundSize: 'cover',
     },
@@ -22,7 +24,7 @@ const useStyles = makeStyles({
         height: 120,
     },
     title: {
-        paddingTop: 50,
+        paddingTop: 60,
         fontWeight: 'bold',
         color: '#fff',
         fontSize: 46,
@@ -30,7 +32,6 @@ const useStyles = makeStyles({
     },
     btnAddPlayer: {
         marginTop: 'auto',
-        marginBottom: '15vh',
     },
 });
 
@@ -40,20 +41,16 @@ const First: FC = () => {
 
     return (
         <>
-            <Paper className={ classes.paperContainer } elevation={ 0 }>
+            <Paper className={ classes.paperContainer } elevation={ 0 } square={ true } variant={ 'outlined' }>
                 <Container fixed>
-
                     <Grid
                         className={ classes.container }
                         container
                         direction="column"
                         justify={ 'center' }
                         alignItems={ 'center' }
+                        spacing={ 2 }
                     >
-                        <Grid item>
-                            {/*<img className={ classes.logo } src={ Logo } alt="logo" />*/ }
-                        </Grid>
-
                         <Grid item>
                             <Typography align={ 'center' } className={ classes.title }>
                                 Scythe Score Calculator
@@ -68,8 +65,11 @@ const First: FC = () => {
                                 Добавить игрока
                             </Button>
                         </Grid>
-                    </Grid>
 
+                        <Grid item>
+                            <ButtonInstallPWA />
+                        </Grid>
+                    </Grid>
                 </Container>
             </Paper>
         </>
