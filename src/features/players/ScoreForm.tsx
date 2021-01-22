@@ -17,17 +17,36 @@ import { getPlayerByFaction, getPlayersSortByFirstTurn } from './selectors';
 import { IPlayer, IPoints } from './types';
 
 const text = {
+    integer: 'Значение должно быть целым числом',
     min: `Значение не может быть отрицательным`,
     max: (max: number) => `Значение не может быть больше ${ max }`,
 };
 
 const schema = yup.object().shape({
-    gold: yup.number().required().min(0, text.min).integer().typeError('Введите накопленные монеты'),
-    popularity: yup.number().required().min(0, text.min).max(18, text.max(18)).integer().typeError('Введите накопленную популярность'),
-    stars: yup.number().required().min(0, text.min).max(6, text.max(6)).integer().typeError('Введите накопленные звезды'),
-    territories: yup.number().required().min(0, text.min).integer().typeError('Введите кол-во контролируемых территорий'),
-    resources: yup.number().required().min(0, text.min).integer().typeError('Введите кол-во контролируемых ресурсов'),
-    buildingBonuses: yup.number().required().min(0, text.min).max(9, text.max(9)).integer().typeError('Введите кол-во монет за бонус зданий'),
+    gold: yup
+        .number().required().min(0, text.min)
+        .integer(text.integer)
+        .typeError('Введите накопленные монеты'),
+    popularity: yup
+        .number().required().min(0, text.min).max(18, text.max(18))
+        .integer(text.integer)
+        .typeError('Введите накопленную популярность'),
+    stars: yup
+        .number().required().min(0, text.min).max(6, text.max(6))
+        .integer(text.integer)
+        .typeError('Введите накопленные звезды'),
+    territories: yup
+        .number().required().min(0, text.min)
+        .integer(text.integer)
+        .typeError('Введите кол-во контролируемых территорий'),
+    resources: yup
+        .number().required().min(0, text.min)
+        .integer(text.integer)
+        .typeError('Введите кол-во контролируемых ресурсов'),
+    buildingBonuses: yup
+        .number().required().min(0, text.min).max(9, text.max(9))
+        .integer(text.integer)
+        .typeError('Введите кол-во монет за бонус зданий'),
 });
 
 export const ScoreForm: FC = () => {
@@ -82,7 +101,7 @@ export const ScoreForm: FC = () => {
     };
 
     return (
-        <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
+        <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
             <Grid container direction={ 'column' } spacing={ 2 }>
                 <Grid item>
                     <TextField
