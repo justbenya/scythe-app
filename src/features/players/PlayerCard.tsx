@@ -10,7 +10,6 @@ import { useParams } from 'react-router-dom';
 import { factions, FactionType, mats } from '../../common/scytheLogic';
 import FactionCharacterImage from '../../components/FactionCharacterImage';
 import FactionIcon from '../../components/FactionIcon';
-import { AutocompletePlayerName } from '../names/AutocompletePlayerName';
 import { FullScreenDialogPlayerName } from '../names/FullScreenDialogPlayerName';
 import { changeFieldInPlayer, deletePlayer } from './playersSlice';
 import { getPlayerByFaction } from './selectors';
@@ -75,7 +74,6 @@ export const PlayerCard: FunctionComponent = () => {
             <CardContent>
                 <Grid container spacing={ 2 } direction={ 'row' }>
                     <Grid item xs={ 12 } sm={ 6 }>
-                        {/*<AutocompletePlayerName />*/}
                         <FullScreenDialogPlayerName/>
                     </Grid>
 
