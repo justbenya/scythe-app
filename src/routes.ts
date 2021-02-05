@@ -1,16 +1,25 @@
+import First from './pages/First';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 import Result from './pages/Result';
 import Score from './pages/Score';
-import Start from './pages/Start';
+import Settings from './pages/Settings';
 
 export const routes = {
-    'index': {
+    'first': {
         path: '/',
-        title: 'Кто играет?',
+        title: '',
         exact: true,
-        component: Start,
+        component: First,
+    },
+    'index': {
+        path: '/faction/:id?/',
+        title: 'Фракции',
+        exact: false,
+        component: Home,
     },
     'score': {
-        path: '/score/:id',
+        path: '/score/:id?/',
         title: 'Подсчет очков',
         exact: true,
         component: Score,
@@ -20,5 +29,17 @@ export const routes = {
         title: 'Итоги по окончанию игры',
         exact: true,
         component: Result,
-    }
+    },
+    'map': {
+        path: '/map',
+        title: 'Карта',
+        exact: true,
+        component: NotFound,
+    },
+    'settings': {
+        path: '/settings',
+        title: 'Настройки',
+        exact: true,
+        component: Settings,
+    },
 };

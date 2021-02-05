@@ -1,4 +1,4 @@
-import { calculatePoints } from '../ScytheLogic';
+import { calculatePoints } from '../common/scytheLogic';
 
 describe('basic calculating points', () => {
     test('first', () => {
@@ -10,7 +10,7 @@ describe('basic calculating points', () => {
             resources: 1,
             buildingBonuses: 2,
         })).toBe(8);
-    })
+    });
 
     test('pc', () => {
         expect(calculatePoints({
@@ -39,7 +39,7 @@ describe('basic calculating points', () => {
             resources: 2,
             buildingBonuses: 0,
         })).toBe(55);
-    })
+    });
 
     test('mobile', () => {
         expect(calculatePoints({
@@ -59,5 +59,5 @@ describe('basic calculating points', () => {
             resources: 33,
             buildingBonuses: 6,
         })).toBe(142);
-    })
+    });
 });

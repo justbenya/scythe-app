@@ -1,93 +1,112 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import mapKeys from 'lodash-es/mapKeys';
-import React, { FunctionComponent, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import AppContext from '../context/AppContext';
-import Main from '../layouts/Main';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { getShortNameFaction, resources } from '../common/scytheLogic';
+import { ButtonNewGame } from '../components/ButtonNewGame';
+import MainLayout from '../components/MainLayout';
+import { getPlayers } from '../features/players/selectors';
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 320,
-    },
-});
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            borderCollapse: 'separate',
+            minWidth: 320,
+        },
+        sticky: {
+            position: 'sticky',
+            background: theme.palette.background.paper,
+            left: 0,
+            zIndex: 1,
+        },
+        resourceIcon: {
+            verticalAlign: 'middle',
+        },
+    }),
+);
 
-const Result: FunctionComponent = () => {
-    const history = useHistory();
+const Result: FC = () => {
     const classes = useStyles();
+    const players = useSelector(getPlayers);
 
-    let {
-        players,
-        fetchPlayers,
-        clearData,
-        editPlayer,
-    } = React.useContext(AppContext);
-
-    useEffect(() => {
-        fetchPlayers();
-    }, []);
-
-    const sortedPlayers = [...Object.values(players)].sort((a, b) => b.points - a.points);
-    const result = sortedPlayers.map((player, index) => ({ ...player, gameEndPosition: index + 1 }));
-
-    players = { ...mapKeys(result, 'id') };
+    const playersByWinningPosition = players
+        .sort((a, b) => b.points - a.points)
+        .map((player, index) => ({ ...player, gameEndPosition: index + 1 }));
 
     return (
-        <Main title={ 'Итоги по окончанию игры' }>
+        <MainLayout>
+
             <TableContainer component={ Paper }>
-                <Table className={ classes.table } size="medium">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Место</TableCell>
-                            <TableCell>Фракция</TableCell>
-                            <TableCell align="right">Популярность</TableCell>
-                            <TableCell align="right">Звезд</TableCell>
-                            <TableCell align="right">Территорий</TableCell>
-                            <TableCell align="right">Ресурсов</TableCell>
-                            <TableCell align="right">Бонусов зданий</TableCell>
-                            <TableCell align="right">Монет</TableCell>
-                            <TableCell align="right">Всего</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        { Object.values(players).map((player) => (
-                            <TableRow key={ player.name }>
-                                <TableCell align="center">{ player.gameEndPosition }</TableCell>
-                                <TableCell component="th" scope="player">
-                                    { player.name }
-                                    <br />
-                                    { player.fraction }
-                                    <br />
-                                    { player.mat }
-                                </TableCell>
-                                <TableCell align="right">{ player.popularity }</TableCell>
-                                <TableCell align="right">{ player.stars }</TableCell>
-                                <TableCell align="right">{ player.territories }</TableCell>
-                                <TableCell align="right">{ player.resources }</TableCell>
-                                <TableCell align="right">{ player.buildingBonuses }</TableCell>
-                                <TableCell align="right">{ player.gold }</TableCell>
-                                <TableCell align="right">{ player.points }</TableCell>
-                            </TableRow>
-                        )) }
-                    </TableBody>
+                <Table className={ classes.root } size="small">
+                    { renderTableHeader() }
+                    { renderTableBody() }
                 </Table>
             </TableContainer>
-            <br />
-            <Button
-                variant="contained" color="secondary"
-                onClick={ () => {
-                    // TODO добавить сохранение места
-                    const sortedPlayers = [...Object.values(players)].sort((a, b) => b.points - a.points);
-                    sortedPlayers.forEach((player, index) => editPlayer({ ...player, gameEndPosition: index + 1 }));
 
-                    clearData();
-                    setTimeout(() => {history.push('/');}, 100);
-                } }
-            >
-                Новая игра
-            </Button>
-        </Main>
+            <br />
+
+            <ButtonNewGame />
+
+        </MainLayout>
     );
+
+    function renderTableHeader() {
+        return (
+            <TableHead>
+                <TableRow>
+                    <TableCell align="center" size={ 'small' }>№</TableCell>
+                    <TableCell className={ classes.sticky }>Игрок</TableCell>
+                    {
+                        resources.map(resource => (
+                            <TableCell align="center" key={ resource.name }>
+                                <img className={ classes.resourceIcon } width={ 30 } height={ 30 } src={ resource.imgPath } alt={ resource.name } />
+                            </TableCell>
+                        ))
+                    }
+                    <TableCell align="center">Всего</TableCell>
+                </TableRow>
+            </TableHead>
+        );
+    }
+
+    function renderTableBody() {
+        return (
+            <TableBody>
+                { playersByWinningPosition.map(({
+                    buildingBonuses,
+                    faction,
+                    gameEndPosition,
+                    gold,
+                    mat,
+                    name,
+                    points,
+                    popularity,
+                    resources,
+                    stars,
+                    territories,
+                    id
+                }) => (
+                    <TableRow key={ id }>
+                        <TableCell align="center">{ gameEndPosition }</TableCell>
+                        <TableCell className={ classes.sticky } component="th" scope="player" size={ 'small' }>
+                            { name }
+                            <br />
+                            { getShortNameFaction(faction) }
+                            <br />
+                            { mat }
+                        </TableCell>
+                        <TableCell size={ 'small' } align="center">{ popularity }</TableCell>
+                        <TableCell size={ 'small' } align="center">{ stars }</TableCell>
+                        <TableCell size={ 'small' } align="center">{ territories }</TableCell>
+                        <TableCell size={ 'small' } align="center">{ resources }</TableCell>
+                        <TableCell size={ 'small' } align="center">{ buildingBonuses }</TableCell>
+                        <TableCell size={ 'small' } align="center">{ gold }</TableCell>
+                        <TableCell size={ 'small' } align="center">{ points }</TableCell>
+                    </TableRow>
+                )) }
+            </TableBody>
+        );
+    }
 };
 
 export default Result;
