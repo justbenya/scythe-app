@@ -20,11 +20,11 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # Отступы в 4 пробела
-indent_size = 4
+indent_size = 2
 indent_style = space
 
 # Максимальная ширина строки
 max_line_length = 120
 
 # Ширина отступа
-tab_width = 4
+tab_width = 2
