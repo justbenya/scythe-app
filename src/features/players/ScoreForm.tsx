@@ -8,12 +8,7 @@ import StarIcon from '@material-ui/icons/Star';
 import TerrainIcon from '@material-ui/icons/Terrain';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { foundPrevNextPlayers } from '../../common/scytheLogic';
-import { scoreFormSubmit } from './playersSlice';
-import { getPlayerByFaction, getPlayersSortByFirstTurn } from './selectors';
 import { IPlayer, IPoints } from './types';
 
 const text = {
@@ -49,34 +44,31 @@ const schema = yup.object().shape({
     .typeError('Введите кол-во монет за бонус зданий'),
 });
 
-export const ScoreForm = () => {
-  const { id } = useParams<{ id: string }>();
-  const players = useSelector(getPlayersSortByFirstTurn);
-  const player = useSelector(getPlayerByFaction(id));
-  const dispatch = useDispatch();
-
-  const { nextPlayer } = foundPrevNextPlayers(players, player as IPlayer);
-
+export const ScoreForm = (props: {
+  player: IPlayer;
+  saveData: (formData: IPoints) => {};
+}) => {
+  const { player, saveData } = props;
   const { register, handleSubmit, errors, reset } = useForm<IPoints>({
     defaultValues: {
-      gold: player?.gold,
-      popularity: player?.popularity,
-      stars: player?.stars,
-      territories: player?.territories,
-      resources: player?.resources,
-      buildingBonuses: player?.buildingBonuses,
+      gold: player.gold,
+      popularity: player.popularity,
+      stars: player.stars,
+      territories: player.territories,
+      resources: player.resources,
+      buildingBonuses: player.buildingBonuses,
     },
     mode: 'onSubmit',
     resolver: yupResolver(schema),
   });
 
   useEffect(() => {
-    if (!player?.gold &&
-      !player?.popularity &&
-      !player?.stars &&
-      !player?.territories &&
-      !player?.resources &&
-      !player?.buildingBonuses) {
+    if (!player.gold &&
+      !player.popularity &&
+      !player.stars &&
+      !player.territories &&
+      !player.resources &&
+      !player.buildingBonuses) {
       reset({
         gold: undefined,
         popularity: undefined,
@@ -91,9 +83,7 @@ export const ScoreForm = () => {
   }, [reset, player]);
 
   const onSubmit = (formData: IPoints) => {
-    if (player) {
-      dispatch(scoreFormSubmit(player, formData, nextPlayer));
-    }
+    saveData(formData);
   };
 
   const handleOnFocus = (event: React.FocusEvent<any>): void => {
