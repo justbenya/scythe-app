@@ -11,39 +11,39 @@ import { addPlayer } from '../features/players/playersSlice';
 import { getPlayers } from '../features/players/selectors';
 
 const Home: FunctionComponent = () => {
-    const players = useSelector(getPlayers);
-    const dispatch = useDispatch();
+  const players = useSelector(getPlayers);
+  const dispatch = useDispatch();
 
-    const { id: faction } = useParams<{ id: FactionType }>();
+  const { id: faction } = useParams<{ id: FactionType }>();
 
-    if (!faction && players.length) {
-        return <Redirect to={ getRouteLastAddedPlayer(players) } />;
-    }
+  if (!faction && players.length) {
+    return <Redirect to={ getRouteLastAddedPlayer(players) } />;
+  }
 
-    if (!players.length) {
-        return <Redirect to={ '/' } />;
-    }
+  if (!players.length) {
+    return <Redirect to={ '/' } />;
+  }
 
-    return (
-        <FullWidthTabs players={ players } faction={ faction }>
-            <PlayerCard />
+  return (
+    <FullWidthTabs players={ players } faction={ faction }>
+      <PlayerCard />
 
-            <Grid container direction="column" spacing={ 2 } justify={ 'center' } style={ { paddingTop: 20 } }>
-                <Grid item>
-                    <Button
-                        variant="contained" disabled={ players.length >= TOTAL_PLAYERS } color="secondary" fullWidth
-                        onClick={ () => dispatch(addPlayer()) }
-                    >
-                        Добавить игрока
-                    </Button>
-                </Grid>
+      <Grid container direction="column" spacing={ 2 } justify={ 'center' } style={ { paddingTop: 20 } }>
+        <Grid item>
+          <Button
+            variant="contained" disabled={ players.length >= TOTAL_PLAYERS } color="secondary" fullWidth
+            onClick={ () => dispatch(addPlayer()) }
+          >
+            Добавить игрока
+          </Button>
+        </Grid>
 
-                <Grid item>
-                    <ButtonNewGame />
-                </Grid>
-            </Grid>
-        </FullWidthTabs>
-    );
+        <Grid item>
+          <ButtonNewGame />
+        </Grid>
+      </Grid>
+    </FullWidthTabs>
+  );
 };
 
 export default Home;

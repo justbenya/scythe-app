@@ -63,7 +63,7 @@ describe('ScoreForm', () => {
 
     fireEvent.submit(screen.getByRole('button'));
 
-    expect(await screen.findAllByText(/Значение не может быть отрицательным/i)).toHaveLength(6)
+    expect(await screen.findAllByText(/Значение не может быть отрицательным/i)).toHaveLength(6);
     expect(mockSaveData).not.toBeCalled();
   });
 
@@ -87,8 +87,8 @@ describe('ScoreForm', () => {
         stars: 1,
         territories: 1,
         resources: 1,
-        buildingBonuses: 2
-      })
+        buildingBonuses: 2,
+      }),
     );
   });
 });

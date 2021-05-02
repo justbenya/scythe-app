@@ -3,8 +3,8 @@ import names from '../features/names/namesSlice';
 import players from '../features/players/playersSlice';
 
 const rootReducer = combineReducers({
-    players,
-    names
+  players,
+  names,
 });
 
 export type RootState = ReturnType<typeof rootReducer>
