@@ -45,13 +45,14 @@ export const AppMenuNavigation: FC = () => {
         to={ routes.result.path }
       />
 
-      {/*<BottomNavigationAction*/ }
-      {/*    icon={ <SettingsIcon /> }*/ }
-      {/*    component={ Link }*/ }
-      {/*    label="Настройки"*/ }
-      {/*    value="/settings"*/ }
-      {/*    to="/settings"*/ }
-      {/*/>*/ }
+      {/*import SettingsIcon from '@material-ui/icons/Settings';*/}
+      {/*<BottomNavigationAction*/}
+      {/*    icon={ <SettingsIcon /> }*/}
+      {/*    component={ Link }*/}
+      {/*    label="Настройки"*/}
+      {/*    value="/settings"*/}
+      {/*    to="/settings"*/}
+      {/*/>*/}
     </BottomNavigation>
   );
 };

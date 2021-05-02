@@ -33,6 +33,7 @@ describe('selector getPlayersSortByFirstTurn', () => {
       },
     };
 
+    // @ts-ignore
     expect(getPlayersSortByFirstTurn(mockedState).map(i => i?.faction))
       .toStrictEqual(['Крымское ханство', 'Республика Поляния']);
   });
@@ -110,6 +111,7 @@ describe('selector getPlayersSortByFirstTurn', () => {
       },
     };
 
+    // @ts-ignore
     expect(getPlayersSortByFirstTurn(mockedState).map(i => i?.faction))
       .toStrictEqual(['Крымское ханство', 'Саксонская империя', 'Республика Поляния', 'Северное королевство', 'Руссветский союз']);
   });
@@ -185,6 +187,7 @@ describe('selector getPlayersSortByFirstTurn', () => {
       },
     };
 
+    // @ts-ignore
     expect(getPlayersSortByFirstTurn(mockedState).map(i => i?.faction))
       .toStrictEqual(['Республика Поляния', 'Северное королевство', 'Руссветский союз', 'Крымское ханство', 'Саксонская империя']);
   });

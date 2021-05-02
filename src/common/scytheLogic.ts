@@ -3,17 +3,19 @@ import { IPlayer, IPoints } from '../features/players/types';
 import { routes } from '../routes';
 import { clearPath } from './utils';
 
-export const TOTAL_PLAYERS = 5;
+export const TOTAL_PLAYERS = 7;
 
 export const factionsMoveOrder = [
   'Республика Поляния',
+  'Клан Альбион',
   'Северное королевство',
   'Руссветский союз',
+  'Сёгунат Тогава',
   'Крымское ханство',
   'Саксонская империя',
 ];
 
-export type FactionType = 'polania' | 'saxony' | 'crimean' | 'nordic' | 'rusviet';
+export type FactionType = 'polania' | 'saxony' | 'crimean' | 'nordic' | 'rusviet' | 'albion' | 'japan';
 
 export const factions = [
   {
@@ -51,6 +53,20 @@ export const factions = [
     characterPath: `${ process.env.PUBLIC_URL }/assets/factions/rusviet.jpg`,
     iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/rusviet.png`,
   },
+  {
+    name: 'Клан Альбион',
+    shortName: 'Альбион',
+    slug: 'albion',
+    characterPath: `${ process.env.PUBLIC_URL }/assets/factions/albion.jpg`,
+    iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/albion.png`,
+  },
+  {
+    name: 'Сёгунат Тогава',
+    shortName: 'Тогава',
+    slug: 'japan',
+    characterPath: `${ process.env.PUBLIC_URL }/assets/factions/japan.jpg`,
+    iconPath: `${ process.env.PUBLIC_URL }/assets/icons/factions/japan.png`,
+  },
 ];
 
 export const mats = [
@@ -63,8 +79,16 @@ export const mats = [
     imgPath: `${ process.env.PUBLIC_URL }/assets/mats/engineering2.jpg`,
   },
   {
+    name: 'Военный (2А)',
+    imgPath: `${ process.env.PUBLIC_URL }/assets/mats/argicultural5.jpg`, // todo change img
+  },
+  {
     name: 'Патриотический (3)',
     imgPath: `${ process.env.PUBLIC_URL }/assets/mats/patriotic3.jpg`,
+  },
+  {
+    name: 'Инновационный (3А)',
+    imgPath: `${ process.env.PUBLIC_URL }/assets/mats/argicultural5.jpg`, // todo change img
   },
   {
     name: 'Технический (4)',
