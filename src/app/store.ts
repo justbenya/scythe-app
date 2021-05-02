@@ -5,20 +5,20 @@ import { ThunkAction } from 'redux-thunk';
 import rootReducer, { RootState } from './rootReducer';
 
 const persistConfig = {
-    key: 'root',
-    version: 2,
-    storage,
+  key: 'root',
+  version: 2,
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-    reducer: persistedReducer,
-    middleware: getDefaultMiddleware({
-        serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-    }),
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 });
 
 export type AppDispatch = typeof store.dispatch

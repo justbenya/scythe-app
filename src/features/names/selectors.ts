@@ -1,3 +1,3 @@
 import { RootState } from '../../app/rootReducer';
 
-export const getNames = (state: RootState) => state.names
+export const getNames = (state: RootState) => state.names;

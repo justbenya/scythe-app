@@ -13,45 +13,46 @@ import { IPlayer } from '../features/players/types';
 import { routes } from '../routes';
 
 export const AppMenuNavigation: FC = () => {
-    const history = useHistory();
-    const players = useSelector<RootState, IPlayer[]>(state => Object.values(state.players));
-    const player = useSelector(getPlayerWhoHasFirstTurn);
+  const history = useHistory();
+  const players = useSelector<RootState, IPlayer[]>(state => Object.values(state.players));
+  const player = useSelector(getPlayerWhoHasFirstTurn);
 
-    return (
-        <BottomNavigation className="menu-footer" value={ history.location.pathname } showLabels>
-            <BottomNavigationAction
-                icon={ <PeopleIcon /> }
-                component={ Link }
-                label="Игроки"
-                value={ history.location.pathname.includes(clearPath(routes.index.path)) ? history.location.pathname : null }
-                to={ `${ clearPath(routes.index.path) }${ getLastAddedFaction(players) }` }
-            />
+  return (
+    <BottomNavigation className="menu-footer" value={ history.location.pathname } showLabels>
+      <BottomNavigationAction
+        icon={ <PeopleIcon /> }
+        component={ Link }
+        label="Игроки"
+        value={ history.location.pathname.includes(clearPath(routes.index.path)) ? history.location.pathname : null }
+        to={ `${ clearPath(routes.index.path) }${ getLastAddedFaction(players) }` }
+      />
 
-            <BottomNavigationAction
-                disabled={ !players.length }
-                icon={ <DonutLargeIcon /> }
-                component={ Link }
-                label="Очки"
-                value={ history.location.pathname.includes(clearPath(routes.score.path)) ? history.location.pathname : null }
-                to={ `${ clearPath(routes.score.path) }${ findEngNameFactionToUrl(player?.faction) }` }
-            />
+      <BottomNavigationAction
+        disabled={ !players.length }
+        icon={ <DonutLargeIcon /> }
+        component={ Link }
+        label="Очки"
+        value={ history.location.pathname.includes(clearPath(routes.score.path)) ? history.location.pathname : null }
+        to={ `${ clearPath(routes.score.path) }${ findEngNameFactionToUrl(player?.faction) }` }
+      />
 
-            <BottomNavigationAction
-                disabled={ !players.length }
-                icon={ <ListAltIcon /> }
-                component={ Link }
-                label="Результаты"
-                value={ routes.result.path }
-                to={ routes.result.path }
-            />
+      <BottomNavigationAction
+        disabled={ !players.length }
+        icon={ <ListAltIcon /> }
+        component={ Link }
+        label="Результаты"
+        value={ routes.result.path }
+        to={ routes.result.path }
+      />
 
-            {/*<BottomNavigationAction*/}
-            {/*    icon={ <SettingsIcon /> }*/}
-            {/*    component={ Link }*/}
-            {/*    label="Настройки"*/}
-            {/*    value="/settings"*/}
-            {/*    to="/settings"*/}
-            {/*/>*/}
-        </BottomNavigation>
-    );
+      {/*import SettingsIcon from '@material-ui/icons/Settings';*/}
+      {/*<BottomNavigationAction*/}
+      {/*    icon={ <SettingsIcon /> }*/}
+      {/*    component={ Link }*/}
+      {/*    label="Настройки"*/}
+      {/*    value="/settings"*/}
+      {/*    to="/settings"*/}
+      {/*/>*/}
+    </BottomNavigation>
+  );
 };

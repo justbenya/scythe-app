@@ -9,14 +9,14 @@ import './index.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.render(
-    <Provider store={ store }>
-        <PersistGate loading={ null } persistor={ persistor }>
-            <StylesProvider injectFirst>
-                <App />
-            </StylesProvider>
-        </PersistGate>
-    </Provider>,
-    document.getElementById('root'),
+  <Provider store={ store }>
+    <PersistGate loading={ null } persistor={ persistor }>
+      <StylesProvider injectFirst>
+        <App />
+      </StylesProvider>
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root'),
 );
 
 serviceWorkerRegistration.register();

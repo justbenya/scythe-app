@@ -7,20 +7,20 @@ import { IPlayer } from '../features/players/types';
 import FactionIcon from './FactionIcon';
 
 type FactionIconType = {
-    player: IPlayer
+  player: IPlayer
 }
 
 export const FactionIconWithBadge: FC<FactionIconType> = ({ player }) => {
-    const getIconPath = (player: IPlayer) => factions.find(i => i.name === player.faction)?.iconPath;
+  const getIconPath = (player: IPlayer) => factions.find(i => i.name === player.faction)?.iconPath;
 
-    return (
-        <Badge
-            invisible={ player.points <= 0 }
-            overlap="circle"
-            color="default"
-            badgeContent={ <CheckCircleIcon style={ { fontSize: 16, color: green[400] } } /> }
-        >
-            <FactionIcon name={ player.faction } iconPath={ getIconPath(player) } />
-        </Badge>
-    );
+  return (
+    <Badge
+      invisible={ player.points <= 0 }
+      overlap="circle"
+      color="default"
+      badgeContent={ <CheckCircleIcon style={ { fontSize: 16, color: green[400] } } /> }
+    >
+      <FactionIcon name={ player.faction } iconPath={ getIconPath(player) } />
+    </Badge>
+  );
 };
